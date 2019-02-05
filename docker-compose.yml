@@ -6,4 +6,4 @@ models:
     - ./app:/app
   ports:
     - "8000:8000"
-  command: bash -c "python /app/marketplace/manage.py migrate && mod_wsgi-express start-server --working-directory /app/marketplace --reload-on-changes /app/marketplace/marketplace/wsgi.py"
+  command: bash -c "python /app/microservices/manage.py migrate && mod_wsgi-express start-server --working-directory /app/microservices/microservices --reload-on-changes /app/microservices/microservices/wsgi.py"
