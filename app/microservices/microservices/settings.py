@@ -26,25 +26,25 @@ SECRET_KEY = 'f2%@5a&6kvvx4kxc2^w1xsta-40zg5$os99g#*(3mz^5ai3=91'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'debug.log',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-    },
-}
+if False:
+	LOGGING = {
+	    'version': 1,
+	    'disable_existing_loggers': False,
+	    'handlers': {
+	        'file': {
+	            'level': 'DEBUG',
+	            'class': 'logging.FileHandler',
+	            'filename': 'debug.log',
+	        },
+	    },
+	    'loggers': {
+	        'django': {
+	            'handlers': ['file'],
+	            'level': 'DEBUG',
+	            'propagate': True,
+	        },
+	    },
+	}
 
 
 # Application definition
