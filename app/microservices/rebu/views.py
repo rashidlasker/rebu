@@ -18,6 +18,7 @@ def users(request, id=None):
     elif request.method == 'POST':
         try:
             obj = user.objects.get(pk=id)
+            #print(request.body)
             if request.POST.get('first_name'):
                 obj.first_name = request.POST.get('first_name')
             if request.POST.get('last_name'):
