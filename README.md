@@ -4,7 +4,7 @@ Rashid L, Andrew W, Alex H
 ## App Description
 Our app, Rebu, is a marketplace where people can buy/sell homemade meals. 
 
-## API documentation
+## API Documentation
 For each model, our API follows the same schema:
 
 For read, update, and delete operations, we send GET, POST, and DELETE requests to the following url.
@@ -16,6 +16,7 @@ For create operations, we send a POST request to the following url.
 `api/v1/<model_name>/create/`
 
 ### Models
+Here are the models and their respective fields (excluding the primary key).
 
 | users      	| eaters  	| cooks          	| meals             	| plates   	| eater_ratings 	| reviews     	|
 |------------	|---------	|----------------	|-------------------	|----------	|---------------	|-------------	|
