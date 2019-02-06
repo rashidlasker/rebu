@@ -1,0 +1,159 @@
+[
+  {
+    "model": "rebu.user",
+    "pk": 1,
+    "fields": {
+      "first_name": "Andrew",
+      "last_name": "Walsh",
+      "street": "107N Piedmont Ave",
+      "zip_code": "22903",
+      "state": "VA",
+      "country": "US",
+      "bio": "bio",
+      "links": "apple.com",
+      "language": "English",
+      "gender": "Male"
+    }
+  },
+  {
+    "model": "rebu.user",
+    "pk": 2,
+    "fields": {
+      "first_name": "Rashid",
+      "last_name": "Lasker",
+      "street": "107N Piedmont Ave",
+      "zip_code": "22903",
+      "state": "VA",
+      "country": "US",
+      "bio": "bio",
+      "links": "windows.com",
+      "language": "English",
+      "gender": "Male"
+    }
+  },
+  {
+    "model": "rebu.user",
+    "pk": 3,
+    "fields": {
+      "first_name": "Alex",
+      "last_name": "Hicks",
+      "street": "107N Piedmont Ave",
+      "zip_code": "22903",
+      "state": "VA",
+      "country": "US",
+      "bio": "bio",
+      "links": "linux.com",
+      "language": "English",
+      "gender": "Male"
+    }
+  },
+  {
+    "model": "rebu.eater",
+    "pk": 1,
+    "fields": {
+      "user_id": 1
+    }
+  },
+  {
+    "model": "rebu.eater",
+    "pk": 2,
+    "fields": {
+      "user_id": 2
+    }
+  },
+  {
+    "model": "rebu.cook",
+    "pk": 1,
+    "fields": {
+      "user_id": 3,
+      "signature_dish": "chicken"
+    }
+  },
+  {
+    "model": "rebu.meal",
+    "pk": 1,
+    "fields": {
+      "calories": 100,
+      "description": "chicken - well done",
+      "spice": 0,
+      "price": 2,
+      "tags": "food",
+      "takeout_available": "False",
+      "num_plates": 2,
+      "start": "2019-02-04T00:01:00-05:00",
+      "end": "2019-02-04T00:04:00-05:00",
+      "cook_id": 1
+    }
+  },
+  {
+    "model": "rebu.meal",
+    "pk": 2,
+    "fields": {
+      "calories": 100,
+      "description": "chicken - raw",
+      "spice": 0,
+      "price": 3,
+      "tags": "food",
+      "takeout_available": "False",
+      "num_plates": 1,
+      "start": "2019-02-04T00:06:00-05:00",
+      "end": "2019-02-04T00:10:00-05:00",
+      "cook_id": 1
+    }
+  },
+  {
+    "model": "rebu.plate",
+    "pk": 1,
+    "fields": {
+      "meal_id": 1,
+      "eater_id": 1
+    }
+  },
+  {
+    "model": "rebu.plate",
+    "pk": 2,
+    "fields": {
+      "meal_id": 1,
+      "eater_id": 2
+    }
+  },
+  {
+    "model": "rebu.plate",
+    "pk": 3,
+    "fields": {
+      "meal_id": 2,
+      "eater_id": 2
+    }
+  },
+  {
+    "model": "rebu.eater_rating",
+    "pk": 1,
+    "fields": {
+      "rating": 2,
+      "description": "food",
+      "cook_id": 1,
+      "eater_id": 1
+    }
+  },
+  {
+    "model": "rebu.eater_rating",
+    "pk": 2,
+    "fields": {
+      "rating": 3,
+      "description": "good food",
+      "cook_id": 1,
+      "eater_id": 2
+    }
+  },
+  {
+    "model": "rebu.review",
+    "pk": 1,
+    "fields": {
+      "rating": 2,
+      "description": "food",
+      "eater_id": 1,
+      "cook_id": 1,
+      "meal_id": 1
+    }
+  }
+]
