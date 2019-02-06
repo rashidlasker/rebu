@@ -12,23 +12,13 @@ class user(models.Model):
     links = models.TextField()
     language = models.CharField(max_length=30)
     gender = models.CharField(max_length=30)
-    #cook_id = 
-    #eater_id = 
 
 class eater(models.Model):
-    rating = models.IntegerField()
-    #user_id = 
+    user_id = models.OneToOneField(user, on_delete=models.CASCADE, parent_link=True, default=-1)
 
 class cook(models.Model):
     signature_dish = models.TextField()
-    #user_id = 
-
-class review(models.Model):
-    rating = models.IntegerField()
-    description = models.TextField()
-    #eater_id = 
-    #cook_id = 
-    #meal_id = 
+    user_id = models.OneToOneField(user, on_delete=models.CASCADE, parent_link=True, default=-1)
 
 class meal(models.Model):
     calories = models.IntegerField()
@@ -44,9 +34,17 @@ class meal(models.Model):
 
 class plate(models.Model):
     meal_id = models.ForeignKey(meal, on_delete=models.CASCADE)
+    eater_id = models.ForeignKey(eater, on_delete=models.CASCADE)
 
 class eater_rating(models.Model):
     rating = models.IntegerField()
     description = models.TextField()
-    #cook_id = 
-    #ater_id = 
+    cook_id = models.ForeignKey(cook, on_delete=models.CASCADE)
+    eater_id = models.ForeignKey(eater, on_delete=models.CASCADE)
+
+class review(models.Model):
+    rating = models.IntegerField()
+    description = models.TextField()
+    eater_id = models.ForeignKey(eater, on_delete=models.CASCADE)
+    cook_id = models.ForeignKey(cook, on_delete=models.CASCADE)
+    meal_id = models.ForeignKey(meal, on_delete=models.CASCADE)
