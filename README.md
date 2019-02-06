@@ -17,22 +17,39 @@ For create operations, we send a POST request to the following url.
 
 ### Models
 
-#### Users
+| users      	| eaters  	| cooks          	| meals             	| plates   	| eater_ratings 	| reviews     	|
+|------------	|---------	|----------------	|-------------------	|----------	|---------------	|-------------	|
+| first_name 	| user_id*	| signature_dish 	| calories*         	| meal_id* 	| rating*       	| rating*     	|
+| last_name  	|         	| user_id*       	| description       	| eater_id*	| description   	| description 	|
+| street     	|         	|                	| spice*            	|          	| cook_id*      	| eater_id*   	|
+| zip_code   	|         	|                	| price**           	|          	| eater_id*     	| cook_id*    	|
+| state      	|         	|                	| tags              	|          	|               	| meal_id*    	|
+| country    	|         	|                	| takeout_available†	|          	|               	|             	|
+| bio        	|         	|                	| num_plates        	|          	|               	|             	|
+| links      	|         	|                	| start‡            	|          	|               	|             	|
+| language   	|         	|                	| end‡              	|          	|               	|             	|
+| gender     	|         	|                	| cook_id*          	|          	|               	|             	|
 
-Fields:
+\* denotes integer field
 
-- `first_name`
-- `last_name`
-- `street`
-- `zip-code`
-- `state`
-- `country`
-- `bio`
-- `links`
-- `language`
-- `gender`
+\** denotes float field
 
-(maybe replace this with a data model diagram)
+† denotes boolean field
+
+‡ denotes datetime field
+
+### Sample Usage
+To create a new user, send a request here with the parameters in an x-www-form-urlencoded body:
+
+POST http://localhost:8000/api/v1/users/create/
+
+To view user 1, send a request here:
+
+GET http://localhost:8000/api/v1/users/1/
+
+To delete user 1, send a request here:
+
+DELETE http://localhost:8000/api/v1/users/1/
 
 ## Contributing
 
