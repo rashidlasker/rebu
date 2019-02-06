@@ -6,4 +6,4 @@ models:
     - ./app:/app
   ports:
     - "8000:8000"
-  command: bash -c "python /app/microservices/manage.py migrate && python /app/microservices/manage.py loaddata /app/microservices/rebu/fixtures/rebu/rebu_testdata3.json && mod_wsgi-express start-server --working-directory /app/microservices --reload-on-changes /app/microservices/microservices/wsgi.py"
+  command: bash -c "python /app/microservices/manage.py migrate && python /app/microservices/manage.py loaddata /app/microservices/rebu/fixtures/rebu/rebu_testdata_old.json && mod_wsgi-express start-server --working-directory /app/microservices --reload-on-changes /app/microservices/microservices/wsgi.py"
