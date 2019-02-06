@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from rebu import views as rebu_views 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/v1/users/<int:id>/', rebu_views.users),
+    path('api/v1/users/create/', rebu_views.create_user),
 ]
