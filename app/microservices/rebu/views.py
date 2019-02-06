@@ -8,13 +8,22 @@ def users(request, id=-1):
     if request.method == 'GET':
         try:
             obj = user.objects.get(pk=id)
-            return JsonResponse(model_to_dict(obj))
+            response = {
+                "ok":True,
+                "result": model_to_dict(obj)
+            }
+            return JsonResponse(response)
         except:
             return HttpResponseBadRequest()
     elif request.method == 'POST':
         return JsonResponse({'foo':id})
     elif request.method == 'DELETE':
-        return JsonResponse({'foo':id})
+        try:
+            obj = user.objects.get(pk=id)
+            obj.delete()
+            return JsonResponse({"ok":True})
+        except:
+            return HttpResponseBadRequest('Object does not exist')
 
 def create_user(request):
     return JsonResponse({'foo':'bar'})
