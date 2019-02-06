@@ -21,23 +21,23 @@ def users(request, id=None):
             if request.POST.get('first_name'):
                 obj.first_name = request.POST.get('first_name')
             if request.POST.get('last_name'):
-                obj.first_name = request.POST.get('last_name')
+                obj.last_name = request.POST.get('last_name')
             if request.POST.get('street'):
-                obj.first_name = request.POST.get('street')
+                obj.street = request.POST.get('street')
             if request.POST.get('zip_code'):
-                obj.first_name = request.POST.get('zip_code')
+                obj.zip_code = request.POST.get('zip_code')
             if request.POST.get('state'):
-                obj.first_name = request.POST.get('state')
+                obj.state = request.POST.get('state')
             if request.POST.get('country'):
-                obj.first_name = request.POST.get('country')
+                obj.country = request.POST.get('country')
             if request.POST.get('bio'):
-                obj.first_name = request.POST.get('bio')
+                obj.bio = request.POST.get('bio')
             if request.POST.get('links'):
-                obj.first_name = request.POST.get('links')
+                obj.links = request.POST.get('links')
             if request.POST.get('language'):
-                obj.first_name = request.POST.get('language')
+                obj.language = request.POST.get('language')
             if request.POST.get('gender'):
-                obj.first_name = request.POST.get('gender')
+                obj.gender = request.POST.get('gender')
             obj.save()
             return JsonResponse({"ok":True})
         except:
@@ -59,23 +59,23 @@ def create_user(request):
             if request.POST.get('first_name'):
                 obj.first_name = request.POST.get('first_name')
             if request.POST.get('last_name'):
-                obj.first_name = request.POST.get('last_name')
+                obj.last_name = request.POST.get('last_name')
             if request.POST.get('street'):
-                obj.first_name = request.POST.get('street')
+                obj.street = request.POST.get('street')
             if request.POST.get('zip_code'):
-                obj.first_name = request.POST.get('zip_code')
+                obj.zip_code = request.POST.get('zip_code')
             if request.POST.get('state'):
-                obj.first_name = request.POST.get('state')
+                obj.state = request.POST.get('state')
             if request.POST.get('country'):
-                obj.first_name = request.POST.get('country')
+                obj.country = request.POST.get('country')
             if request.POST.get('bio'):
-                obj.first_name = request.POST.get('bio')
+                obj.bio = request.POST.get('bio')
             if request.POST.get('links'):
-                obj.first_name = request.POST.get('links')
+                obj.links = request.POST.get('links')
             if request.POST.get('language'):
-                obj.first_name = request.POST.get('language')
+                obj.language = request.POST.get('language')
             if request.POST.get('gender'):
-                obj.first_name = request.POST.get('gender')
+                obj.gender = request.POST.get('gender')
             obj.save()
             return JsonResponse({"ok":True})
         except:
