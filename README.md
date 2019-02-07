@@ -70,7 +70,7 @@ To update meal 1, send this request:
 
 `curl -d "calories=120&description=hamburger&spice=0&price=6.00&tags=american&takeout_available=False&num_plates=2&start=2019-02-05 06:00:00&end=2019-02-05 08:00:00&cook_id=1" -X POST http://localhost:8000/api/v1/meals/1/`
 
-To delete user 1, send this request:
+To delete meal 1, send this request:
 
 `curl -X DELETE http://localhost:8000/api/v1/meals/1/`
 
@@ -94,7 +94,7 @@ To delete user 1, send this request:
 ## Eater
 To create a new eater, send this request:
 
-`curl -d "user_id=1" -X POST http://localhost:8000/api/v1/eaters/create/`
+`curl -d "user_id=4" -X POST http://localhost:8000/api/v1/eaters/create/`
 
 To view eater 1, send this request:
 
@@ -102,7 +102,7 @@ To view eater 1, send this request:
 
 To update eater 1, send this request:
 
-`curl -d "user_id=2" -X POST http://localhost:8000/api/v1/eaters/1/`
+`curl -d "user_id=5" -X POST http://localhost:8000/api/v1/eaters/1/`
 
 To delete eater 1, send this request:
 
@@ -119,7 +119,7 @@ To view cook 1, send this request:
 
 To update cook 1, send this request:
 
-`curl -d "user_id=1&signature_dish=burger" -X POST http://localhost:8000/api/v1/cooks/1/`
+`curl -d "user_id=2&signature_dish=burger" -X POST http://localhost:8000/api/v1/cooks/1/`
 
 To delete cook 1, send this request:
 
@@ -136,7 +136,7 @@ To view plate 1, send this request:
 
 To update plate 1, send this request:
 
-`curl -d "meal_id=1&eater_id=2" -X POST http://localhost:8000/api/v1/plates/create/`
+`curl -d "meal_id=1&eater_id=2" -X POST http://localhost:8000/api/v1/plates/1/`
 
 To delete plate 1, send this request:
 
@@ -145,7 +145,7 @@ To delete plate 1, send this request:
 ## Eater Rating
 To create a new eater rating, send this request:
 
-`curl -d "meal_id=1&eater_id=1" -X POST http://localhost:8000/api/v1/eater_ratings/create/`
+`curl -d "rating=1&description=good&cook_id=1&eater_id=1" -X POST http://localhost:8000/api/v1/eater_ratings/create/`
 
 To view eater rating 1, send this request:
 
@@ -153,7 +153,7 @@ To view eater rating 1, send this request:
 
 To update eater rating 1, send this request:
 
-`curl -d "meal_id=1&eater_id=2" -X POST http://localhost:8000/api/v1/eater_ratings/create/`
+`curl -d "rating=3&description=great&cook_id=1&eater_id=1" -X POST http://localhost:8000/api/v1/eater_ratings/1/`
 
 To delete eater rating 1, send this request:
 
