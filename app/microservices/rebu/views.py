@@ -100,8 +100,8 @@ def cooks(request, id=None):
             obj = cook.objects.get(pk=id)
             if request.POST.get('signature_dish'):
                 obj.signature_dish = request.POST.get('signature_dish')
-            if request.POST.get('user_id'):
-                obj.user_id = user.objects.get(id=request.POST.get('user_id'))
+            if request.POST.get('user'):
+                obj.user = user.objects.get(id=request.POST.get('user'))
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
@@ -122,8 +122,8 @@ def create_cook(request):
             obj = cook()
             if request.POST.get('signature_dish'):
                 obj.signature_dish = request.POST.get('signature_dish')
-            if request.POST.get('user_id'):
-                obj.user_id = user.objects.get(id=request.POST.get('user_id'))
+            if request.POST.get('user'):
+                obj.user = user.objects.get(id=request.POST.get('user'))
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
@@ -145,8 +145,8 @@ def eaters(request, id=None):
     elif request.method == 'POST':
         try:
             obj = eater.objects.get(pk=id)
-            if request.POST.get('user_id'):
-                obj.user_id = user.objects.get(id=request.POST.get('user_id'))
+            if request.POST.get('user'):
+                obj.user = user.objects.get(id=request.POST.get('user'))
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
@@ -165,8 +165,8 @@ def create_eater(request):
     if request.method == 'POST':
         try:
             obj = eater()
-            if request.POST.get('user_id'):
-                obj.user_id = user.objects.get(id=request.POST.get('user_id'))
+            if request.POST.get('user'):
+                obj.user = user.objects.get(id=request.POST.get('user'))
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
@@ -206,8 +206,8 @@ def meals(request, id=None):
                 obj.start = request.POST.get('start')
             if request.POST.get('end'):
                 obj.end = request.POST.get('end')
-            if request.POST.get('cook_id'):
-                obj.cook_id = cook.objects.get(id=request.POST.get('cook_id'))
+            if request.POST.get('cook'):
+                obj.cook = cook.objects.get(id=request.POST.get('cook'))
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
@@ -244,8 +244,8 @@ def create_meal(request):
                 obj.start = request.POST.get('start')
             if request.POST.get('end'):
                 obj.end = request.POST.get('end')
-            if request.POST.get('cook_id'):
-                obj.cook_id = cook.objects.get(id=request.POST.get('cook_id'))
+            if request.POST.get('cook'):
+                obj.cook = cook.objects.get(id=request.POST.get('cook'))
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
@@ -268,10 +268,10 @@ def plates(request, id=None):
     elif request.method == 'POST':
         try:
             obj = plate.objects.get(pk=id)
-            if request.POST.get('meal_id'):
-                obj.meal_id = meal.objects.get(id=request.POST.get('meal_id'))
-            if request.POST.get('eater_id'):
-                obj.eater_id = eater.objects.get(id=request.POST.get('eater_id'))
+            if request.POST.get('meal'):
+                obj.meal = meal.objects.get(id=request.POST.get('meal'))
+            if request.POST.get('eater'):
+                obj.eater = eater.objects.get(id=request.POST.get('eater'))
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
@@ -290,10 +290,10 @@ def create_plate(request):
     if request.method == 'POST':
         try:
             obj = plate()
-            if request.POST.get('meal_id'):
-                obj.meal_id = meal.objects.get(id=request.POST.get('meal_id'))
-            if request.POST.get('eater_id'):
-                obj.eater_id = eater.objects.get(id=request.POST.get('eater_id'))
+            if request.POST.get('meal'):
+                obj.meal = meal.objects.get(id=request.POST.get('meal'))
+            if request.POST.get('eater'):
+                obj.eater = eater.objects.get(id=request.POST.get('eater'))
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
@@ -320,10 +320,10 @@ def eater_ratings(request, id=None):
                 obj.rating = request.POST.get('rating')
             if request.POST.get('description'):
                 obj.description = request.POST.get('description')
-            if request.POST.get('cook_id'):
-                obj.cook_id = cook.objects.get(id=request.POST.get('cook_id'))
-            if request.POST.get('eater_id'):
-                obj.eater_id = eater.objects.get(id=request.POST.get('eater_id'))
+            if request.POST.get('cook'):
+                obj.cook = cook.objects.get(id=request.POST.get('cook'))
+            if request.POST.get('eater'):
+                obj.eater = eater.objects.get(id=request.POST.get('eater'))
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
@@ -346,10 +346,10 @@ def create_eater_rating(request):
                 obj.rating = request.POST.get('rating')
             if request.POST.get('description'):
                 obj.description = request.POST.get('description')
-            if request.POST.get('cook_id'):
-                obj.cook_id = cook.objects.get(id=request.POST.get('cook_id'))
-            if request.POST.get('eater_id'):
-                obj.eater_id = eater.objects.get(id=request.POST.get('eater_id'))
+            if request.POST.get('cook'):
+                obj.cook = cook.objects.get(id=request.POST.get('cook'))
+            if request.POST.get('eater'):
+                obj.eater = eater.objects.get(id=request.POST.get('eater'))
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
@@ -375,12 +375,12 @@ def reviews(request, id=None):
                 obj.rating = request.POST.get('rating')
             if request.POST.get('description'):
                 obj.description = request.POST.get('description')
-            if request.POST.get('eater_id'):
-                obj.eater_id = eater.objects.get(id=request.POST.get('eater_id'))
-            if request.POST.get('cook_id'):
-                obj.cook_id = cook.objects.get(id=request.POST.get('cook_id'))
-            if request.POST.get('meal_id'):
-                obj.meal_id = meal.objects.get(id=request.POST.get('meal_id'))
+            if request.POST.get('eater'):
+                obj.eater = eater.objects.get(id=request.POST.get('eater'))
+            if request.POST.get('cook'):
+                obj.cook = cook.objects.get(id=request.POST.get('cook'))
+            if request.POST.get('meal'):
+                obj.meal = meal.objects.get(id=request.POST.get('meal'))
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
@@ -403,12 +403,12 @@ def create_review(request):
                 obj.rating = request.POST.get('rating')
             if request.POST.get('description'):
                 obj.description = request.POST.get('description')
-            if request.POST.get('eater_id'):
-                obj.eater_id = eater.objects.get(id=request.POST.get('eater_id'))
-            if request.POST.get('cook_id'):
-                obj.cook_id = cook.objects.get(id=request.POST.get('cook_id'))
-            if request.POST.get('meal_id'):
-                obj.meal_id = meal.objects.get(id=request.POST.get('meal_id'))
+            if request.POST.get('eater'):
+                obj.eater = eater.objects.get(id=request.POST.get('eater'))
+            if request.POST.get('cook'):
+                obj.cook = cook.objects.get(id=request.POST.get('cook'))
+            if request.POST.get('meal'):
+                obj.meal = meal.objects.get(id=request.POST.get('meal'))
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
