@@ -145,7 +145,7 @@ To delete plate 1, send this request:
 ## Eater Rating
 To create a new eater rating, send this request:
 
-`curl -d "rating=1&description=good$cook_id=1&eater_id=1" -X POST http://localhost:8000/api/v1/eater_ratings/create/`
+`curl -d "rating=1&description=good&cook_id=1&eater_id=1" -X POST http://localhost:8000/api/v1/eater_ratings/create/`
 
 To view eater rating 1, send this request:
 
@@ -153,7 +153,7 @@ To view eater rating 1, send this request:
 
 To update eater rating 1, send this request:
 
-`curl -d "rating=3&description=great$cook_id=1&eater_id=1" -X POST http://localhost:8000/api/v1/eater_ratings/1/`
+`curl -d "rating=3&description=great&cook_id=1&eater_id=1" -X POST http://localhost:8000/api/v1/eater_ratings/1/`
 
 To delete eater rating 1, send this request:
 
