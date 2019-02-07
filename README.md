@@ -40,17 +40,21 @@ Here are the models and their respective fields (excluding the primary key).
 ‡ denotes datetime field
 
 ### Sample Usage
-To create a new user, send a request here with the parameters in an x-www-form-urlencoded body:
+To create a new user, send this request:
 
-POST http://localhost:8000/api/v1/users/create/
+`curl -d "first_name=Jon&last_name=Esteva&street=Piedmont&zip_code=22904&state=VA&country=USA&bio=bio&links=links&language=English&gender=male" -X POST http://localhost:8000/api/v1/users/create/`
 
-To view user 1, send a request here:
+To view user 1, send this request:
 
-GET http://localhost:8000/api/v1/users/1/
+`curl -X GET http://localhost:8000/api/v1/users/1/`
 
-To delete user 1, send a request here:
+To update user 1, send this request:
 
-DELETE http://localhost:8000/api/v1/users/1/
+`curl -d "first_name=Hello&last_name=World&street=JPA&zip_code=22904&state=VA&country=USA&bio=bio&links=links&language=English&gender=male" -X POST http://localhost:8000/api/v1/users/1/`
+
+To delete user 1, send this request:
+
+`curl -X DELETE http://localhost:8000/api/v1/users/1/`
 
 ## Contributing
 
