@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import JsonResponse, HttpResponse, HttpResponseBadRequest
+from django.http import JsonResponse
 from rebu.models import user, meal, cook, eater, plate, eater_rating, review
 from django.forms.models import model_to_dict
 
@@ -14,7 +14,7 @@ def users(request, id=None):
             }
             return JsonResponse(response)
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     elif request.method == 'POST':
         try:
             obj = user.objects.get(pk=id)
@@ -41,16 +41,16 @@ def users(request, id=None):
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     elif request.method == 'DELETE':
         try:
             obj = user.objects.get(pk=id)
             obj.delete()
             return JsonResponse({"ok":True})
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     else:
-        return HttpResponseBadRequest('Bad request method')
+        return JsonResponse({"ok":False, "message":"Bad request method"})
 
 def create_user(request):
     if request.method == 'POST':
@@ -79,9 +79,9 @@ def create_user(request):
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     else:
-        return HttpResponseBadRequest('Bad request method')
+        return JsonResponse({"ok":False, "message":"Bad request method"})
 
 
 def cooks(request, id=None):
@@ -94,7 +94,7 @@ def cooks(request, id=None):
             }
             return JsonResponse(response)
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     elif request.method == 'POST':
         try:
             obj = cook.objects.get(pk=id)
@@ -105,16 +105,16 @@ def cooks(request, id=None):
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     elif request.method == 'DELETE':
         try:
             obj = cook.objects.get(pk=id)
             obj.delete()
             return JsonResponse({"ok":True})
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     else:
-        return HttpResponseBadRequest('Bad request method')
+        return JsonResponse({"ok":False, "message":"Bad request method"})
 
 def create_cook(request):
     if request.method == 'POST':
@@ -127,9 +127,9 @@ def create_cook(request):
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     else:
-        return HttpResponseBadRequest('Bad request method')
+        return JsonResponse({"ok":False, "message":"Bad request method"})
 
 def eaters(request, id=None):
     if request.method == 'GET':
@@ -141,7 +141,7 @@ def eaters(request, id=None):
             }
             return JsonResponse(response)
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     elif request.method == 'POST':
         try:
             obj = eater.objects.get(pk=id)
@@ -150,16 +150,16 @@ def eaters(request, id=None):
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     elif request.method == 'DELETE':
         try:
             obj = eater.objects.get(pk=id)
             obj.delete()
             return JsonResponse({"ok":True})
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     else:
-        return HttpResponseBadRequest('Bad request method')
+        return JsonResponse({"ok":False, "message":"Bad request method"})
 
 def create_eater(request):
     if request.method == 'POST':
@@ -170,9 +170,9 @@ def create_eater(request):
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     else:
-        return HttpResponseBadRequest('Bad request method')
+        return JsonResponse({"ok":False, "message":"Bad request method"})
 
 def meals(request, id=None):
     if request.method == 'GET':
@@ -184,7 +184,7 @@ def meals(request, id=None):
             }
             return JsonResponse(response)
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     elif request.method == 'POST':
         try:
             obj = meal.objects.get(pk=id)
@@ -211,16 +211,16 @@ def meals(request, id=None):
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     elif request.method == 'DELETE':
         try:
             obj = meal.objects.get(pk=id)
             obj.delete()
             return JsonResponse({"ok":True})
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     else:
-        return HttpResponseBadRequest('Bad request method')
+        return JsonResponse({"ok":False, "message":"Bad request method"})
 
 def create_meal(request):
     if request.method == 'POST':
@@ -249,9 +249,9 @@ def create_meal(request):
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     else:
-        return HttpResponseBadRequest('Bad request method')
+        return JsonResponse({"ok":False, "message":"Bad request method"})
 
 
 def plates(request, id=None):
@@ -264,7 +264,7 @@ def plates(request, id=None):
             }
             return JsonResponse(response)
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     elif request.method == 'POST':
         try:
             obj = plate.objects.get(pk=id)
@@ -275,16 +275,16 @@ def plates(request, id=None):
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     elif request.method == 'DELETE':
         try:
             obj = plate.objects.get(pk=id)
             obj.delete()
             return JsonResponse({"ok":True})
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     else:
-        return HttpResponseBadRequest('Bad request method')
+        return JsonResponse({"ok":False, "message":"Bad request method"})
 
 def create_plate(request):
     if request.method == 'POST':
@@ -297,9 +297,9 @@ def create_plate(request):
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     else:
-        return HttpResponseBadRequest('Bad request method')
+        return JsonResponse({"ok":False, "message":"Bad request method"})
 
 
 def eater_ratings(request, id=None):
@@ -312,7 +312,7 @@ def eater_ratings(request, id=None):
             }
             return JsonResponse(response)
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     elif request.method == 'POST':
         try:
             obj = eater_rating.objects.get(pk=id)
@@ -327,16 +327,16 @@ def eater_ratings(request, id=None):
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     elif request.method == 'DELETE':
         try:
             obj = eater_rating.objects.get(pk=id)
             obj.delete()
             return JsonResponse({"ok":True})
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     else:
-        return HttpResponseBadRequest('Bad request method')
+        return JsonResponse({"ok":False, "message":"Bad request method"})
 
 def create_eater_rating(request):
     if request.method == 'POST':
@@ -353,9 +353,9 @@ def create_eater_rating(request):
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     else:
-        return HttpResponseBadRequest('Bad request method')
+        return JsonResponse({"ok":False, "message":"Bad request method"})
 
 def reviews(request, id=None):
     if request.method == 'GET':
@@ -367,7 +367,7 @@ def reviews(request, id=None):
             }
             return JsonResponse(response)
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     elif request.method == 'POST':
         try:
             obj = review.objects.get(pk=id)
@@ -384,16 +384,16 @@ def reviews(request, id=None):
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     elif request.method == 'DELETE':
         try:
             obj = review.objects.get(pk=id)
             obj.delete()
             return JsonResponse({"ok":True})
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     else:
-        return HttpResponseBadRequest('Bad request method')
+        return JsonResponse({"ok":False, "message":"Bad request method"})
 
 def create_review(request):
     if request.method == 'POST':
@@ -412,6 +412,6 @@ def create_review(request):
             obj.save()
             return JsonResponse({"ok":True})
         except Exception as e:
-            return HttpResponseBadRequest(str(e))
+            return JsonResponse({"ok":False, "message":str(e)})
     else:
-        return HttpResponseBadRequest('Bad request method')
+        return JsonResponse({"ok":False, "message":"Bad request method"})
