@@ -3,7 +3,7 @@ models:
   external_links:
     - mysql:db
   volumes:
-    - ./app:/app
+    - ./app/microservices:/app
   ports:
     - "8000:8000"
   command: bash start-microservices.sh
