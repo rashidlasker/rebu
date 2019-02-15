@@ -1,9 +1,32 @@
 models:
   image: tp33/django
+  container_name: models
   external_links:
     - mysql:db
   volumes:
     - ./app/microservices:/app
   ports:
-    - "8000:8000"
+    - "8001:8000"
   command: bash start-microservices.sh
+
+exp:
+  image: tp33/django
+  container_name: exp
+  links:
+    - models:models-api
+  volumes:
+    - ./app/exp:/app
+  ports:
+    - "8002:8000"
+  command: bash start-exp.sh
+
+web:
+  image: tp33/django
+  container_name: web
+  links:
+    - exp:exp-api
+  volumes:
+    - ./app/web:/app
+  ports:
+    - "8000:8000"
+  command: bash start-web.sh
