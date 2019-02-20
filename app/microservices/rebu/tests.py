@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.urls import reverse
 from rebu.models import user, eater, cook, meal, plate, eater_rating, review
 
