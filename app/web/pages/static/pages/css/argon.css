@@ -1,20 +1,3 @@
-/*!
-
-=========================================================
-* Argon Design System - v1.0.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-design-system
-* Copyright 2018 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-design-system/blob/master/LICENSE.md)
-
-* Coded by www.creative-tim.com
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 :root
 {
     --blue: #5e72e4;
@@ -2365,16 +2348,6 @@ pre code
     outline: 0;
     background-color: #fff;
     box-shadow: none, none;
-}
-.form-control::-webkit-input-placeholder
-{
-    opacity: 1; 
-    color: #adb5bd;
-}
-.form-control:-ms-input-placeholder
-{
-    opacity: 1; 
-    color: #adb5bd;
 }
 .form-control::-ms-input-placeholder
 {
@@ -12757,8 +12730,7 @@ main
     opacity: 1; 
 
     will-change: transform;
-    -webkit-filter: blur(0);
-            filter: blur(0);
+    filter: blur(0);
 }
 .blur--hover .blur-hidden
 {
@@ -12780,8 +12752,7 @@ main
 
     opacity: .8;
 
-    -webkit-filter: blur(10px);
-            filter: blur(10px);
+    filter: blur(10px);
 }
 .blur--hover:hover .blur-hidden
 {
@@ -15266,14 +15237,6 @@ label
 {
     font-size: .875rem;
 }
-.form-control:focus::-webkit-input-placeholder
-{
-    color: #adb5bd;
-}
-.form-control:focus:-ms-input-placeholder
-{
-    color: #adb5bd;
-}
 .form-control:focus::-ms-input-placeholder
 {
     color: #adb5bd;
@@ -15377,14 +15340,6 @@ textarea[resize='horizontal']
 {
     border-color: rgba(50, 151, 211, .25);
 }
-.has-success .form-control::-webkit-input-placeholder
-{
-    color: #2dce89;
-}
-.has-success .form-control:-ms-input-placeholder
-{
-    color: #2dce89;
-}
 .has-success .form-control::-ms-input-placeholder
 {
     color: #2dce89;
@@ -15409,14 +15364,6 @@ textarea[resize='horizontal']
 .has-danger .form-control:focus
 {
     border-color: rgba(50, 151, 211, .25);
-}
-.has-danger .form-control::-webkit-input-placeholder
-{
-    color: #fb6340;
-}
-.has-danger .form-control:-ms-input-placeholder
-{
-    color: #fb6340;
 }
 .has-danger .form-control::-ms-input-placeholder
 {

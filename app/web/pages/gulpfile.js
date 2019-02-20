@@ -27,11 +27,6 @@ var wait = require('gulp-wait');
 // Define paths
 
 var paths = {
-    dist: {
-        base: 'static/pages',
-        img:  'static/pages/img',
-        libs: 'static/pages/vendor'
-    },
     base: {
         base: './',
         node: 'node_modules'
@@ -71,7 +66,7 @@ gulp.task('minify:css', function() {
     ])
     .pipe(cleanCss())
     .pipe(rename({ suffix: '.min' }))
-    .pipe(gulp.dest(paths.dist.base + '/css'))
+    .pipe(gulp.dest(paths.src.css))
 });
 
 // Minify JS
@@ -82,7 +77,7 @@ gulp.task('minify:js', function(cb) {
         ])
         .pipe(uglify())
         .pipe(rename({ suffix: '.min' }))
-        .pipe(gulp.dest(paths.dist.base + '/js'))
+        .pipe(gulp.dest(paths.src.base + '/static/pages/js'))
 });
 
 // Build
