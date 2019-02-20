@@ -27,3 +27,8 @@ def index(request):
 	}
 	return render(request, 'pages/index.html', context)
 
+def meal_detail(request, meal_id):
+    return HttpResponse("You're looking at meal %s." % meal_id)
+
+def search(request):
+    return HttpResponse("Search Page")
