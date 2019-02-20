@@ -33,11 +33,11 @@ var paths = {
     },
     src: {
         base: './',
-        css:  'static/pages/css',
+        css:  'app/web/pages/static/pages/css',
         html: '**/*.html',
-        img:  'static/pages/img/**/*.+(png|jpg|gif|svg)',
-        js:   'static/pages/js/**/*.js',
-        scss: 'static/pages/scss/**/*.scss'
+        img:  'app/web/pages/static/pages/img/**/*.+(png|jpg|gif|svg)',
+        js:   'app/web/pages/static/pages/js/**/*.js',
+        scss: 'app/web/pages/static/pages/scss/**/*.scss'
     }
 }
 
