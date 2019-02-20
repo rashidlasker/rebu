@@ -106,4 +106,4 @@ venv.bak/
 
 # rebu
 app/web/static
-app/web/pages/node_modules
+node_modules
