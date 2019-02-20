@@ -17263,6 +17263,33 @@ textarea[resize='horizontal']
 {
     background: #008169;
 }
+.section-shaped .shape-cooking
+{
+    background-image: url('../img/theme/cooking.jpg');
+    background-repeat: no-repeat;
+    background-position: center center; 
+    background-size: cover;
+}
+.section-shaped .shape-cooking :nth-child(1)
+{
+    background: #2e2e57;
+}
+.section-shaped .shape-cooking :nth-child(2)
+{
+    background: #2b2b58;
+}
+.section-shaped .shape-cooking :nth-child(3)
+{
+    background: #25254d;
+}
+.section-shaped .shape-cooking :nth-child(4)
+{
+    background: #d782d9;
+}
+.section-shaped .shape-cooking :nth-child(5)
+{
+    background: #008169;
+}
 .section-shaped .shape-style-1 span
 {
     width: 120px;

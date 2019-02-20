@@ -176,6 +176,33 @@
         }
     }
 
+    .shape-cooking {
+        background-image: url("../img/theme/cooking.jpg");
+        background-size:     cover;                  
+        background-repeat:   no-repeat;
+        background-position: center center;              
+
+         :nth-child(1) {
+            background: shapes-dark-color("span-1-bg");
+        }
+
+         :nth-child(2) {
+            background: shapes-dark-color("span-2-bg");
+        }
+
+         :nth-child(3) {
+            background: shapes-dark-color("span-3-bg");
+        }
+
+         :nth-child(4) {
+            background: shapes-dark-color("span-4-bg");
+        }
+
+         :nth-child(5) {
+            background: shapes-dark-color("span-5-bg");
+        }
+    }
+
     .shape-style-1 {
         span {
             height: 120px;
