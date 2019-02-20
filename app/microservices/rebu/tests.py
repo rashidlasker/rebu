@@ -6,63 +6,14 @@ class test_user(TestCase):
     def setUp(self):
         pass
 
-    def test_descriptive_testname(self):
-        self.assertTrue(True)
-
-    def tearDown(self):
-        pass
-
-class test_eater(TestCase):
-    def setUp(self):
-        pass
-
-    def test_descriptive_testname(self):
-        self.assertTrue(True)
-
-    def tearDown(self):
-        pass
-
-class test_cook(TestCase):
-    def setUp(self):
-        pass
-
-    def test_descriptive_testname(self):
-        self.assertTrue(True)
+    def test_create_user(self):
+        response = self.client.get("/api/v1/users/1/")
+        self.assertEqual(response.status_code, 200)
 
     def tearDown(self):
         pass
 
 class test_meal(TestCase):
-    def setUp(self):
-        pass
-
-    def test_descriptive_testname(self):
-        self.assertTrue(True)
-
-    def tearDown(self):
-        pass
-
-class test_plate(TestCase):
-    def setUp(self):
-        pass
-
-    def test_descriptive_testname(self):
-        self.assertTrue(True)
-
-    def tearDown(self):
-        pass
-
-class test_eater_rating(TestCase):
-    def setUp(self):
-        pass
-
-    def test_descriptive_testname(self):
-        self.assertTrue(True)
-
-    def tearDown(self):
-        pass
-
-class test_review(TestCase):
     def setUp(self):
         pass
 
