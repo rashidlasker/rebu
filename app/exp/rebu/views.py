@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+import urllib.request
+import urllib.parse
+import json
 
 # Create your views here.
 def homepage_info(request):
@@ -31,13 +34,7 @@ def homepage_info(request):
     return JsonResponse(context)
 
 def meal_info(request, meal_id):
-    context = {
-        "meal": {
-            "name": "Pizza",
-            "description": "its food!",
-            "calories": 600,
-            "tags": ["yum", "yummy", "yum"],
-            "pk": meal_id,
-        }
-    }
+    req = urllib.request.Request('http://models-api:8000/api/v1/meals/' + str(meal_id))
+    resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+    context = json.loads(resp_json)
     return JsonResponse(context)
