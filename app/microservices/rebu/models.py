@@ -21,6 +21,7 @@ class cook(models.Model):
     user = models.OneToOneField(user, on_delete=models.CASCADE, parent_link=True, default=-1)
 
 class meal(models.Model):
+    name = models.CharField(max_length=30)
     calories = models.IntegerField()
     description = models.TextField()
     spice = models.IntegerField()

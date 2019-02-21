@@ -1,46 +1,24 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+import urllib.request
+import urllib.parse
+import json
 
 # Create your views here.
 def index(request):
-    context = {
-        "newest_meals": [
-            {
-                "name": "Pizza",
-                "description": "its food!",
-                "calories": 600,
-                "tags": ["yum", "yummy", "yum"],
-                "pk": 1,
-            },
-            {
-                "name": "Pizza2",
-                "description": "its food2!",
-                "calories": 700,
-                "tags": ["yum2", "yummy", "yum"],
-                "pk": 2,
-            },
-            {
-                "name": "Pizza3",
-                "description": "its food3!",
-                "calories": 800,
-                "tags": ["yum3", "yummy", "yum"],
-                "pk": 3,
-            },
-        ]
-    }
+    req = urllib.request.Request('http://exp-api:8000/homepage')
+    resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+    context = json.loads(resp_json)
     return render(request, 'pages/index.html', context)
 
 def meal_detail(request, meal_id):
-    context = {
-        "meal": {
-            "name": "Pizza",
-            "description": "its food!",
-            "calories": 600,
-            "tags": ["yum", "yummy", "yum"],
-            "pk": meal_id,
-        }
-    }
+    req = urllib.request.Request('http://exp-api:8000/meal/' + str(meal_id))
+    resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+    context = json.loads(resp_json)
     return render(request, 'pages/meal_detail.html', context)
 
 def search(request):
-    return HttpResponse("Search Page")
+    req = urllib.request.Request('http://exp-api:8000/search')
+    resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+    context = json.loads(resp_json)
+    return render(request, 'pages/search.html', context)

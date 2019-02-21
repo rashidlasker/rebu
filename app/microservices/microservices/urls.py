@@ -33,4 +33,6 @@ urlpatterns = [
     path('api/v1/eater_ratings/create/', rebu_views.create_eater_rating),
     path('api/v1/reviews/<int:id>/', rebu_views.reviews),
     path('api/v1/reviews/create/', rebu_views.create_review),
+    path('api/v1/meals/all/', rebu_views.all_meals),
+    path('api/v1/meals/newest/', rebu_views.newest_meals),
 ]
