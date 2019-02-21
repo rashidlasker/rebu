@@ -2,36 +2,39 @@
 {% load static %}
 
 {% include "pages/header.html" %}    
-<main>
-<div class="position-relative">
- 	<!-- shape Hero -->
- 	<section class="section section-lg section-shaped pb-100">
- 		<!-- change to shape-cooking -->
- 		<div class="shape shape-primary">
- 			<span></span>
- 			<span></span>
- 			<span></span>
- 			<span></span>
- 			<span></span>
- 		</div>
- 		<div class="container py-lg-md d-flex">
- 			<div class="col px-0">
- 				<div class="row">
- 					<div class="col-lg-6">
- 						<h1 class="display-3 text-white">{{ result }}
- 						</h1>
- 					</div>
- 				</div>
- 			</div>
- 		</div>
- 		<!-- SVG separator -->
- 		<div class="separator separator-bottom separator-skew">
- 			<svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
- 				<polygon class="fill-white" points="2560 0 2560 100 0 100"></polygon>
- 			</svg>
- 		</div>
- 	</section>
-</div>
-</main>
+<main class="profile-page">
+    <section class="section-profile-cover section-shaped my-0">
+      <!-- Circles background -->
+      <div class="shape shape-style-1 shape-primary alpha-4">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="card card-profile shadow mt--300">
+          <div class="px-4">
+            <div class="text-center mt-5">
+              <h3>{{ result.name }}</h3>
+              <h6>Calories: {{ result.calories }}</h6>
+            </div>
+            <div class="mt-5 py-5 border-top text-center">
+              <div class="row justify-content-center">
+                <div class="col-lg-9">
+                  <p>{{ result.description }}</p>
+                  <p>All data: {{ result }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
 {% include "pages/footer.html" %} 
