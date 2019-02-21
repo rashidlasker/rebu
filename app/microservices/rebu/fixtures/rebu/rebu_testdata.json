@@ -73,8 +73,9 @@
     "model": "rebu.meal",
     "pk": 1,
     "fields": {
+      "name": "Roasted Striped Bass",
       "calories": 100,
-      "description": "chicken - well done",
+      "description": "wild shrimp, herb-shellfish broth, saffron aioli",
       "spice": 0,
       "price": 2,
       "tags": "food",
@@ -89,14 +90,32 @@
     "model": "rebu.meal",
     "pk": 2,
     "fields": {
+      "name": "Steak Chinoise",
       "calories": 100,
-      "description": "chicken - raw",
+      "description": "gruyere-thyme potatoes, tamari-ginger pan sauce",
       "spice": 0,
       "price": 3,
       "tags": "food",
       "takeout_available": "False",
       "num_plates": 1,
       "start": "2019-02-04T00:06:00-05:00",
+      "end": "2019-02-04T00:10:00-05:00",
+      "cook": 1
+    }
+  },
+  {
+    "model": "rebu.meal",
+    "pk": 3,
+    "fields": {
+      "name": "Ricotta Gnocchi",
+      "calories": 100,
+      "description": "duck confit, butternut squash, arugula, cracklin's, duck jus",
+      "spice": 0,
+      "price": 3,
+      "tags": "food",
+      "takeout_available": "False",
+      "num_plates": 1,
+      "start": "2019-02-04T00:06:00-07:00",
       "end": "2019-02-04T00:10:00-05:00",
       "cook": 1
     }
