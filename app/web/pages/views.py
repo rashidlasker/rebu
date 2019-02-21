@@ -18,4 +18,7 @@ def meal_detail(request, meal_id):
     return render(request, 'pages/meal_detail.html', context)
 
 def search(request):
-    return HttpResponse("Search Page")
+    req = urllib.request.Request('http://exp-api:8000/search')
+    resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+    context = json.loads(resp_json)
+    return render(request, 'pages/search.html', context)

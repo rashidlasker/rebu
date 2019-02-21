@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('homepage/', rebu_views.homepage_info),
     path('meal/<int:meal_id>/', rebu_views.meal_info),
+    path('search/', rebu_views.search_info),
 ]

@@ -415,3 +415,35 @@ def create_review(request):
             return JsonResponse({"ok":False, "message":str(e)})
     else:
         return JsonResponse({"ok":False, "message":"Bad request method"})
+
+def all_meals(request):
+    if request.method == 'GET':
+        try:
+            objs = list(meal.objects.all().values())
+            response = {
+                "ok":True,
+                "result": {
+                    "all_meals":objs
+                }
+            }
+            return JsonResponse(response)
+        except Exception as e:
+            return JsonResponse({"ok":False, "message":str(e)})
+    else:
+        return JsonResponse({"ok":False, "message":"Bad request method"})
+
+def newest_meals(request):
+    if request.method == 'GET':
+        try:
+            objs = list(meal.objects.all().order_by('-start').values()[:3])
+            response = {
+                "ok":True,
+                "result": {
+                    "newest_meals":objs
+                }
+            }
+            return JsonResponse(response)
+        except Exception as e:
+            return JsonResponse({"ok":False, "message":str(e)})
+    else:
+        return JsonResponse({"ok":False, "message":"Bad request method"})
