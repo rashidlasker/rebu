@@ -188,6 +188,8 @@ def meals(request, id=None):
     elif request.method == 'POST':
         try:
             obj = meal.objects.get(pk=id)
+            if request.POST.get('name'):
+                obj.name = request.POST.get('name')
             if request.POST.get('calories'):
                 obj.calories = request.POST.get('calories')
             if request.POST.get('description'):
@@ -226,6 +228,8 @@ def create_meal(request):
     if request.method == 'POST':
         try:
             obj = meal()
+            if request.POST.get('name'):
+                obj.name = request.POST.get('name')
             if request.POST.get('calories'):
                 obj.calories = request.POST.get('calories')
             if request.POST.get('description'):
@@ -411,6 +415,38 @@ def create_review(request):
                 obj.meal = meal.objects.get(id=request.POST.get('meal'))
             obj.save()
             return JsonResponse({"ok":True})
+        except Exception as e:
+            return JsonResponse({"ok":False, "message":str(e)})
+    else:
+        return JsonResponse({"ok":False, "message":"Bad request method"})
+
+def all_meals(request):
+    if request.method == 'GET':
+        try:
+            objs = list(meal.objects.all().values())
+            response = {
+                "ok":True,
+                "result": {
+                    "all_meals":objs
+                }
+            }
+            return JsonResponse(response)
+        except Exception as e:
+            return JsonResponse({"ok":False, "message":str(e)})
+    else:
+        return JsonResponse({"ok":False, "message":"Bad request method"})
+
+def newest_meals(request):
+    if request.method == 'GET':
+        try:
+            objs = list(meal.objects.all().order_by('-start').values()[:3])
+            response = {
+                "ok":True,
+                "result": {
+                    "newest_meals":objs
+                }
+            }
+            return JsonResponse(response)
         except Exception as e:
             return JsonResponse({"ok":False, "message":str(e)})
     else:
