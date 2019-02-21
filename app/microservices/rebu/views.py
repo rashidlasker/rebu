@@ -188,6 +188,8 @@ def meals(request, id=None):
     elif request.method == 'POST':
         try:
             obj = meal.objects.get(pk=id)
+            if request.POST.get('name'):
+                obj.name = request.POST.get('name')
             if request.POST.get('calories'):
                 obj.calories = request.POST.get('calories')
             if request.POST.get('description'):
@@ -226,6 +228,8 @@ def create_meal(request):
     if request.method == 'POST':
         try:
             obj = meal()
+            if request.POST.get('name'):
+                obj.name = request.POST.get('name')
             if request.POST.get('calories'):
                 obj.calories = request.POST.get('calories')
             if request.POST.get('description'):
