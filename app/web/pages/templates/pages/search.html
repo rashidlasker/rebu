@@ -15,16 +15,6 @@
  			<span></span>
  			<span></span>
  		</div>
- 		<div class="container py-lg-md d-flex">
- 			<div class="col px-0">
- 				<div class="row">
- 					<div class="col-lg-6">
- 						<h1 class="display-3 text-white">{{ result.all_meals }}
- 						</h1>
- 					</div>
- 				</div>
- 			</div>
- 		</div>
  		<!-- SVG separator -->
  		<div class="separator separator-bottom separator-skew">
  			<svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -32,6 +22,19 @@
  			</svg>
  		</div>
  	</section>
+ 	{% for meal in result.all_meals %}
+	 	<section class="section">
+	      <div class="container">
+	        <div class="card card-profile shadow">
+	          <div class="px-4">
+	            <div class="text-center mt-5">
+	              <h3>{{ meal }}</h3>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </section>
+    {% endfor %}
 </div>
 </main>
 
