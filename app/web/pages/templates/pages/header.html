@@ -24,7 +24,7 @@
   <header class="header-global">
     <nav id="navbar-main" class="navbar navbar-main navbar-expand-lg navbar-transparent navbar-light headroom">
       <div class="container">
-        <a class="navbar-brand mr-lg-5" href="">
+        <a class="navbar-brand mr-lg-5" href="{% url 'index' %}">
           <img src="{% static 'pages/img/brand/white.png' %}">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,8 +46,8 @@
               </div>
             </div>
           </div>
-          <form class="form-inline">
-            <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+          <form class="form-inline" action="/search" method="get">
+            <input class="form-control" type="search" placeholder="Search" name="query" aria-label="Search">
           </form>
           <ul class="navbar-nav align-items-lg-center ml-lg-auto">
             <li class="nav-item">

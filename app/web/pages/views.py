@@ -37,7 +37,7 @@ def meal_detail(request, meal_id):
             "description": "its food!",
             "calories": 600,
             "tags": ["yum", "yummy", "yum"],
-            "pk": 1,
+            "pk": meal_id,
         }
     }
     return render(request, 'pages/meal_detail.html', context)
