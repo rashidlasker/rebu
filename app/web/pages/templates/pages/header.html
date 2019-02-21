@@ -1,0 +1,77 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Home cooked food from your neighbors">
+  <meta name="author" content="Rashid Lasker">
+  <title>Rebu</title>
+  <!-- Favicon -->
+  <link href="{% static 'pages/img/brand/favicon.png' %}" rel="icon" type="image/png">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+  <!-- Icons -->
+  <link href="{% static 'pages/vendor/nucleo/css/nucleo.css' %}" rel="stylesheet">
+  <link href="{% static 'pages/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+  <!-- Argon CSS -->
+  <link type="text/css" href="{% static 'pages/css/argon.min.css' %}" rel="stylesheet">
+</head>
+
+<body>
+  <header class="header-global">
+    <nav id="navbar-main" class="navbar navbar-main navbar-expand-lg navbar-transparent navbar-light headroom">
+      <div class="container">
+        <a class="navbar-brand mr-lg-5" href="{% url 'index' %}">
+          <img src="{% static 'pages/img/brand/white.png' %}">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse" id="navbar_global">
+          <div class="navbar-collapse-header">
+            <div class="row">
+              <div class="col-6 collapse-brand">
+                <a href="">
+                  <img src="{% static 'pages/img/brand/blue.png' %}">
+                </a>
+              </div>
+              <div class="col-6 collapse-close">
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false" aria-label="Toggle navigation">
+                  <span></span>
+                  <span></span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <form class="form-inline" action="/search" method="get">
+            <input class="form-control" type="search" placeholder="Search" name="query" aria-label="Search">
+          </form>
+          <ul class="navbar-nav align-items-lg-center ml-lg-auto">
+            <li class="nav-item">
+              <a href="#" class="nav-link" href="#" role="button">
+                <i class="ni ni-collection d-lg-none"></i>
+                <span class="nav-link-inner--text">Help</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link" href="#" role="button">
+                <i class="ni ni-badge d-lg-none"></i>
+                <span class="nav-link-inner--text">Sign up</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link" href="#" role="button">
+                <i class="ni ni-single-02 d-lg-none"></i>
+                <span class="nav-link-inner--text">Log in</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>

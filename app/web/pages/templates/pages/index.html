@@ -1,0 +1,79 @@
+
+{% load static %}
+
+{% include "pages/header.html" %}    
+
+<div class="position-relative">
+ 	<!-- shape Hero -->
+ 	<section class="section section-lg section-shaped pb-100">
+ 		<!-- change to shape-cooking -->
+ 		<div class="shape shape-cooking">
+ 			<span></span>
+ 			<span></span>
+ 			<span></span>
+ 			<span></span>
+ 			<span></span>
+ 		</div>
+ 		<div class="container py-lg-md d-flex">
+ 			<div class="col px-0">
+ 				<div class="row">
+ 					<div class="col-lg-6">
+ 						<h1 class="display-3 text-white">Home Cooked Meals
+ 							<span>fresh from your neighbors</span>
+ 						</h1>
+ 					</div>
+ 				</div>
+ 			</div>
+ 		</div>
+ 		<!-- SVG separator -->
+ 		<div class="separator separator-bottom separator-skew">
+ 			<svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+ 				<polygon class="fill-white" points="2560 0 2560 100 0 100"></polygon>
+ 			</svg>
+ 		</div>
+ 	</section>
+</div>
+<!-- Newest Meals Section -->
+<section class="section section-lg ">
+ 	<div class="container">
+ 		<div class="row">
+ 			<div class="col-lg-6">
+ 				<h1 class="display-3">Newest Meals</h1>
+ 			</div>
+ 		</div>
+ 		<div class="row justify-content-center">
+ 			<div class="col-lg-12">
+ 				<div class="row row-grid">
+ 					{% for meal in newest_meals %}
+				    <div class="col-lg-4">
+	 						<div class="card card-lift--hover shadow border-0">
+	 							<div class="card-body py-5">
+	 								<h6 class="text-primary text-uppercase">{{ meal.name }}</h6>
+	 								<p class="description mt-3">{{ meal.description }}</p>
+	 								<div>
+	 									{% for tag in meal.tags %}
+									    <span class="badge badge-pill badge-primary">{{ tag }}</span>
+										{% endfor %}
+	 								</div>
+	 								<a href="{% url 'meal_detail' meal.pk %}" class="btn btn-primary mt-4">Learn more</a>
+	 							</div>
+	 						</div>
+	 					</div>
+					{% endfor %}
+ 				</div>
+ 			</div>
+ 		</div>
+ 	</div>
+</section>
+<!-- Featured Cooks Section -->
+<section class="section section-lg ">
+ 	<div class="container">
+ 		<div class="row">
+ 			<div class="col-lg-6">
+ 				<h1 class="display-3">Featured Cooks</h1>
+ 				<h2 >Coming soon!</h2>
+ 			</div>
+ 		</div>
+ 	</div>
+</section>
+{% include "pages/footer.html" %} 
