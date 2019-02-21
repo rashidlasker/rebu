@@ -417,6 +417,7 @@ def reviews(request, id=None):
 	elif request.method == 'POST':
 		try:
 			obj = review.objects.get(pk=id)
+			form = reviewForm(request.POST, instance=obj)
 			if form.is_valid():
 				obj = form.save()
 				obj.save()
