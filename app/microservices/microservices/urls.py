@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from rebu import views as rebu_views 
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,4 +37,4 @@ urlpatterns = [
     path('api/v1/reviews/create/', rebu_views.create_review, name='review_create'),
     path('api/v1/meals/all/', rebu_views.all_meals, name='all'),
     path('api/v1/meals/newest/', rebu_views.newest_meals, name='newest'),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
