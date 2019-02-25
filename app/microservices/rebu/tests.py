@@ -165,18 +165,3 @@ class test_review(TestCase):
 
     def tearDown(self):
         pass
-
-class test_layer(TestCase):
-    def setUp(self):
-        call_command('loaddata', 'rebu/fixtures/rebu/rebu_testdata.json', verbosity = 0)
-
-    def test_all(self):
-        response = self.client.get(reverse('all'))
-        self.assertEqual(response.status_code, 200)
-
-    def test_newest(self):
-        response = self.client.get(reverse('newest'))
-        self.assertEqual(response.status_code, 200)
-
-    def tearDown(self):
-        pass
