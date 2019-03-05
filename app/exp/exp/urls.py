@@ -15,7 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from rebu import views as rebu_views 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('homepage/', rebu_views.homepage_info),
+    path('meal/<int:meal_id>/', rebu_views.meal_info),
+    path('search/', rebu_views.search_info),
 ]

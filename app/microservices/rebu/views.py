@@ -5,16 +5,17 @@ from django.forms.models import model_to_dict
 from django import forms
 
 class userForm(forms.ModelForm):
-	first_name = forms.CharField(label="First name", max_length=20)
-	last_name = forms.CharField(label="Last name", max_length=20)
-	street = forms.CharField(label="Street", max_length=100)
-	zip_code = forms.CharField(label="Zip Code", max_length=5)
-	state = forms.CharField(label="State", max_length=20)
-	country = forms.CharField(label="Country", max_length=40)
-	bio = forms.CharField(label="Bio", max_length=150)
-	links = forms.CharField(label="Social Media Links", max_length=120)
-	language = forms.CharField(label="Language", max_length=20)
-	gender = forms.CharField(label="Gender", max_length=15)
+	first_name = forms.CharField(label='First Name')
+	last_name = forms.CharField(label='Last Name')
+	street = forms.CharField(label='Street')
+	zip_code = forms.CharField(label='Zip Code')
+	state = forms.CharField(label='State')
+	country = forms.CharField(label='Country')
+	bio = forms.CharField(label='Bio')
+	links = forms.CharField(label='Links')
+	language = forms.CharField(label='Language')
+	gender = forms.CharField(label='Gender')
+
 	class Meta:
 		model = user
 		fields = ['first_name', 'last_name', 'street','zip_code','state','country','bio','links','language','gender']
@@ -88,13 +89,18 @@ def users(request, id=None):
 	elif request.method == 'POST':
 		try:
 			obj = user.objects.get(pk=id)
-			form = userForm(request.POST or None, instance=obj)
-			if form.is_valid():
-				obj = form.save()
-				obj.save()
-			else:
-				return JsonResponse({"ok":False, "message":"Bad Form"})
-			return JsonResponse({"ok1":True})
+			user_form = userForm(data=request.POST)
+			for i in user_form.data:
+				obj.__setattr__(i, user_form.data[i])
+			obj.save()
+
+#			if user_form.is_valid():
+#				user_form.save()
+#				obj = form.save()
+#				obj.save()
+#			else:
+#			return JsonResponse({"okx":False, "message":obj})
+			return JsonResponse({"ok":True})
 		except Exception as e:
 			return JsonResponse({"ok":False, "message":str(e)})
 	elif request.method == 'DELETE':
@@ -148,12 +154,18 @@ def cooks(request, id=None):
 	elif request.method == 'POST':
 		try:
 			obj = cook.objects.get(pk=id)
-			form = cookForm(request.POST or None, instance=obj)
-			if form.is_valid():
-				obj = form.save()
-				obj.save()
-			else:
-				return JsonResponse({"ok":False, "message":"Bad Form"})	
+			form = userForm(data=request.POST)
+			for i in form.data:
+				obj.__setattr__(i, form.data[i])
+			obj.save()
+
+#			obj = cook.objects.get(pk=id)
+#			form = cookForm(request.POST or None, instance=obj)
+#			if form.is_valid():
+#				obj = form.save()
+#				obj.save()
+#			else:
+#				return JsonResponse({"ok":False, "message":"Bad Form"})	
 			return JsonResponse({"ok":True})
 		except Exception as e:
 			return JsonResponse({"ok":False, "message":str(e)})
@@ -199,12 +211,18 @@ def eaters(request, id=None):
 	elif request.method == 'POST':
 		try:
 			obj = eater.objects.get(pk=id)
-			form = eaterForm(request.POST or None, instance=obj)
-			if form.is_valid():
-				obj = form.save()
-				obj.save()
-			else:
-				return JsonResponse({"ok":False, "message":"Bad Form"})
+			form = userForm(data=request.POST)
+			for i in form.data:
+				obj.__setattr__(i, form.data[i])
+			obj.save()
+
+#			obj = eater.objects.get(pk=id)
+#			form = eaterForm(request.POST or None, instance=obj)
+#			if form.is_valid():
+#				obj = form.save()
+#				obj.save()
+#			else:
+#				return JsonResponse({"ok":False, "message":"Bad Form"})
 			return JsonResponse({"ok":True})
 		except Exception as e:
 			return JsonResponse({"ok":False, "message":str(e)})
@@ -250,12 +268,18 @@ def meals(request, id=None):
 	elif request.method == 'POST':
 		try:
 			obj = meal.objects.get(pk=id)
-			form = mealForm(request.POST or None, instance=obj)
-			if form.is_valid():
-				obj = form.save()
-				obj.save()
-			else:
-				return JsonResponse({"ok":False, "message":"Bad Form"})
+			form = userForm(data=request.POST)
+			for i in form.data:
+				obj.__setattr__(i, form.data[i])
+			obj.save()
+
+#			obj = meal.objects.get(pk=id)
+#			form = mealForm(request.POST or None, instance=obj)
+#			if form.is_valid():
+#				obj = form.save()
+#				obj.save()
+#			else:
+#				return JsonResponse({"ok":False, "message":"Bad Form"})
 			return JsonResponse({"ok":True})
 		except Exception as e:
 			return JsonResponse({"ok":False, "message":str(e)})
@@ -311,12 +335,18 @@ def plates(request, id=None):
 	elif request.method == 'POST':
 		try:
 			obj = plate.objects.get(pk=id)
-			form = plateForm(request.POST or None, instance=obj)
-			if form.is_valid():
-				obj = form.save()
-				obj.save()
-			else:
-				return JsonResponse({"ok":False, "message":"Bad Form"})
+			form = userForm(data=request.POST)
+			for i in form.data:
+				obj.__setattr__(i, form.data[i])
+			obj.save()
+
+#			obj = plate.objects.get(pk=id)
+#			form = plateForm(request.POST or None, instance=obj)
+#			if form.is_valid():
+#				obj = form.save()
+#				obj.save()
+#			else:
+#				return JsonResponse({"ok":False, "message":"Bad Form"})
 			return JsonResponse({"ok":True})
 		except Exception as e:
 			return JsonResponse({"ok":False, "message":str(e)})
@@ -363,12 +393,18 @@ def eater_ratings(request, id=None):
 	elif request.method == 'POST':
 		try:
 			obj = eater_rating.objects.get(pk=id)
-			form = eaterRatingForm(request.POST or None, instance=obj)
-			if form.is_valid():
-				obj = form.save()
-				obj.save()
-			else:
-				return JsonResponse({"ok":False, "message":"Bad Form"})
+			form = userForm(data=request.POST)
+			for i in form.data:
+				obj.__setattr__(i, form.data[i])
+			obj.save()
+
+#			obj = eater_rating.objects.get(pk=id)
+#			form = eaterRatingForm(request.POST or None, instance=obj)
+#			if form.is_valid():
+#				obj = form.save()
+#				obj.save()
+#			else:
+#				return JsonResponse({"ok":False, "message":"Bad Form"})
 
 			return JsonResponse({"ok":True})
 		except Exception as e:
@@ -417,12 +453,18 @@ def reviews(request, id=None):
 	elif request.method == 'POST':
 		try:
 			obj = review.objects.get(pk=id)
-			form = reviewForm(request.POST, instance=obj)
-			if form.is_valid():
-				obj = form.save()
-				obj.save()
-			else:
-				return JsonResponse({"ok":False, "message":"Bad Form"})	
+			form = userForm(data=request.POST)
+			for i in form.data:
+				obj.__setattr__(i, form.data[i])
+			obj.save()
+
+#			obj = review.objects.get(pk=id)
+#			form = reviewForm(request.POST, instance=obj)
+#			if form.is_valid():
+#				obj = form.save()
+#				obj.save()
+#			else:
+#				return JsonResponse({"ok":False, "message":"Bad Form"})	
 			return JsonResponse({"ok":True})
 		except Exception as e:
 			return JsonResponse({"ok":False, "message":str(e)})
@@ -455,3 +497,36 @@ def create_review(request):
 			return JsonResponse({"ok":False, "message":str(e)})
 	else:
 		return JsonResponse({"ok":False, "message":"Bad request method"})
+
+def all_meals(request):
+    if request.method == 'GET':
+        try:
+            objs = list(meal.objects.all().values())
+            response = {
+                "ok":True,
+                "result": {
+                    "all_meals":objs
+                }
+            }
+            return JsonResponse(response)
+        except Exception as e:
+            return JsonResponse({"ok":False, "message":str(e)})
+    else:
+        return JsonResponse({"ok":False, "message":"Bad request method"})
+
+def newest_meals(request):
+    if request.method == 'GET':
+        try:
+            objs = list(meal.objects.all().order_by('-start').values()[:3])
+            response = {
+                "ok":True,
+                "result": {
+                    "newest_meals":objs
+                }
+            }
+            return JsonResponse(response)
+        except Exception as e:
+            return JsonResponse({"ok":False, "message":str(e)})
+    else:
+        return JsonResponse({"ok":False, "message":"Bad request method"})
+
