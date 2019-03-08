@@ -59,8 +59,10 @@ def login(request):
     """ If we made it here, we can log them in. """
     # Set login cookie and redirect 
     authenticator = resp['authenticator']
+    user_id = resp['user_id']
     response = HttpResponseRedirect(next)
     response.set_cookie("auth", authenticator)
+    response.set_cookie("user_id", user_id)
     return response
 
 def logout(request):
@@ -103,8 +105,10 @@ def register(request):
     """ If we made it here, we can log them in. """
     # Set login cookie and redirect 
     authenticator = resp['authenticator']
+    user_id = resp['user_id']
     response = HttpResponseRedirect(next)
     response.set_cookie("auth", authenticator)
+    response.set_cookie("user_id", user_id)
     return response
 
 def create_meal(request):

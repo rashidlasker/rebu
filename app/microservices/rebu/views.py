@@ -74,9 +74,9 @@ def create_user(request):
                 obj.save()
             else:
                 return JsonResponse({"ok":False, "message":"Bad Form"})
-            success, authenticator = getAuthenticator(obj)
+            success, authenticator, user_id = get_authenticator(obj)
             if success:
-                return JsonResponse({"ok":True, "authenticator":authenticator})
+                return JsonResponse({"ok":True, "authenticator":authenticator, "user_id":user_id})
             else:
                 return JsonResponse({"ok":False, "message":authenticator})
         except Exception as e:
@@ -475,7 +475,7 @@ def newest_meals(request):
     else:
         return JsonResponse({"ok":False, "message":"Bad request method"})
 
-def getAuthenticator(userObj):
+def get_authenticator(userObj):
     try:
         auth = authenticator.objects.get(user_id=userObj.pk)
         if auth.date_created < pytz.UTC.localize(datetime.datetime.now() - datetime.timedelta(weeks=1)):
@@ -486,7 +486,7 @@ def getAuthenticator(userObj):
                 ).hexdigest()
             auth.date_created = datetime.datetime.now()
             auth.save()
-        return True, auth.authenticator
+        return True, auth.authenticator, auth.user_id
     except authenticator.DoesNotExist:
         auth = authenticator()
         auth.user_id = userObj.pk
@@ -497,9 +497,9 @@ def getAuthenticator(userObj):
             ).hexdigest()
         auth.date_created = datetime.datetime.now()
         auth.save()
-        return True, auth.authenticator
+        return True, auth.authenticator, auth.user_id
     except Exception as e:
-        return False, str(e)
+        return False, str(e), -1
 
 def authenticate(request):
     if request.method == 'POST':
@@ -508,9 +508,9 @@ def authenticate(request):
             password = request.POST['password']
             userObj = user.objects.get(username=username)
             if check_password(password, userObj.password):
-                success, authenticator = getAuthenticator(userObj)
+                success, authenticator, user_id = get_authenticator(userObj)
                 if success:
-                    return JsonResponse({"ok":True, "authenticator":authenticator})
+                    return JsonResponse({"ok":True, "authenticator":authenticator, "user_id":user_id})
                 else:
                     return JsonResponse({"ok":False, "message":authenticator})
             else:
