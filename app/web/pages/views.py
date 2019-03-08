@@ -69,6 +69,7 @@ def logout(request):
     context = {}
     response = render(request, 'pages/logout.html', context)
     response.delete_cookie("auth")
+    response.delete_cookie("user_id")
     return response
 
 def register(request):

@@ -501,18 +501,29 @@ def get_authenticator(userObj):
     except Exception as e:
         return False, str(e), -1
 
-def authenticate(request):
+def check_authenticator(authenticatorString, user_id):
+    try:
+        auth = authenticator.objects.get(authenticator=authenticatorString)
+        if auth.date_created < pytz.UTC.localize(datetime.datetime.now() - datetime.timedelta(weeks=1)):
+            return False, "Auth token too old"
+        if auth.user_id != user_id:
+            return False, "Wrong id"
+        return True, "Success!"
+    except Exception as e:
+        return False, str(e)
+
+def login(request):
     if request.method == 'POST':
         try:
             username = request.POST['username']
             password = request.POST['password']
             userObj = user.objects.get(username=username)
             if check_password(password, userObj.password):
-                success, authenticator, user_id = get_authenticator(userObj)
+                success, authenticatorString, user_id = get_authenticator(userObj)
                 if success:
-                    return JsonResponse({"ok":True, "authenticator":authenticator, "user_id":user_id})
+                    return JsonResponse({"ok":True, "authenticator":authenticatorString, "user_id":user_id})
                 else:
-                    return JsonResponse({"ok":False, "message":authenticator})
+                    return JsonResponse({"ok":False, "message":authenticatorString})
             else:
                 return JsonResponse({"ok":False, "message":"Password did not match"})
         except Exception as e:
@@ -520,3 +531,11 @@ def authenticate(request):
     else:
         return JsonResponse({"ok":False, "message":"Bad request method"})
 
+def authenticate(request):
+    if request.method == 'POST':
+        authenticatorString = request.POST['authenticator']
+        user_id = request.POST['user_id']
+        status, message = check_authenticator(authenticatorString, user_id)
+        return JsonResponse({"ok":status, "message":message})
+    else:
+        return JsonResponse({"ok":False, "message":"Bad request method"})

@@ -29,7 +29,7 @@ def search_info(request):
 
 def login(request):
     data = urllib.parse.urlencode(request.POST).encode('utf-8')
-    req = urllib.request.Request('http://models-api:8000/api/v1/authenticate/', data=data)
+    req = urllib.request.Request('http://models-api:8000/api/v1/login/', data=data)
     resp_json = urllib.request.urlopen(req).read().decode('utf-8')
     context = json.loads(resp_json)
     return JsonResponse(context)
