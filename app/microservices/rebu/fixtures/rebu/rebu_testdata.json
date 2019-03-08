@@ -12,7 +12,9 @@
       "bio": "bio",
       "links": "apple.com",
       "language": "English",
-      "gender": "Male"
+      "gender": "Male",
+      "password": "password",
+      "username": "abw9yd"
     }
   },
   {
@@ -28,7 +30,9 @@
       "bio": "bio",
       "links": "windows.com",
       "language": "English",
-      "gender": "Male"
+      "gender": "Male",
+      "password": "password",
+      "username": "rel3en"
     }
   },
   {
@@ -44,7 +48,9 @@
       "bio": "bio",
       "links": "linux.com",
       "language": "English",
-      "gender": "Male"
+      "gender": "Male",
+      "password": "password",
+      "username": "awh4kc"
     }
   },
   {

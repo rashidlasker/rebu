@@ -28,7 +28,9 @@ class test_user(TestCase):
                 "bio": "bio",
                 "links": "docker.com",
                 "language": "English",
-                "gender": "Male"
+                "gender": "Male",
+                "password": "password",
+                "username": "js4be"
                }
 
         response_post = self.client.post('/api/v1/users/create/', data)

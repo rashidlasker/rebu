@@ -4,20 +4,22 @@ from rebu.models import user, meal
 from urllib.parse import urlencode
 from django.core.management import call_command
 
+#need to edit this, is just framework for testing new authenticator calls
+
 class test_meal(TestCase):
     def setUp(self):
         call_command('loaddata', 'rebu/fixtures/rebu/rebu_testdata.json', verbosity = 0)
 
-    def test_verify_meal_exists(self):
-        response = self.client.get(reverse('meal', args = [1]))
+    def test_verify_authenticator_exists(self):
+        response = self.client.get(reverse('authenticator', args = [1]))
         self.assertEqual(response.status_code, 200)
 
-    def test_existing_meal(self):
-        response = self.client.get(reverse('meal', args = [2]))
+    def test_existing_authenticator(self):
+        response = self.client.get(reverse('authenticator', args = [2]))
         self.assertContains(response, 'true')
         self.assertContains(response, 'Steak Chinoise')
 
-    def test_new_meal(self):
+    def test_new_authenticator(self):
         data = {
                 "name": "Cheeseburger",
                 "calories": 100,
@@ -32,26 +34,26 @@ class test_meal(TestCase):
                 "cook": 1
                }
 
-        response_post = self.client.post('/api/v1/meals/create/', data)
-        response = self.client.get('/api/v1/meals/4/')
+        response_post = self.client.post('/api/v1/authenticator/create/', data)
+        response = self.client.get('/api/v1/authenticator/4/')
         self.assertContains(response_post, 'true')
         self.assertContains(response, 'true')
         #self.assertEqual(response.content, 'Cheeseburger')
         self.assertContains(response, 'wild shrimp, herb-shellfish broth, saffron aioli')
         # currently failing don't know why, testing with assertEqual response.content
 
-    def test_update_meal(self):
+    def test_update_authenticator(self):
         data = {"name": "Hamburger"}
-        response_post = self.client.post('/api/v1/meals/1/', data)
-        response = self.client.get('/api/v1/meals/1/')
+        response_post = self.client.post('/api/v1/authenticator/1/', data)
+        response = self.client.get('/api/v1/authenticator/1/')
         self.assertContains(response_post, 'true')
         self.assertContains(response, 'true')
         self.assertContains(response, 'Hamburger')
 
-    def test_delete_meal(self):
-        response = self.client.delete('/api/v1/meals/3/')
+    def test_delete_authenticator(self):
+        response = self.client.delete('/api/v1/authenticator/3/')
         self.assertContains(response, 'true')
-        response_false = self.client.get('/api/v1/meals/3/')
+        response_false = self.client.get('/api/v1/authenticator/3/')
         self.assertContains(response_false, 'false')
 
     def tearDown(self):
