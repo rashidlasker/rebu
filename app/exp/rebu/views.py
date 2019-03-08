@@ -28,10 +28,15 @@ def search_info(request):
     return JsonResponse(context)
 
 def login(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    data = urllib.parse.urlencode({'username':username,'password':password}).encode('utf-8')
+    data = urllib.parse.urlencode(request.POST).encode('utf-8')
     req = urllib.request.Request('http://models-api:8000/api/v1/authenticate/', data=data)
+    resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+    context = json.loads(resp_json)
+    return JsonResponse(context)
+
+def register(request):
+    data = urllib.parse.urlencode(request.POST).encode('utf-8')
+    req = urllib.request.Request('http://models-api:8000/api/v1/users/create/', data=data)
     resp_json = urllib.request.urlopen(req).read().decode('utf-8')
     context = json.loads(resp_json)
     return JsonResponse(context)

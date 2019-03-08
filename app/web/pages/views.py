@@ -95,7 +95,7 @@ def register(request):
 
     # Check if experience layer returned an error
     if not resp or not resp['ok']:
-        form = LoginForm()
+        form = RegisterForm()
         context['form'] = form
         context['auth_error'] = resp['message']
         return render(request, 'pages/register.html', context)

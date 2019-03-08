@@ -74,8 +74,11 @@ def create_user(request):
                 obj.save()
             else:
                 return JsonResponse({"ok":False, "message":"Bad Form"})
-
-            return JsonResponse({"ok":True})
+            success, authenticator = getAuthenticator(obj)
+            if success:
+                return JsonResponse({"ok":True, "authenticator":authenticator})
+            else:
+                return JsonResponse({"ok":False, "message":authenticator})
         except Exception as e:
             return JsonResponse({"ok":False, "message":str(e)})
     else:
@@ -472,6 +475,32 @@ def newest_meals(request):
     else:
         return JsonResponse({"ok":False, "message":"Bad request method"})
 
+def getAuthenticator(userObj):
+    try:
+        auth = authenticator.objects.get(user_id=userObj.pk)
+        if auth.date_created < pytz.UTC.localize(datetime.datetime.now() - datetime.timedelta(weeks=1)):
+            auth.authenticator = hmac.new(
+                    key = settings.SECRET_KEY.encode('utf-8'),
+                    msg = os.urandom(32),
+                    digestmod = 'sha256',
+                ).hexdigest()
+            auth.date_created = datetime.datetime.now()
+            auth.save()
+        return True, auth.authenticator
+    except authenticator.DoesNotExist:
+        auth = authenticator()
+        auth.user_id = userObj.pk
+        auth.authenticator = hmac.new(
+                key = settings.SECRET_KEY.encode('utf-8'),
+                msg = os.urandom(32),
+                digestmod = 'sha256',
+            ).hexdigest()
+        auth.date_created = datetime.datetime.now()
+        auth.save()
+        return True, auth.authenticator
+    except Exception as e:
+        return False, str(e)
+
 def authenticate(request):
     if request.method == 'POST':
         try:
@@ -479,30 +508,11 @@ def authenticate(request):
             password = request.POST['password']
             userObj = user.objects.get(username=username)
             if check_password(password, userObj.password):
-                try:
-                    auth = authenticator.objects.get(user_id=userObj.pk)
-                    if auth.date_created < pytz.UTC.localize(datetime.datetime.now() - datetime.timedelta(weeks=1)):
-                        auth.authenticator = hmac.new(
-                                key = settings.SECRET_KEY.encode('utf-8'),
-                                msg = os.urandom(32),
-                                digestmod = 'sha256',
-                            ).hexdigest()
-                        auth.date_created = datetime.datetime.now()
-                        auth.save()
-                    return JsonResponse({"ok":True, "authenticator":auth.authenticator})
-                except authenticator.DoesNotExist:
-                    auth = authenticator()
-                    auth.user_id = userObj.pk
-                    auth.authenticator = hmac.new(
-                            key = settings.SECRET_KEY.encode('utf-8'),
-                            msg = os.urandom(32),
-                            digestmod = 'sha256',
-                        ).hexdigest()
-                    auth.date_created = datetime.datetime.now()
-                    auth.save()
-                    return JsonResponse({"ok":True, "authenticator":auth.authenticator})
-                except Exception as e:
-                    return JsonResponse({"ok":False,"message":str(e)})
+                success, authenticator = getAuthenticator(userObj)
+                if success:
+                    return JsonResponse({"ok":True, "authenticator":authenticator})
+                else:
+                    return JsonResponse({"ok":False, "message":authenticator})
             else:
                 return JsonResponse({"ok":False, "message":"Password did not match"})
         except Exception as e:

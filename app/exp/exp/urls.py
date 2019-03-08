@@ -23,4 +23,5 @@ urlpatterns = [
     path('meal/<int:meal_id>/', rebu_views.meal_info),
     path('search/', rebu_views.search_info),
     path('login/', rebu_views.login),
+    path('register/', rebu_views.register),
 ]
