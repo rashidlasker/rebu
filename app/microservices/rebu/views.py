@@ -25,7 +25,7 @@ class userForm(forms.ModelForm):
 	language = forms.CharField(label='Language')
 	gender = forms.CharField(label='Gender')
 	password = forms.CharField(label='Password')
-	username = forms.CharField(label='username')
+	username = forms.CharField(label='Username')
 
 	class Meta:
 		model = user
@@ -176,7 +176,7 @@ def cooks(request, id=None):
 #				obj = form.save()
 #				obj.save()
 #			else:
-#				return JsonResponse({"ok":False, "message":"Bad Form"})	
+#				return JsonResponse({"ok":False, "message":"Bad Form"})
 			return JsonResponse({"ok":True})
 		except Exception as e:
 			return JsonResponse({"ok":False, "message":str(e)})
@@ -475,7 +475,7 @@ def reviews(request, id=None):
 #				obj = form.save()
 #				obj.save()
 #			else:
-#				return JsonResponse({"ok":False, "message":"Bad Form"})	
+#				return JsonResponse({"ok":False, "message":"Bad Form"})
 			return JsonResponse({"ok":True})
 		except Exception as e:
 			return JsonResponse({"ok":False, "message":str(e)})
