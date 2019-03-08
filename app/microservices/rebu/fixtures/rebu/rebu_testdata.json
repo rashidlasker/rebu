@@ -1,184 +1,260 @@
 [
   {
-    "model": "rebu.user",
-    "pk": 1,
-    "fields": {
-      "first_name": "Andrew",
-      "last_name": "Walsh",
-      "street": "107N Piedmont Ave",
-      "zip_code": "22903",
-      "state": "VA",
-      "country": "US",
-      "bio": "bio",
-      "links": "apple.com",
-      "language": "English",
-      "gender": "Male",
-      "password": "password",
-      "username": "abw9yd"
-    }
+      "model": "auth.user",
+      "fields": {
+          "password": "pbkdf2_sha256$120000$VUgr4fgCZm5R$Y6m8ee6if1tqsfv9zoZp2VXHfw5dr9XQ/GstgWZvzSI=",
+          "last_login": "2019-03-08T19:42:44.286Z",
+          "is_superuser": true,
+          "username": "root",
+          "first_name": "",
+          "last_name": "",
+          "email": "rashidlasker@gmail.com",
+          "is_staff": true,
+          "is_active": true,
+          "date_joined": "2019-03-08T19:42:11.936Z",
+          "groups": [],
+          "user_permissions": []
+      }
   },
   {
-    "model": "rebu.user",
-    "pk": 2,
-    "fields": {
-      "first_name": "Rashid",
-      "last_name": "Lasker",
-      "street": "107N Piedmont Ave",
-      "zip_code": "22903",
-      "state": "VA",
-      "country": "US",
-      "bio": "bio",
-      "links": "windows.com",
-      "language": "English",
-      "gender": "Male",
-      "password": "password",
-      "username": "rel3en"
-    }
+      "model": "sessions.session",
+      "pk": "bj06l9a5580epvu52pn1ft2aoiy63dqo",
+      "fields": {
+          "session_data": "OThkZTU4MzNlOGRmY2YyYjQxZWViNWNlNzM0YmJhNzczYjc2NzYwNjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI1OWRlNzQ2NGYxY2IxYzZkNjM0ZTg1NTMzZWEyOGE1ZGUxNTk3YTllIn0=",
+          "expire_date": "2019-03-22T19:42:44.292Z"
+      }
   },
   {
-    "model": "rebu.user",
-    "pk": 3,
-    "fields": {
-      "first_name": "Alex",
-      "last_name": "Hicks",
-      "street": "107N Piedmont Ave",
-      "zip_code": "22903",
-      "state": "VA",
-      "country": "US",
-      "bio": "bio",
-      "links": "linux.com",
-      "language": "English",
-      "gender": "Male",
-      "password": "password",
-      "username": "awh4kc"
-    }
+      "model": "rebu.authenticator",
+      "pk": "02aa4fb9079d21e1fbd2ddd503019c485dc6b8f803dde5d8453c3f1a45eac571",
+      "fields": {
+          "user_id": "1",
+          "date_created": "2019-03-08T21:19:19.090Z"
+      }
   },
   {
-    "model": "rebu.eater",
-    "pk": 1,
-    "fields": {
-      "user": 1
-    }
+      "model": "rebu.authenticator",
+      "pk": "4f22a10dfc13e04e88971e06da3f7dc2c476f6c0ec09533e7a55210e120a1720",
+      "fields": {
+          "user_id": "2",
+          "date_created": "2019-03-08T21:19:31.665Z"
+      }
   },
   {
-    "model": "rebu.eater",
-    "pk": 2,
-    "fields": {
-      "user": 2
-    }
+      "model": "rebu.authenticator",
+      "pk": "6a91a9f219c9b7459de4b28d3e7758ac6139562893b3ec3659677c5ef60df264",
+      "fields": {
+          "user_id": "3",
+          "date_created": "2019-03-08T21:19:53.862Z"
+      }
   },
   {
-    "model": "rebu.cook",
-    "pk": 1,
-    "fields": {
-      "user": 3,
-      "signature_dish": "chicken"
-    }
+      "model": "rebu.authenticator",
+      "pk": "78919ff2b9a264dd7c48d3cbaf35ce1a809a0fbe4ef67d0a481ffc6263fb4d8b",
+      "fields": {
+          "user_id": "4",
+          "date_created": "2019-03-08T19:42:28.658Z"
+      }
   },
   {
-    "model": "rebu.meal",
-    "pk": 1,
-    "fields": {
-      "name": "Roasted Striped Bass",
-      "calories": 100,
-      "description": "wild shrimp, herb-shellfish broth, saffron aioli",
-      "spice": 0,
-      "price": 2,
-      "tags": "healthy yummy food",
-      "takeout_available": "False",
-      "num_plates": 2,
-      "start": "2019-02-04T00:01:00-05:00",
-      "end": "2019-02-04T00:04:00-05:00",
-      "cook": 1
-    }
+      "model": "rebu.user",
+      "pk": 1,
+      "fields": {
+          "username": "abw9yd",
+          "password": "pbkdf2_sha256$120000$vSBt8ClxhyP0$YtrWrnVLNub7j8TXDUPzsALCohuEQI8h4VmgOUKDu3Q=",
+          "first_name": "Andrew",
+          "last_name": "Walsh",
+          "street": "107N Piedmont Ave",
+          "zip_code": "22903",
+          "state": "VA",
+          "country": "US",
+          "bio": "bio",
+          "links": "apple.com",
+          "language": "English",
+          "gender": "Male"
+      }
   },
   {
-    "model": "rebu.meal",
-    "pk": 2,
-    "fields": {
-      "name": "Steak Chinoise",
-      "calories": 100,
-      "description": "gruyere-thyme potatoes, tamari-ginger pan sauce",
-      "spice": 0,
-      "price": 3,
-      "tags": "asian savory meat",
-      "takeout_available": "False",
-      "num_plates": 1,
-      "start": "2019-02-04T00:06:00-05:00",
-      "end": "2019-02-04T00:10:00-05:00",
-      "cook": 1
-    }
+      "model": "rebu.user",
+      "pk": 2,
+      "fields": {
+          "username": "rel3en",
+          "password": "pbkdf2_sha256$120000$2aoh6uR40wzE$ZT18y2SOX3mBXVpcGPtjDklyYuCRt3X9hyoOMZQXPC4=",
+          "first_name": "Rashid",
+          "last_name": "Lasker",
+          "street": "107N Piedmont Ave",
+          "zip_code": "22903",
+          "state": "VA",
+          "country": "US",
+          "bio": "bio",
+          "links": "windows.com",
+          "language": "English",
+          "gender": "Male"
+      }
   },
   {
-    "model": "rebu.meal",
-    "pk": 3,
-    "fields": {
-      "name": "Ricotta Gnocchi",
-      "calories": 100,
-      "description": "duck confit, butternut squash, arugula, cracklin's, duck jus",
-      "spice": 0,
-      "price": 3,
-      "tags": "pasta italian organic",
-      "takeout_available": "False",
-      "num_plates": 1,
-      "start": "2019-02-04T00:06:00-07:00",
-      "end": "2019-02-04T00:10:00-05:00",
-      "cook": 1
-    }
+      "model": "rebu.user",
+      "pk": 3,
+      "fields": {
+          "username": "awh4kc",
+          "password": "pbkdf2_sha256$120000$I5P9rdRhCnWH$4bOSzHLbcvGYClX244JiYVM0Ghnatb79X4CjrUxurh4=",
+          "first_name": "Alex",
+          "last_name": "Hicks",
+          "street": "107N Piedmont Ave",
+          "zip_code": "22903",
+          "state": "VA",
+          "country": "US",
+          "bio": "bio",
+          "links": "linux.com",
+          "language": "English",
+          "gender": "Male"
+      }
   },
   {
-    "model": "rebu.plate",
-    "pk": 1,
-    "fields": {
-      "meal": 1,
-      "eater": 1
-    }
+      "model": "rebu.user",
+      "pk": 4,
+      "fields": {
+          "username": "je3sx",
+          "password": "pbkdf2_sha256$120000$MJhnM2Dj8Hsl$3AmkNwyeRdddF2GNPQoJLRvtrc1rIlC7OgJ4rsaOw1A=",
+          "first_name": "Jon",
+          "last_name": "Esteva",
+          "street": "Piedmont",
+          "zip_code": "22904",
+          "state": "VA",
+          "country": "USA",
+          "bio": "bio",
+          "links": "links",
+          "language": "English",
+          "gender": "male"
+      }
   },
   {
-    "model": "rebu.plate",
-    "pk": 2,
-    "fields": {
-      "meal": 1,
-      "eater": 2
-    }
+      "model": "rebu.eater",
+      "pk": 1,
+      "fields": {
+          "user": 1
+      }
   },
   {
-    "model": "rebu.plate",
-    "pk": 3,
-    "fields": {
-      "meal": 2,
-      "eater": 2
-    }
+      "model": "rebu.eater",
+      "pk": 2,
+      "fields": {
+          "user": 2
+      }
   },
   {
-    "model": "rebu.eater_rating",
-    "pk": 1,
-    "fields": {
-      "rating": 2,
-      "description": "food",
-      "cook": 1,
-      "eater": 1
-    }
+      "model": "rebu.cook",
+      "pk": 1,
+      "fields": {
+          "signature_dish": "chicken",
+          "user": 3
+      }
   },
   {
-    "model": "rebu.eater_rating",
-    "pk": 2,
-    "fields": {
-      "rating": 3,
-      "description": "good food",
-      "cook": 1,
-      "eater": 2
-    }
+      "model": "rebu.meal",
+      "pk": 1,
+      "fields": {
+          "name": "Roasted Striped Bass",
+          "calories": 100,
+          "description": "wild shrimp, herb-shellfish broth, saffron aioli",
+          "spice": 0,
+          "price": 2.0,
+          "tags": "healthy yummy food",
+          "takeout_available": false,
+          "num_plates": 2,
+          "start": "2019-02-04T05:01:00Z",
+          "end": "2019-02-04T05:04:00Z",
+          "cook": 1
+      }
   },
   {
-    "model": "rebu.review",
-    "pk": 1,
-    "fields": {
-      "rating": 2,
-      "description": "food",
-      "eater": 1,
-      "cook": 1,
-      "meal": 1
-    }
+      "model": "rebu.meal",
+      "pk": 2,
+      "fields": {
+          "name": "Steak Chinoise",
+          "calories": 100,
+          "description": "gruyere-thyme potatoes, tamari-ginger pan sauce",
+          "spice": 0,
+          "price": 3.0,
+          "tags": "asian savory meat",
+          "takeout_available": false,
+          "num_plates": 1,
+          "start": "2019-02-04T05:06:00Z",
+          "end": "2019-02-04T05:10:00Z",
+          "cook": 1
+      }
+  },
+  {
+      "model": "rebu.meal",
+      "pk": 3,
+      "fields": {
+          "name": "Ricotta Gnocchi",
+          "calories": 100,
+          "description": "duck confit, butternut squash, arugula, cracklin's, duck jus",
+          "spice": 0,
+          "price": 3.0,
+          "tags": "pasta italian organic",
+          "takeout_available": false,
+          "num_plates": 1,
+          "start": "2019-02-04T07:06:00Z",
+          "end": "2019-02-04T05:10:00Z",
+          "cook": 1
+      }
+  },
+  {
+      "model": "rebu.plate",
+      "pk": 1,
+      "fields": {
+          "meal": 1,
+          "eater": 1
+      }
+  },
+  {
+      "model": "rebu.plate",
+      "pk": 2,
+      "fields": {
+          "meal": 1,
+          "eater": 2
+      }
+  },
+  {
+      "model": "rebu.plate",
+      "pk": 3,
+      "fields": {
+          "meal": 2,
+          "eater": 2
+      }
+  },
+  {
+      "model": "rebu.eater_rating",
+      "pk": 1,
+      "fields": {
+          "rating": 2,
+          "description": "food",
+          "cook": 1,
+          "eater": 1
+      }
+  },
+  {
+      "model": "rebu.eater_rating",
+      "pk": 2,
+      "fields": {
+          "rating": 3,
+          "description": "good food",
+          "cook": 1,
+          "eater": 2
+      }
+  },
+  {
+      "model": "rebu.review",
+      "pk": 1,
+      "fields": {
+          "rating": 2,
+          "description": "food",
+          "eater": 1,
+          "cook": 1,
+          "meal": 1
+      }
   }
-]
+  ]
+  
