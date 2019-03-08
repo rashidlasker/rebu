@@ -4,6 +4,7 @@ from rebu.models import user, meal, cook, eater, plate, eater_rating, review, au
 from django.forms.models import model_to_dict
 from django import forms
 from .forms import userForm, mealForm, cookForm, eaterForm, plateForm, eaterRatingForm, reviewForm, authenticatorForm
+from django.contrib.auth.hashers import make_password
 
 # Create your views here.
 def users(request, id=None):
@@ -22,7 +23,10 @@ def users(request, id=None):
 			obj = user.objects.get(pk=id)
 			user_form = userForm(data=request.POST)
 			for i in user_form.data:
-				obj.__setattr__(i, user_form.data[i])
+				if i == 'password':
+					obj.__setattr__(i, make_password(user_form.data[i]))
+				else:
+					obj.__setattr__(i, user_form.data[i])
 			obj.save()
 
 #			if user_form.is_valid():
@@ -60,7 +64,7 @@ def create_user(request):
 				obj.links = form.cleaned_data['links']
 				obj.language = form.cleaned_data['language']
 				obj.gender = form.cleaned_data['gender']
-				obj.password = form.cleaned_data['password']
+				obj.password = make_password(form.cleaned_data['password'])
 				obj.save()
 			else:
 				return JsonResponse({"ok":False, "message":"Bad Form"})
