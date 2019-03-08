@@ -26,3 +26,10 @@ def search_info(request):
     for i in range(len(context['result']['all_meals'])):
         context['result']['all_meals'][i]['tags'] = context['result']['all_meals'][i]['tags'].split(" ")
     return JsonResponse(context)
+
+def login(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    context = {"ok":True,"authenticator":1234567890}
+    # context = {"ok":False,"message":"oops something went wrong"}
+    return JsonResponse(context)

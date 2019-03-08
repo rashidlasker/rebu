@@ -47,23 +47,23 @@
             </div>
           </div>
           <form class="form-inline" action="/search" method="get">
-            <input class="form-control" type="search" placeholder="Search" name="query" aria-label="Search">
+            <input class="form-control col-sm-12" type="search" placeholder="Search" name="query" aria-label="Search">
           </form>
           <ul class="navbar-nav align-items-lg-center ml-lg-auto">
             <li class="nav-item">
-              <a href="#" class="nav-link" href="#" role="button">
+              <a href="#" class="nav-link"role="button">
                 <i class="ni ni-collection d-lg-none"></i>
                 <span class="nav-link-inner--text">Help</span>
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link" href="#" role="button">
+              <a href="#" class="nav-link" role="button">
                 <i class="ni ni-badge d-lg-none"></i>
                 <span class="nav-link-inner--text">Sign up</span>
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link" href="#" role="button">
+              <a href="{% url 'login' %}" class="nav-link" role="button">
                 <i class="ni ni-single-02 d-lg-none"></i>
                 <span class="nav-link-inner--text">Log in</span>
               </a>
