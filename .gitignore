@@ -104,6 +104,9 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# vscode
+.vscode
+
 # rebu
 app/web/static
 app/microservices/static

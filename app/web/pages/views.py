@@ -22,3 +22,31 @@ def search(request):
     resp_json = urllib.request.urlopen(req).read().decode('utf-8')
     context = json.loads(resp_json)
     return render(request, 'pages/search.html', context)
+
+def login(request):
+    # req = urllib.request.Request('http://exp-api:8000/search')
+    # resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+    # context = json.loads(resp_json)
+    context = {}
+    return render(request, 'pages/login.html', context)
+
+def logout(request):
+    # req = urllib.request.Request('http://exp-api:8000/search')
+    # resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+    # context = json.loads(resp_json)
+    context = {}
+    return render(request, 'pages/logout.html', context)
+
+def register(request):
+    # req = urllib.request.Request('http://exp-api:8000/search')
+    # resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+    # context = json.loads(resp_json)
+    context = {}
+    return render(request, 'pages/register.html', context)
+
+def create_meal(request):
+    # req = urllib.request.Request('http://exp-api:8000/search')
+    # resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+    # context = json.loads(resp_json)
+    context = {}
+    return render(request, 'pages/create_meal.html', context)
