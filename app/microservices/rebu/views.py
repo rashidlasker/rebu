@@ -25,10 +25,11 @@ class userForm(forms.ModelForm):
 	language = forms.CharField(label='Language')
 	gender = forms.CharField(label='Gender')
 	password = forms.CharField(label='Password')
+	username = forms.CharField(label='username')
 
 	class Meta:
 		model = user
-		fields = ['first_name', 'last_name', 'street','zip_code','state','country','bio','links','language','gender', 'password']
+		fields = ['first_name', 'last_name', 'street','zip_code','state','country','bio','links','language','gender', 'password', 'username']
 
 class cookForm(forms.ModelForm):
 	signature_dish = forms.CharField(label="Signature Dish")
