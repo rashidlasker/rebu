@@ -60,7 +60,7 @@ def login(request):
         return render(request, 'pages/login.html', context)
 
     """ If we made it here, we can log them in. """
-    # Set  login cookie and redirect 
+    # Set login cookie and redirect 
     authenticator = resp['authenticator']
     response = HttpResponseRedirect(next)
     response.set_cookie("auth", authenticator)
