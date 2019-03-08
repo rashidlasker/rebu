@@ -1,7 +1,13 @@
 from django.db import models
 
+class authenticator(models.Model):
+    user_id = models.CharField(max_length=30)
+    authenticator = models.CharField(max_length=50)
+    date_created = models.DateTimeField()
+
 # Create your models here.
 class user(models.Model):
+    password = models.CharField(max_length=100)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     street = models.CharField(max_length=30)
