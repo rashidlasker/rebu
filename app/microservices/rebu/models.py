@@ -2,7 +2,7 @@ from django.db import models
 
 class authenticator(models.Model):
     user_id = models.CharField(max_length=30)
-    authenticator = models.CharField(max_length=50)
+    authenticator = models.CharField(max_length=50, primary_key=True)
     date_created = models.DateTimeField()
 
 # Create your models here.
