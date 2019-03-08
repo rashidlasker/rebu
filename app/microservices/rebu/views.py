@@ -1,8 +1,17 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from rebu.models import user, meal, cook, eater, plate, eater_rating, review
+from rebu.models import user, meal, cook, eater, plate, eater_rating, review, authenticator
 from django.forms.models import model_to_dict
 from django import forms
+
+class authenticatorForm(forms.ModelForm):
+	user_id = forms.CharField(label='User_ID')
+	authenticator = forms.CharField(label='Authenticator')
+	date_created = forms.DateTimeField(label='Date_Created')
+
+	class Meta:
+		model = authenticator
+		fields = ['user_id', 'authenticator', 'date_created']
 
 class userForm(forms.ModelForm):
 	first_name = forms.CharField(label='First Name')
@@ -15,11 +24,11 @@ class userForm(forms.ModelForm):
 	links = forms.CharField(label='Links')
 	language = forms.CharField(label='Language')
 	gender = forms.CharField(label='Gender')
+	password = forms.CharField(label='Password')
 
 	class Meta:
 		model = user
-		fields = ['first_name', 'last_name', 'street','zip_code','state','country','bio','links','language','gender']
-
+		fields = ['first_name', 'last_name', 'street','zip_code','state','country','bio','links','language','gender', 'password']
 
 class cookForm(forms.ModelForm):
 	signature_dish = forms.CharField(label="Signature Dish")
@@ -129,6 +138,7 @@ def create_user(request):
 				obj.links = form.cleaned_data['links']
 				obj.language = form.cleaned_data['language']
 				obj.gender = form.cleaned_data['gender']
+				obj.password = form.cleaned_data['password']
 				obj.save()
 			else:
 				return JsonResponse({"ok":False, "message":"Bad Form"})
