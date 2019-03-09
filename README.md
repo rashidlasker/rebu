@@ -4,8 +4,8 @@ Rashid L, Andrew W, Alex H
 ## App Description
 Our app, Rebu, is a marketplace where people can buy/sell homemade meals. 
 
-## Note for Project 3
-Our homepage can be found at http://localhost:8000/ and displays the three most recently added meals.  If you click "LEARN MORE" on the leftmost (or top depending on window size) meal, it will take you to http://localhost:8000/meals/3/, which is the item page for the most recently added meal. The search page found at http://localhost:8000/search/ will return all meals in the database.
+## Note for Project 4
+Our homepage can be found at http://localhost:8000/. You can either login with Username: `rel3en` and Password: `password` or create your own account. Once you're logged in, you can create a meal. The Create Meal page currently does not support date-time pickers for the start and end time of the meal, so you will need to input a string like `2019-02-04 06:00:00`. You can also log out after logging in. All of these actions can be found in the top nav menu.
 
 All of the unit tests are separated by class in tests.py and as such can be run by `python manage.py test`
 
