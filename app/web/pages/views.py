@@ -131,7 +131,7 @@ def create_meal(request):
     # If the authenticator cookie wasn't set...
     if not auth:
         # Handle user not logged in while trying to create a listing
-        return HttpResponseRedirect(reverse("login") + "?next=" + reverse("create_listing"))
+        return HttpResponseRedirect(reverse("login") + "?next=" + reverse("create_meal"))
 
     # If we received a GET request instead of a POST request...
     if request.method == 'GET':
@@ -153,7 +153,7 @@ def create_meal(request):
     req = urllib.request.Request('http://exp-api:8000/create_meal/', data=data)
     resp_json = urllib.request.urlopen(req).read().decode('utf-8')
     resp = json.loads(resp_json)
-    
+
     # Check if the experience layer said they gave us incorrect information
     if resp and not resp['ok']:
         if 'error' in resp and resp['error'] == "UNKNOWN_AUTH":
