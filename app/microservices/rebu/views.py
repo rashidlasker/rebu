@@ -245,6 +245,7 @@ def create_meal(request):
             obj = meal()
             form = mealForm(request.POST)
             if form.is_valid():
+                obj.name = form.cleaned_data['name']
                 obj.calories = form.cleaned_data['calories']
                 obj.description = form.cleaned_data['description']
                 obj.spice = form.cleaned_data['spice']

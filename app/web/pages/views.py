@@ -4,7 +4,7 @@ from django.urls import reverse
 import urllib.request
 import urllib.parse
 import json
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, MealForm
 
 # Create your views here.
 def index(request):
@@ -124,8 +124,35 @@ def register(request):
     return response
 
 def create_meal(request):
-    # req = urllib.request.Request('http://exp-api:8000/search')
-    # resp_json = urllib.request.urlopen(req).read().decode('utf-8')
-    # context = json.loads(resp_json)
-    context = {}
-    return render(request, 'pages/create_meal.html', context)
+    # # Try to get the authenticator cookie
+    # auth = request.COOKIES.get('auth')
+
+    # # If the authenticator cookie wasn't set...
+    # if not auth:
+    #     # Handle user not logged in while trying to create a listing
+    #     return HttpResponseRedirect(reverse("login") + "?next=" + reverse("create_listing")
+
+    # # If we received a GET request instead of a POST request...
+    # if request.method == 'GET':
+    #     # Return to form page
+    #     return render("create_listing.html", ...)
+
+    # # Otherwise, create a new form instance with our POST data
+    # f = create_listing_form(request.POST)
+
+    # # ...
+
+    # # Send validated information to our experience layer
+    # resp = create_listing_exp_api(auth, ...)
+
+    # # Check if the experience layer said they gave us incorrect information
+    # if resp and not resp['ok']:
+    #     if resp['error'] == exp_srvc_errors.E_UNKNOWN_AUTH:
+    #         # Experience layer reports that the user had an invalid authenticator --
+    #         #   treat like user not logged in
+    #         return HttpResponseRedirect(reverse("login") + "?next=" + reverse("create_listing")
+
+    # # ...
+
+    # return render("create_listing_success.html", ...)
+    return HttpResponse("lol")

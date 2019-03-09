@@ -28,3 +28,14 @@ class RegisterForm(forms.Form):
             raise forms.ValidationError(
                 "password and confirm_password does not match"
             )
+class MealForm(forms.Form):
+    name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Name'}))
+    calories = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Calories'}))
+    description = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Description'}))
+    spice = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Spice'}))
+    price = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Price'}))
+    tags = forms.CharField(max_length=150, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Tags'}))
+    takeout_available = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Takeout Available'}))
+    num_plates = forms.CharField(max_length=3, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Num Plates'}))
+    start = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Start'}))
+    end = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'End'}))
