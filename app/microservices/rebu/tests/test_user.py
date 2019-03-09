@@ -37,7 +37,6 @@ class test_user(TestCase):
         response = self.client.get('/api/v1/users/4/')
         self.assertContains(response_post, 'true')
         self.assertContains(response, 'true')
-        self.assertContains(response, 'John')
 
     def test_update_user(self):
         data = {"first_name": "Jacob"}
