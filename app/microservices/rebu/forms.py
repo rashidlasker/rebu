@@ -49,10 +49,10 @@ class mealForm(forms.ModelForm):
     price = forms.CharField(label='Price')
     tags = forms.CharField(label='Tags', max_length=150)
     takeout_available = forms.CharField(label='Takeout Available')
-    num_plates = forms.CharField(label='Number of Plates', max_length=3)
+    num_plates = forms.CharField(label='Number of Plates')
     start = forms.CharField(label='Start Time/Date', max_length=50)
     end = forms.CharField(label='End Time/Date', max_length=50)
-    cook = forms.ModelChoiceField(label='cookid', queryset=cook.objects.all())
+    cook = forms.ModelChoiceField(label='cookid', queryset=user.objects.all())
     class Meta:
         model = meal
         fields = ['calories','description','spice','price','tags','takeout_available','num_plates','start','end','cook']

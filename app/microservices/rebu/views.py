@@ -258,7 +258,7 @@ def create_meal(request):
                 obj.cook = form.cleaned_data['cook']#cook.objects.get(pk=form.cleaned_data['cook'])
                 obj.save()
             else:
-                return JsonResponse({"ok":False, "message": form.data["cook"]})
+                return JsonResponse({"ok":False, "message": str(request.POST)})
 
             return JsonResponse({"ok":True})
         except Exception as e:
@@ -532,9 +532,12 @@ def login(request):
         return JsonResponse({"ok":False, "message":"Bad request method"})
 
 def authenticate(request):
-    if request.method == 'POST':
-        authenticatorString = request.POST['authenticator']
-        status, message, userObj = check_authenticator(authenticatorString)
-        return JsonResponse({"ok":status, "message":message, "user_id":userObj.pk})
-    else:
-        return JsonResponse({"ok":False, "message":"Bad request method"})
+    try:
+        if request.method == 'POST':
+            authenticatorString = request.POST['authenticator']
+            status, message, userObj = check_authenticator(authenticatorString)
+            return JsonResponse({"ok":status, "message":message, "user_id":userObj.pk})
+        else:
+            return JsonResponse({"ok":False, "message":"Bad request method"})
+    except Exception as e:
+        return JsonResponse({"ok":False, "error":str(e)})

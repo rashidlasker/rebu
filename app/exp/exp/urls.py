@@ -24,4 +24,5 @@ urlpatterns = [
     path('search/', rebu_views.search_info),
     path('login/', rebu_views.login),
     path('register/', rebu_views.register),
+    path('create_meal/', rebu_views.create_meal),
 ]
