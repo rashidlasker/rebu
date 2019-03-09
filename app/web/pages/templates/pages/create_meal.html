@@ -26,93 +26,66 @@
             {{ form.non_field_errors }}
             <div class="form-group">
                 <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-email-83"></i></span>
-                    </div>
-                    {{ form.username }}
+                    {{ form.name }}
                 </div>
-                {{ form.username.errors }}
+                {{ form.name.errors }}
             </div>
             <div class="form-group">
                 <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
-                    </div>
-                    {{ form.password }}
+                    {{ form.calories }}
                 </div>
-                {{ form.password.errors }}
+                {{ form.calories.errors }}
             </div>
             <div class="form-group">
                 <div class="input-group input-group-alternative">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
-                    </div>
-                    {{ form.confirm_password }}
+                    {{ form.description }}
                 </div>
-                {{ form.confirm_password.errors }}
+                {{ form.description.errors }}
             </div>
             <div class="form-group">
                 <div class="input-group input-group-alternative">
-                    {{ form.first_name }}
+                    {{ form.spice }}
                 </div>
-                {{ form.first_name.errors }}
+                {{ form.spice.errors }}
             </div>
             <div class="form-group">
                 <div class="input-group input-group-alternative">
-                    {{ form.last_name }}
+                    {{ form.price }}
                 </div>
-                {{ form.last_name.errors }}
+                {{ form.price.errors }}
             </div>
             <div class="form-group">
                 <div class="input-group input-group-alternative">
-                    {{ form.street }}
+                    {{ form.tags }}
                 </div>
-                {{ form.street.errors }}
+                {{ form.tags.errors }}
             </div>
             <div class="form-group">
                 <div class="input-group input-group-alternative">
-                    {{ form.zip_code }}
+                    {{ form.takeout_available }}
                 </div>
-                {{ form.zip_code.errors }}
+                {{ form.takeout_available.errors }}
             </div>
             <div class="form-group">
                 <div class="input-group input-group-alternative">
-                    {{ form.state }}
+                    {{ form.num_plates }}
                 </div>
-                {{ form.state.errors }}
+                {{ form.num_plates.errors }}
             </div>
             <div class="form-group">
                 <div class="input-group input-group-alternative">
-                    {{ form.country }}
+                    {{ form.start }}
                 </div>
-                {{ form.country.errors }}
+                {{ form.start.errors }}
             </div>
             <div class="form-group">
                 <div class="input-group input-group-alternative">
-                    {{ form.bio }}
+                    {{ form.end }}
                 </div>
-                {{ form.bio.errors }}
-            </div>
-            <div class="form-group">
-                <div class="input-group input-group-alternative">
-                    {{ form.links }}
-                </div>
-                {{ form.links.errors }}
-            </div>
-            <div class="form-group">
-                <div class="input-group input-group-alternative">
-                    {{ form.language }}
-                </div>
-                {{ form.language.errors }}
-            </div>
-            <div class="form-group">
-                <div class="input-group input-group-alternative">
-                    {{ form.gender }}
-                </div>
-                {{ form.gender.errors }}
+                {{ form.end.errors }}
             </div>
             <div class="text-center">
-                <button type="submit" class="btn btn-primary my-4">Sign up</button>
+                <button type="submit" class="btn btn-primary my-4">Submit</button>
             </div>
         </form>
         </div>

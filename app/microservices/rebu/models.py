@@ -38,7 +38,7 @@ class meal(models.Model):
     num_plates = models.IntegerField()
     start = models.DateTimeField()
     end = models.DateTimeField()
-    cook = models.ForeignKey(cook, on_delete=models.CASCADE)
+    cook = models.ForeignKey(user, on_delete=models.CASCADE)
 
 class plate(models.Model):
     meal = models.ForeignKey(meal, on_delete=models.CASCADE)

@@ -14,6 +14,18 @@ def check_if_logged_in(authenticator):
     context = json.loads(resp_json)
     return context['ok']
 
+def get_auth_id(authenticator):
+    if authenticator == "":
+        return False
+    data = urllib.parse.urlencode({'authenticator':authenticator}).encode('utf-8')
+    req = urllib.request.Request('http://models-api:8000/api/v1/authenticate/', data=data)
+    resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+    context = json.loads(resp_json)
+    if context['ok']:
+        return context['user_id']
+    else:
+        return -1
+
 # Create your views here.
 def homepage_info(request):
     authenticator = request.POST['authenticator']
@@ -60,3 +72,19 @@ def register(request):
     context = json.loads(resp_json)
     context['logged_in'] = False
     return JsonResponse(context)
+
+def create_meal(request):
+    authenticator = request.POST['authenticator']
+    logged_in = check_if_logged_in(authenticator)
+    if logged_in:
+        post_copy = request.POST.copy()
+        post_copy.pop('authenticator')
+        cook_id = get_auth_id(authenticator)
+        post_copy['cook'] = cook_id
+        data = urllib.parse.urlencode(post_copy).encode('utf-8')
+        req = urllib.request.Request('http://models-api:8000/api/v1/meals/create/', data=data)
+        resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+        context = json.loads(resp_json)
+        return JsonResponse(context)
+    else:
+        return JsonResponse({"ok":False, "error":"UNKNOWN_AUTH"})
