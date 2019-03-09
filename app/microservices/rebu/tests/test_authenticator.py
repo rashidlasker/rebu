@@ -10,5 +10,9 @@ class test_meal(TestCase):
     def setUp(self):
         call_command('loaddata', 'rebu/fixtures/rebu/rebu_testdata.json', verbosity = 0)
 
+    def test_verify_user_exists(self):
+        response = self.client.get(reverse('login'))
+        self.assertEqual(response.status_code, 404)
+
     def tearDown(self):
         pass
