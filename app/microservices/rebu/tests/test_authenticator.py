@@ -12,7 +12,7 @@ class test_meal(TestCase):
 
     def test_verify_user_exists(self):
         response = self.client.get(reverse('login'))
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 200)
 
     def tearDown(self):
         pass
