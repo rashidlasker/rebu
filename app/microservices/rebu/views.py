@@ -74,9 +74,9 @@ def create_user(request):
                 obj.save()
             else:
                 return JsonResponse({"ok":False, "message":"Bad Form"})
-            success, authenticator, user_id = get_authenticator(obj)
+            success, authenticator = get_authenticator(obj)
             if success:
-                return JsonResponse({"ok":True, "authenticator":authenticator, "user_id":user_id})
+                return JsonResponse({"ok":True, "authenticator":authenticator})
             else:
                 return JsonResponse({"ok":False, "message":authenticator})
         except Exception as e:
@@ -486,7 +486,7 @@ def get_authenticator(userObj):
                 ).hexdigest()
             auth.date_created = datetime.datetime.now()
             auth.save()
-        return True, auth.authenticator, auth.user_id
+        return True, auth.authenticator
     except authenticator.DoesNotExist:
         auth = authenticator()
         auth.user_id = userObj.pk
@@ -497,9 +497,9 @@ def get_authenticator(userObj):
             ).hexdigest()
         auth.date_created = datetime.datetime.now()
         auth.save()
-        return True, auth.authenticator, auth.user_id
+        return True, auth.authenticator
     except Exception as e:
-        return False, str(e), -1
+        return False, str(e)
 
 def check_authenticator(authenticatorString, user_id):
     try:
@@ -519,9 +519,9 @@ def login(request):
             password = request.POST['password']
             userObj = user.objects.get(username=username)
             if check_password(password, userObj.password):
-                success, authenticatorString, user_id = get_authenticator(userObj)
+                success, authenticatorString = get_authenticator(userObj)
                 if success:
-                    return JsonResponse({"ok":True, "authenticator":authenticatorString, "user_id":user_id})
+                    return JsonResponse({"ok":True, "authenticator":authenticatorString})
                 else:
                     return JsonResponse({"ok":False, "message":authenticatorString})
             else:

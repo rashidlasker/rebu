@@ -56,6 +56,20 @@
                 <span class="nav-link-inner--text">Help</span>
               </a>
             </li>
+            {% if logged_in %}
+            <li class="nav-item">
+              <a href="{% url 'create_meal' %}" class="nav-link" role="button">
+                <i class="ni ni-badge d-lg-none"></i>
+                <span class="nav-link-inner--text">Create Meal</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'logout' %}" class="nav-link" role="button">
+                <i class="ni ni-single-02 d-lg-none"></i>
+                <span class="nav-link-inner--text">Log out</span>
+              </a>
+            </li>
+            {% else %}
             <li class="nav-item">
               <a href="{% url 'register' %}" class="nav-link" role="button">
                 <i class="ni ni-badge d-lg-none"></i>
@@ -68,6 +82,7 @@
                 <span class="nav-link-inner--text">Log in</span>
               </a>
             </li>
+            {% endif %}
           </ul>
         </div>
       </div>
