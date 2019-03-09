@@ -133,6 +133,8 @@ def create_meal(request):
         # Handle user not logged in while trying to create a listing
         return HttpResponseRedirect(reverse("login") + "?next=" + reverse("create_meal"))
 
+    context['logged_in'] = True
+    
     # If we received a GET request instead of a POST request...
     if request.method == 'GET':
         # Return to form page

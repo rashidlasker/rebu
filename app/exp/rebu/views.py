@@ -85,6 +85,7 @@ def create_meal(request):
         req = urllib.request.Request('http://models-api:8000/api/v1/meals/create/', data=data)
         resp_json = urllib.request.urlopen(req).read().decode('utf-8')
         context = json.loads(resp_json)
+        context['logged_in'] = True
         return JsonResponse(context)
     else:
         return JsonResponse({"ok":False, "error":"UNKNOWN_AUTH"})
