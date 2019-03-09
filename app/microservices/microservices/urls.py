@@ -37,4 +37,6 @@ urlpatterns = [
     path('api/v1/reviews/create/', rebu_views.create_review, name='review_create'),
     path('api/v1/meals/all/', rebu_views.all_meals, name='all'),
     path('api/v1/meals/newest/', rebu_views.newest_meals, name='newest'),
+    path('api/v1/login/', rebu_views.login, name='login'),
+    path('api/v1/authenticate/', rebu_views.authenticate, name='authenticate'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
