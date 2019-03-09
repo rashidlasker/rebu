@@ -475,6 +475,7 @@ def newest_meals(request):
     else:
         return JsonResponse({"ok":False, "message":"Bad request method"})
 
+# Authentication Helpers
 def get_authenticator(userObj):
     try:
         auth = authenticator.objects.get(user_id=userObj.pk)
@@ -501,14 +502,12 @@ def get_authenticator(userObj):
     except Exception as e:
         return False, str(e)
 
-def check_authenticator(authenticatorString, user_id):
+def check_authenticator(authenticatorString):
     try:
         auth = authenticator.objects.get(authenticator=authenticatorString)
         if auth.date_created < pytz.UTC.localize(datetime.datetime.now() - datetime.timedelta(weeks=1)):
             return False, "Auth token too old"
-        if auth.user_id != user_id:
-            return False, "Wrong id"
-        return True, "Success!"
+        return True, "Success!", user.objects.get(pk=auth.user_id)
     except Exception as e:
         return False, str(e)
 
@@ -534,8 +533,7 @@ def login(request):
 def authenticate(request):
     if request.method == 'POST':
         authenticatorString = request.POST['authenticator']
-        user_id = request.POST['user_id']
-        status, message = check_authenticator(authenticatorString, user_id)
-        return JsonResponse({"ok":status, "message":message})
+        status, message, userObj = check_authenticator(authenticatorString)
+        return JsonResponse({"ok":status, "message":message, "user_id":userObj.pk})
     else:
         return JsonResponse({"ok":False, "message":"Bad request method"})

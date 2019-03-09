@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.urls import reverse
 import urllib.request
 import urllib.parse
@@ -8,19 +8,34 @@ from .forms import LoginForm, RegisterForm
 
 # Create your views here.
 def index(request):
-    req = urllib.request.Request('http://exp-api:8000/homepage/')
+    if 'auth' in request.COOKIES:
+        authenticator = request.COOKIES['auth']
+    else:
+        authenticator = ""
+    data = urllib.parse.urlencode({'authenticator':authenticator}).encode('utf-8')
+    req = urllib.request.Request('http://exp-api:8000/homepage/', data=data)
     resp_json = urllib.request.urlopen(req).read().decode('utf-8')
     context = json.loads(resp_json)
     return render(request, 'pages/index.html', context)
 
 def meal_detail(request, meal_id):
-    req = urllib.request.Request('http://exp-api:8000/meal/' + str(meal_id))
+    if 'auth' in request.COOKIES:
+        authenticator = request.COOKIES['auth']
+    else:
+        authenticator = ""
+    data = urllib.parse.urlencode({'authenticator':authenticator}).encode('utf-8')
+    req = urllib.request.Request('http://exp-api:8000/meal/' + str(meal_id) + "/", data=data)
     resp_json = urllib.request.urlopen(req).read().decode('utf-8')
     context = json.loads(resp_json)
     return render(request, 'pages/meal_detail.html', context)
 
 def search(request):
-    req = urllib.request.Request('http://exp-api:8000/search/')
+    if 'auth' in request.COOKIES:
+        authenticator = request.COOKIES['auth']
+    else:
+        authenticator = ""
+    data = urllib.parse.urlencode({'authenticator':authenticator}).encode('utf-8')
+    req = urllib.request.Request('http://exp-api:8000/search/', data=data)
     resp_json = urllib.request.urlopen(req).read().decode('utf-8')
     context = json.loads(resp_json)
     return render(request, 'pages/search.html', context)
