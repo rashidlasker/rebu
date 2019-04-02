@@ -35,7 +35,7 @@ class MealForm(forms.Form):
     spice = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Spice'}))
     price = forms.FloatField(widget=forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Price'}))
     tags = forms.CharField(max_length=150, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Tags'}))
-    takeout_available = forms.BooleanField(widget=forms.NullBooleanSelect(attrs={'class':'form-control', 'placeholder':'Takeout Available'}))
+    takeout_available = forms.BooleanField(initial=True, widget=forms.CheckboxInput(attrs={'class':'custom-control-input', 'id':'takeoutCheck'}))
     num_plates = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Num Plates'}))
     start = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'class':'form-control', 'placeholder':'Start'}))
     end = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'class':'form-control', 'placeholder':'End'}))
