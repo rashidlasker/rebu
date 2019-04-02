@@ -30,6 +30,10 @@ def get_auth_id(authenticator):
         return -1
 
 # Create your views here.
+def auth_check(request):
+    authenticator = request.POST['authenticator']
+    return JsonResponse({'ok':check_if_logged_in(authenticator)})
+
 def homepage_info(request):
     authenticator = request.POST['authenticator']
     context = get_response('http://models-api:8000/api/v1/meals/newest')
@@ -55,18 +59,19 @@ def search_info(request):
     return JsonResponse(context)
 
 def login(request):
-#     authenticator = request.POST['authenticator']
-#     if check_if_logged_in(authenticator):
-#         context = {"ok":False, "message":"Already logged in"}
-#         return JsonResponse(context)
+    authenticator = request.POST['authenticator']
+    if check_if_logged_in(authenticator):
+        context = {"ok":False, "message":"Logged in"}
+        return JsonResponse(context)
     context = get_response('http://models-api:8000/api/v1/login/', post_data=request.POST)
     context['logged_in'] = False
     return JsonResponse(context)
 
 def register(request):
-    # authenticator = request.POST['authenticator']
-    # if check_if_logged_in(authenticator):
-        # return JsonResponse(context)
+    authenticator = request.POST['authenticator']
+    if check_if_logged_in(authenticator):
+        context = {"ok":False, "message":"Logged in"}
+        return JsonResponse(context)
     context = get_response('http://models-api:8000/api/v1/users/create/', post_data=request.POST)
     context['logged_in'] = False
     return JsonResponse(context)

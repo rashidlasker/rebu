@@ -19,6 +19,7 @@ from rebu import views as rebu_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('auth/', rebu_views.auth_check),
     path('homepage/', rebu_views.homepage_info),
     path('meal/<int:meal_id>/', rebu_views.meal_info),
     path('search/', rebu_views.search_info),

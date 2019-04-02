@@ -6,47 +6,48 @@ import urllib.parse
 import json
 from .forms import LoginForm, RegisterForm, MealForm
 
+# Helpers
+def get_response(url, post_data=None):
+    if post_data:
+        data = urllib.parse.urlencode(post_data).encode('utf-8')
+        req = urllib.request.Request(url, data=data)
+    else:
+        req = urllib.request.Request(url)
+    resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+    return json.loads(resp_json)
+
 # Create your views here.
 def index(request):
-    if 'auth' in request.COOKIES:
-        authenticator = request.COOKIES['auth']
-    else:
-        authenticator = ""
-    data = urllib.parse.urlencode({'authenticator':authenticator}).encode('utf-8')
-    req = urllib.request.Request('http://exp-api:8000/homepage/', data=data)
-    resp_json = urllib.request.urlopen(req).read().decode('utf-8')
-    context = json.loads(resp_json)
+    auth = request.COOKIES.get('auth', "")
+    context = get_response('http://exp-api:8000/homepage/', post_data={'authenticator':auth})
     return render(request, 'pages/index.html', context)
 
 def meal_detail(request, meal_id):
-    if 'auth' in request.COOKIES:
-        authenticator = request.COOKIES['auth']
-    else:
-        authenticator = ""
-    data = urllib.parse.urlencode({'authenticator':authenticator}).encode('utf-8')
-    req = urllib.request.Request('http://exp-api:8000/meal/' + str(meal_id) + "/", data=data)
-    resp_json = urllib.request.urlopen(req).read().decode('utf-8')
-    context = json.loads(resp_json)
+    auth = request.COOKIES.get('auth', "")
+    context = get_response('http://exp-api:8000/meal/' + str(meal_id) + "/", post_data={'authenticator':auth})
     return render(request, 'pages/meal_detail.html', context)
 
 def search(request):
-    if 'auth' in request.COOKIES:
-        authenticator = request.COOKIES['auth']
-    else:
-        authenticator = ""
-    data = urllib.parse.urlencode({'authenticator':authenticator}).encode('utf-8')
-    req = urllib.request.Request('http://exp-api:8000/search/', data=data)
-    resp_json = urllib.request.urlopen(req).read().decode('utf-8')
-    context = json.loads(resp_json)
+    auth = request.COOKIES.get('auth', "")
+    context = get_response('http://exp-api:8000/search/', post_data={'authenticator':auth})
     return render(request, 'pages/search.html', context)
 
 def login(request):
     context = {}
+    auth = request.COOKIES.get('auth', "")
     if request.method == 'GET':
         next = request.GET.get('next') or reverse('index')
         form = LoginForm()
         context['form'] = form
-        return render(request, 'pages/login.html', context)
+        response = render(request, 'pages/login.html', context)
+
+        if auth != "":
+            context = get_response('http://exp-api:8000/auth/', post_data={'authenticator':auth})
+            if 'ok' in context and context['ok']:
+                return HttpResponseRedirect(next)
+            else:
+                response.delete_cookie("auth")
+        return response
 
     f = LoginForm(request.POST)
 
@@ -59,19 +60,19 @@ def login(request):
     next = f.cleaned_data.get('next') or reverse('index')
 
     # Send validated information to experience layer
-    data = urllib.parse.urlencode(f.cleaned_data).encode('utf-8')
-    req = urllib.request.Request('http://exp-api:8000/login/', data=data)
-    resp_json = urllib.request.urlopen(req).read().decode('utf-8')
-    resp = json.loads(resp_json)
+    req_data = f.cleaned_data
+    req_data['authenticator'] = auth
+    resp = get_response('http://exp-api:8000/login/', post_data=req_data)
 
     # Check if experience layer returned an error
     if not resp or not resp['ok']:
+        if resp['message'] and resp['message'] == "Logged in":
+            return HttpResponseRedirect(next)
+
         form = LoginForm()
         context['form'] = form
-
         # Debug
         # context['auth_error'] = resp['message']
-
         context['auth_error'] = "Incorrect username/password"
         return render(request, 'pages/login.html', context)
 
@@ -86,16 +87,24 @@ def logout(request):
     context = {}
     response = render(request, 'pages/logout.html', context)
     response.delete_cookie("auth")
-    response.delete_cookie("user_id")
     return response
 
 def register(request):
     context = {}
+    auth = request.COOKIES.get('auth', "")
     if request.method == 'GET':
         next = request.GET.get('next') or reverse('index')
         form = RegisterForm()
         context['form'] = form
-        return render(request, 'pages/register.html', context)
+        response = render(request, 'pages/register.html', context)
+
+        if auth != "":
+            context = get_response('http://exp-api:8000/auth/', post_data={'authenticator':auth})
+            if 'ok' in context and context['ok']:
+                return HttpResponseRedirect(next)
+            else:
+                response.delete_cookie("auth")
+        return response
     
     f = RegisterForm(request.POST)
 
@@ -108,13 +117,14 @@ def register(request):
     next = f.cleaned_data.get('next') or reverse('index')
 
     # Send validated information to experience layer
-    data = urllib.parse.urlencode(f.cleaned_data).encode('utf-8')
-    req = urllib.request.Request('http://exp-api:8000/register/', data=data)
-    resp_json = urllib.request.urlopen(req).read().decode('utf-8')
-    resp = json.loads(resp_json)
+    req_data = f.cleaned_data
+    req_data['authenticator'] = auth
+    resp = get_response('http://exp-api:8000/register/', post_data=req_data)
 
     # Check if experience layer returned an error
     if not resp or not resp['ok']:
+        if 'message' in resp and resp['message'] == "Logged in":
+            return HttpResponseRedirect(next)
         form = RegisterForm()
         context['form'] = form
         context['auth_error'] = resp['message']
@@ -155,10 +165,7 @@ def create_meal(request):
     # Send validated information to our experience layer
     req_data = f.cleaned_data
     req_data['authenticator'] = auth
-    data = urllib.parse.urlencode(req_data).encode('utf-8')
-    req = urllib.request.Request('http://exp-api:8000/create_meal/', data=data)
-    resp_json = urllib.request.urlopen(req).read().decode('utf-8')
-    resp = json.loads(resp_json)
+    resp = get_response('http://exp-api:8000/create_meal/', post_data=req_data)
 
     # Check if the experience layer said they gave us incorrect information
     if resp and not resp['ok']:
