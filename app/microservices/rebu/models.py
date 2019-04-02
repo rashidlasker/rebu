@@ -2,8 +2,8 @@ from django.db import models
 
 # Create your models here.
 class authenticator(models.Model):
-    user_id = models.CharField(max_length=30, unique=True)
-    authenticator = models.CharField(max_length=64, primary_key=True)
+    user_id = models.CharField(max_length=30, unique=True, primary_key=True)
+    authenticator = models.CharField(max_length=64)
     date_created = models.DateTimeField()
 
 class user(models.Model):

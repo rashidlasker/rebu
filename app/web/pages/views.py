@@ -68,7 +68,11 @@ def login(request):
     if not resp or not resp['ok']:
         form = LoginForm()
         context['form'] = form
-        context['auth_error'] = resp['message']
+
+        # Debug
+        # context['auth_error'] = resp['message']
+
+        context['auth_error'] = "Incorrect username/password"
         return render(request, 'pages/login.html', context)
 
     """ If we made it here, we can log them in. """

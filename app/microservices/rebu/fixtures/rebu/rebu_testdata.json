@@ -26,34 +26,34 @@
   },
   {
       "model": "rebu.authenticator",
-      "pk": "02aa4fb9079d21e1fbd2ddd503019c485dc6b8f803dde5d8453c3f1a45eac571",
+      "pk": "1",
       "fields": {
-          "user_id": "1",
+          "authenticator": "02aa4fb9079d21e1fbd2ddd503019c485dc6b8f803dde5d8453c3f1a45eac571",
           "date_created": "2019-03-08T21:19:19.090Z"
       }
   },
   {
       "model": "rebu.authenticator",
-      "pk": "4f22a10dfc13e04e88971e06da3f7dc2c476f6c0ec09533e7a55210e120a1720",
+      "pk": "2",
       "fields": {
-          "user_id": "2",
+          "authenticator": "4f22a10dfc13e04e88971e06da3f7dc2c476f6c0ec09533e7a55210e120a1720",
           "date_created": "2019-03-08T21:19:31.665Z"
       }
   },
   {
       "model": "rebu.authenticator",
-      "pk": "6a91a9f219c9b7459de4b28d3e7758ac6139562893b3ec3659677c5ef60df264",
+      "pk": "3",
       "fields": {
-          "user_id": "3",
+          "authenticator": "6a91a9f219c9b7459de4b28d3e7758ac6139562893b3ec3659677c5ef60df264",
           "date_created": "2019-03-08T21:19:53.862Z"
       }
   },
   {
       "model": "rebu.authenticator",
-      "pk": "78919ff2b9a264dd7c48d3cbaf35ce1a809a0fbe4ef67d0a481ffc6263fb4d8b",
+      "pk": "4",
       "fields": {
-          "user_id": "4",
-          "date_created": "2019-03-08T19:42:28.658Z"
+        "authenticator": "78919ff2b9a264dd7c48d3cbaf35ce1a809a0fbe4ef67d0a481ffc6263fb4d8b",
+        "date_created": "2019-03-08T19:42:28.658Z"
       }
   },
   {
