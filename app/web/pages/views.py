@@ -29,7 +29,8 @@ def meal_detail(request, meal_id):
 
 def search(request):
     auth = request.COOKIES.get('auth', "")
-    context = get_response('http://exp-api:8000/search/', post_data={'authenticator':auth})
+    query = request.GET.get('query', "")
+    context = get_response('http://exp-api:8000/search/?query=' + query, post_data={'authenticator':auth})
     return render(request, 'pages/search.html', context)
 
 def login(request):

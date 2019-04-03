@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from elasticsearch import Elasticsearch
+from kafka import KafkaProducer
 import urllib.request
 import urllib.parse
 import json
@@ -31,11 +33,11 @@ def get_auth_id(authenticator):
 
 # Create your views here.
 def auth_check(request):
-    authenticator = request.POST['authenticator']
+    authenticator = request.POST.get('authenticator', "")
     return JsonResponse({'ok':check_if_logged_in(authenticator)})
 
 def homepage_info(request):
-    authenticator = request.POST['authenticator']
+    authenticator = request.POST.get('authenticator', "")
     context = get_response('http://models-api:8000/api/v1/meals/newest')
     for i in range(len(context['result']['newest_meals'])):
         context['result']['newest_meals'][i]['tags'] = context['result']['newest_meals'][i]['tags'].split(" ")
@@ -44,22 +46,26 @@ def homepage_info(request):
 
 
 def meal_info(request, meal_id):
-    authenticator = request.POST['authenticator']
+    authenticator = request.POST.get('authenticator', "")
     context = get_response('http://models-api:8000/api/v1/meals/' + str(meal_id))
     context['logged_in'] = check_if_logged_in(authenticator)
     return JsonResponse(context)
 
 
 def search_info(request):
-    authenticator = request.POST['authenticator']
+    authenticator = request.POST.get('authenticator', "")
+    query = request.GET.get('query', "")
     context = get_response('http://models-api:8000/api/v1/meals/all')
     for i in range(len(context['result']['all_meals'])):
         context['result']['all_meals'][i]['tags'] = context['result']['all_meals'][i]['tags'].split(" ")
+    # add search call here
+    context['elasticsearch'] = "not implemented yet"
+    context['query'] = query
     context['logged_in'] = check_if_logged_in(authenticator)
     return JsonResponse(context)
 
 def login(request):
-    authenticator = request.POST['authenticator']
+    authenticator = request.POST.get('authenticator', "")
     if check_if_logged_in(authenticator):
         context = {"ok":False, "message":"Logged in"}
         return JsonResponse(context)
@@ -68,7 +74,7 @@ def login(request):
     return JsonResponse(context)
 
 def register(request):
-    authenticator = request.POST['authenticator']
+    authenticator = request.POST.get('authenticator', "")
     if check_if_logged_in(authenticator):
         context = {"ok":False, "message":"Logged in"}
         return JsonResponse(context)
@@ -77,13 +83,14 @@ def register(request):
     return JsonResponse(context)
 
 def create_meal(request):
-    authenticator = request.POST['authenticator']
+    authenticator = request.POST.get('authenticator', "")
     logged_in = check_if_logged_in(authenticator)
     if logged_in:
         post_copy = request.POST.copy()
         post_copy.pop('authenticator')
         cook_id = get_auth_id(authenticator)
         post_copy['cook'] = cook_id
+        # add kafka producer here
         context = get_response('http://models-api:8000/api/v1/meals/create/', post_data=post_copy)
         context['logged_in'] = True
         return JsonResponse(context)
