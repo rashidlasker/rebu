@@ -55,11 +55,14 @@ def meal_info(request, meal_id):
 def search_info(request):
     authenticator = request.POST.get('authenticator', "")
     query = request.GET.get('query', "")
+    count = request.GET.get('count', 10)
+    es = Elasticsearch(['es'])
     context = get_response('http://models-api:8000/api/v1/meals/all')
     for i in range(len(context['result']['all_meals'])):
         context['result']['all_meals'][i]['tags'] = context['result']['all_meals'][i]['tags'].split(" ")
     # add search call here
-    context['elasticsearch'] = "not implemented yet"
+    search_result = es.search(index='listing_index', body={'query': {'query_string': {'query': query}}, 'size': count})
+    context['elasticsearch'] = search_result
     context['query'] = query
     context['logged_in'] = check_if_logged_in(authenticator)
     return JsonResponse(context)
