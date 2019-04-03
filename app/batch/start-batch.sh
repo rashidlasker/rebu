@@ -1,3 +1,4 @@
 #!/bin/bash
 
-python3 indexer.py
+sleep 10
+python3 -u indexer.py
