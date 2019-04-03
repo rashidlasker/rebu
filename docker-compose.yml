@@ -14,7 +14,7 @@ exp:
   container_name: exp
   links:
     - models:models-api
-    - batch:batch-api
+    - es:es-api
   volumes:
     - ./app/exp:/app
   ports:
