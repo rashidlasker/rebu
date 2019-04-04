@@ -155,7 +155,11 @@ def create_meal(request):
         # Return to form page
         form = MealForm()
         context['form'] = form
-        return render(request, 'pages/create_meal.html', context)
+        response = render(request, 'pages/create_meal.html', context)
+        auth_context = get_response('http://exp-api:8000/auth/', post_data={'authenticator':auth})
+        if 'ok' in auth_context and not auth_context['ok']:
+            return HttpResponseRedirect(reverse("login") + "?next=" + reverse("create_meal"))
+        return response
 
     # Otherwise, create a new form instance with our POST data
     f = MealForm(request.POST)
