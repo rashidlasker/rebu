@@ -4,8 +4,14 @@ from kafka import KafkaConsumer
 import json
 
 """ Actual Stuff """
-es = Elasticsearch(['es'])
-meals_consumer = KafkaConsumer('new-meals-topic', group_id='meals-indexer', bootstrap_servers=['kafka:9092'])
+connected = False
+while not connected:
+    try:
+        es = Elasticsearch(['es'])
+        meals_consumer = KafkaConsumer('new-meals-topic', group_id='meals-indexer', bootstrap_servers=['kafka:9092'])
+        connected = True
+    except:
+        continue
 while(True):
     try:
         for message in meals_consumer:
