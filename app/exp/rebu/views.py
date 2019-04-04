@@ -66,7 +66,7 @@ def search_info(request):
     meals = [o['_source'] for o in search_result['hits']['hits']]
     for i in range(len(meals)):
         meals[i]['tags'] = meals[i]['tags'].split(" ")
-    context['result'] = meals
+    context['result'] = {'search_results': meals}
     context['query'] = query
     context['logged_in'] = check_if_logged_in(authenticator)
     return JsonResponse(context)
