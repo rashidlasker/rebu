@@ -61,7 +61,7 @@ def search_info(request):
     for i in range(len(context['result']['all_meals'])):
         context['result']['all_meals'][i]['tags'] = context['result']['all_meals'][i]['tags'].split(" ")
     # add search call here
-    search_result = es.search(index='listing_index', body={'query': {'query_string': {'query': query}}, 'size': count})
+    search_result = es.search(index='meals_index', body={'query': {'query_string': {'query': query}}, 'size': count})
     context['elasticsearch'] = search_result
     context['query'] = query
     context['logged_in'] = check_if_logged_in(authenticator)
@@ -96,6 +96,10 @@ def create_meal(request):
         # add kafka producer here
         context = get_response('http://models-api:8000/api/v1/meals/create/', post_data=post_copy)
         context['logged_in'] = True
+        if 'ok' in context and context['ok']:
+            producer = KafkaProducer(bootstrap_servers='kafka:9092')
+            post_copy['id'] = context['id']
+            producer.send('new-meals-topic', json.dumps(post_copy).encode('utf-8'))
         return JsonResponse(context)
     else:
         return JsonResponse({"ok":False, "error":"UNKNOWN_AUTH"})

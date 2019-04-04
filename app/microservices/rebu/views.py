@@ -260,7 +260,7 @@ def create_meal(request):
             else:
                 return JsonResponse({"ok":False, "message": str(request.POST)})
 
-            return JsonResponse({"ok":True})
+            return JsonResponse({"ok":True, "id":obj.pk})
         except Exception as e:
             return JsonResponse({"ok":False, "message":str(e)})
     else:

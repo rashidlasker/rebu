@@ -3,6 +3,20 @@ from kafka import KafkaProducer
 from kafka import KafkaConsumer
 import json
 
+""" Actual Stuff """
+es = Elasticsearch(['es'])
+meals_consumer = KafkaConsumer('new-meals-topic', group_id='meals-indexer', bootstrap_servers=['kafka:9092'])
+while(True):
+    try:
+        for message in meals_consumer:
+            new_listing = json.loads((message.value).decode('utf-8'))
+            es.index(index='meals_index', doc_type='meal', id=new_listing['id'], body=new_listing)
+            es.indices.refresh(index="meals_index")
+            print('Success!')
+            print(new_listing)
+    except Exception as e:
+        print("Error: " + str(e))
+
 """ Kafka Stuff """
 # producer = KafkaProducer(bootstrap_servers='kafka:9092')
 # some_new_listing = {'title': 'Used MacbookAir 13"', 'description': 'This is a used Macbook Air in great condition', 'id':42}
