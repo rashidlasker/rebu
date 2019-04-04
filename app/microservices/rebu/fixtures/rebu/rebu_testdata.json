@@ -162,8 +162,8 @@
           "tags": "healthy yummy food",
           "takeout_available": false,
           "num_plates": 2,
-          "start": "2019-02-04T05:01:00Z",
-          "end": "2019-02-04T05:04:00Z",
+          "start": "2019-02-04 05:01:00",
+          "end": "2019-02-04 05:04:00",
           "cook": 1
       }
   },
@@ -179,8 +179,8 @@
           "tags": "asian savory meat",
           "takeout_available": false,
           "num_plates": 1,
-          "start": "2019-02-04T05:06:00Z",
-          "end": "2019-02-04T05:10:00Z",
+          "start": "2019-02-04 05:06:00",
+          "end": "2019-02-04 05:10:00",
           "cook": 1
       }
   },
@@ -196,8 +196,8 @@
           "tags": "pasta italian organic",
           "takeout_available": false,
           "num_plates": 1,
-          "start": "2019-02-04T07:06:00Z",
-          "end": "2019-02-04T05:10:00Z",
+          "start": "2019-02-04 07:06:00",
+          "end": "2019-02-04 05:10:00",
           "cook": 1
       }
   },
