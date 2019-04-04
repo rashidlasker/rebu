@@ -55,14 +55,18 @@ def meal_info(request, meal_id):
 def search_info(request):
     authenticator = request.POST.get('authenticator', "")
     query = request.GET.get('query', "")
-    count = request.GET.get('count', 10)
+    count = request.GET.get('count', 100)
     es = Elasticsearch(['es'])
-    context = get_response('http://models-api:8000/api/v1/meals/all')
-    for i in range(len(context['result']['all_meals'])):
-        context['result']['all_meals'][i]['tags'] = context['result']['all_meals'][i]['tags'].split(" ")
-    # add search call here
-    search_result = es.search(index='meals_index', body={'query': {'query_string': {'query': query}}, 'size': count})
-    context['elasticsearch'] = search_result
+    context = {}
+    if len(query) > 0:
+        search_result = es.search(index='meals_index', body={'query': {'query_string': {'query': query}}, 'size': count})
+    else:
+        search_result = es.search(index='meals_index', body={'query': {'query': {'match_all': {}}}, 'size': count})
+
+    meals = [o['_source'] for o in search_result['hits']['hits']]
+    for i in range(len(meals)):
+        meals[i]['tags'] = meals[i]['tags'].split(" ")
+    context['result'] = meals
     context['query'] = query
     context['logged_in'] = check_if_logged_in(authenticator)
     return JsonResponse(context)
