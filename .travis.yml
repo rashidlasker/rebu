@@ -1,0 +1,36 @@
+language: python
+
+services:
+  - docker
+
+env:
+  COMPOSE_VERSION: 1.22.0
+
+before_install:
+  # Docker Compose Install 
+  - curl -L https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+
+install:
+  # Core testing install
+  - sudo apt-get update 
+  - ls
+  # Setup mysql container
+  - docker pull mysql:5.7.23
+  - mkdir -p db
+  - docker run --name mysql -d -e MYSQL_ROOT_PASSWORD='$3cureUS' -v ~/cs4501/db:/var/lib/mysql  mysql:5.7.23
+  - docker exec mysql mysql -u root -p $3cureUS -e "create user 'www'@'%' identified by '$3cureUS';"
+  - docker exec mysql mysql -u root -p $3cureUS -e "create database cs4501 character set utf8;"
+  - docker exec mysql mysql -u root -p $3cureUS -e "grant all on cs4501.* to 'www'@'%';"
+
+before_script:
+  # Startup the app
+  - docker-compose up
+  - docker ps -a
+
+script:
+  # Unit testing
+
+after_script:
+  - docker-compose down
