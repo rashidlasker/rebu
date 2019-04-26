@@ -20,6 +20,7 @@ before_script:
 
 script:
   # Unit testing
+  - docker exec -it models bash -c "python manage.py test"
 
 after_script:
   - docker-compose down
