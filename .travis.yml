@@ -24,6 +24,7 @@ install:
   - docker ps -a
   - ls 
   - ls db
+  - ls -l ~/build/rashidlasker/ISA-2019/db
   # - docker run -it --name mysql-cmdline --link mysql:db mysql:5.7.23 mysql -uroot -p'$3cureUS' -h db -e "CREATE USER 'www'@'%' IDENTIFIED BY '\$3cureUS'; CREATE DATABASE cs4501 CHARACTER SET utf8; GRANT ALL PRIVILEGES ON *.* TO 'www'@'%';"
 
 before_script:
