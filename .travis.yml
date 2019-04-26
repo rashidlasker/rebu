@@ -3,29 +3,15 @@ language: python
 services:
   - docker
 
-# env:
-#   COMPOSE_VERSION: 1.22.0
-
-before_install:
-  # Docker Compose Install 
-  # - curl -L https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  # - chmod +x docker-compose
-  # - sudo mv docker-compose /usr/local/bin
-
 install:
   # Core testing install
   - sudo apt-get update 
   # Setup mysql container
   - docker pull mysql:5.7.23
-  - ls 
-  - pwd
   - mkdir ~/build/rashidlasker/ISA-2019/db
   - docker run --name mysql -d -e MYSQL_ROOT_PASSWORD='$3cureUS' -v ~/build/rashidlasker/ISA-2019/db:/var/lib/mysql mysql:5.7.23
   - docker ps -a
-  - sleep 10
-  - ls 
-  - ls db
-  - docker run -it --name mysql-cmdline --link mysql:db mysql:5.7.23 mysql -uroot -p'$3cureUS' -h db #-e "CREATE USER 'www'@'%' IDENTIFIED BY '\$3cureUS'; CREATE DATABASE cs4501 CHARACTER SET utf8; GRANT ALL PRIVILEGES ON *.* TO 'www'@'%';"
+  - docker run -it --name mysql-cmdline --link mysql:db mysql:5.7.23 mysql -uroot -p'$3cureUS' -h db -e "CREATE USER 'www'@'%' IDENTIFIED BY '\$3cureUS'; CREATE DATABASE cs4501 CHARACTER SET utf8; GRANT ALL PRIVILEGES ON *.* TO 'www'@'%';"
 
 before_script:
   # Startup the app
