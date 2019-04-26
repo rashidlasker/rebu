@@ -20,7 +20,8 @@ install:
   - mkdir /home/travis/build/rashidlasker/ISA-2019/db
   - docker run --name mysql -d -e MYSQL_ROOT_PASSWORD='$3cureUS' -v /home/travis/build/rashidlasker/ISA-2019/db:/var/lib/mysql  mysql:5.7.23
   - docker ps -a
-  # - docker run -it --name mysql-cmdline --link mysql:db mysql:5.7.23 mysql -uroot -p'$3cureUS' -h db -e "CREATE USER 'www'@'%' IDENTIFIED BY '\$3cureUS'; CREATE DATABASE cs4501 CHARACTER SET utf8; GRANT ALL PRIVILEGES ON *.* TO 'www'@'%';"
+  - ls
+  - docker run -it --name mysql-cmdline --link mysql:db mysql:5.7.23 mysql -uroot -p'$3cureUS' -h db -e "CREATE USER 'www'@'%' IDENTIFIED BY '\$3cureUS'; CREATE DATABASE cs4501 CHARACTER SET utf8; GRANT ALL PRIVILEGES ON *.* TO 'www'@'%';"
 
 before_script:
   # Startup the app
