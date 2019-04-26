@@ -18,6 +18,7 @@ install:
   # Setup mysql container
   - docker pull mysql:5.7.23
   - ls 
+  - pwd
   - mkdir ~/rashidlasker/ISA-2019/db
   - docker run --name mysql -d -e MYSQL_ROOT_PASSWORD='$3cureUS' -v ~/rashidlasker/ISA-2019/db:/var/lib/mysql  mysql:5.7.23
   - docker ps -a
