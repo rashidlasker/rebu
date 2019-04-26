@@ -19,6 +19,8 @@ before_script:
   - docker ps -a
 
 script:
+  # Connection testing
+  - curl localhost:8000/ -I
   # Unit testing
   - docker exec -it models bash -c "python manage.py test"
 
