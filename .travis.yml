@@ -1,0 +1,28 @@
+language: python
+
+services:
+  - docker
+
+install:
+  # Setup mysql container
+  - docker pull mysql:5.7.23
+  - mkdir ~/build/rashidlasker/ISA-2019/db
+  - docker run --name mysql -d -e MYSQL_ROOT_PASSWORD='$3cureUS' -v ~/build/rashidlasker/ISA-2019/db:/var/lib/mysql mysql:5.7.23
+  - sleep 10
+  - docker run -it --name mysql-cmdline --link mysql:db mysql:5.7.23 mysql -uroot -p'$3cureUS' -h db -e "CREATE USER 'www'@'%' IDENTIFIED BY '\$3cureUS'; CREATE DATABASE cs4501 CHARACTER SET utf8; GRANT ALL PRIVILEGES ON *.* TO 'www'@'%';"
+
+before_script:
+  # Startup the app
+  - docker-compose up -d
+  - sleep 20
+  - docker ps -a
+
+script:
+  # Connection testing
+  - curl localhost:8000/ -f
+  # Unit testing
+  - docker exec -it models bash -c "python manage.py test"
+  # Integration testing (TODO)
+
+after_script:
+  - docker-compose down
