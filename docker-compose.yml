@@ -133,3 +133,14 @@ spark-worker:
     - 8081:8081
   volumes:
     - ./app/spark:/tmp/data
+
+locust:
+   image: christianbladescb/locustio
+   container_name: locust
+   volumes:
+     - ./app/locust:/locust
+   ports:
+     - 8089:8089
+   links:
+      - balancer:balancer
+   command: "--host http://balancer:8000"
