@@ -65,6 +65,7 @@ batch:
    container_name: batch
    volumes:
      - ./app/batch:/app
+     - ./data:/tmp/data
    ports:
      - 8005:8000
    links:

@@ -49,6 +49,12 @@ def meal_info(request, meal_id):
     authenticator = request.POST.get('authenticator', "")
     context = get_response('http://models-api:8000/api/v1/meals/' + str(meal_id))
     context['logged_in'] = check_if_logged_in(authenticator)
+    if context['logged_in']:
+        producer = KafkaProducer(bootstrap_servers='kafka:9092')
+        new_listing = {}
+        new_listing['user_id'] = get_auth_id(authenticator)
+        new_listing['meal_id'] = meal_id
+        producer.send('meal-view-topic', json.dumps(new_listing).encode('utf-8'))
     return JsonResponse(context)
 
 
