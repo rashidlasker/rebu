@@ -13,21 +13,21 @@ distinct_pairs = pairs.distinct()
 list_pairs = distinct_pairs.groupByKey().mapValues(lambda pages: sorted(pages))
 
 # Step 3
-coview_pairs = list_pairs.flatMap(lambda pair: [[pair[0], tuple(x)] for x in combinations(list(pair[1]), 2)])
+single_coview_pairs = list_pairs.flatMap(lambda pair: [[pair[0], tuple(x)] for x in combinations(list(pair[1]), 2)])
 
 # Step 4
-flipped_pairs = coview_pairs.map(lambda pair: [pair[1], pair[0]])
-coview_pairs_reversed = flipped_pairs.groupByKey()
+flipped_single_coview_pairs = single_coview_pairs.map(lambda pair: [pair[1], pair[0]])
+list_coview_pairs = flipped_single_coview_pairs.groupByKey()
 
 # Step 5
-sum_pairs = coview_pairs_reversed.mapValues(lambda users: len(users))
+sum_pairs = list_coview_pairs.mapValues(lambda users: len(users))
 
 # Step 6
 filtered_pairs = sum_pairs.filter(lambda x : x[1] >= 3)
 
 output = filtered_pairs.collect()
-for page_id, ids in output:
-    print ("page_id %s list %s" % (str(page_id), str(ids)))
+for coview, count in output:
+    print ("coview %s count %s" % (str(coview), str(count)))
 print ("Popular items done")
 
 sc.stop()
