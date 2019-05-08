@@ -1,5 +1,6 @@
 #!/bin/bash
 
 while true; do
-  ./tmp/spark/spark.sh
+  ./app/spark/spark.sh
   sleep 120
+done
