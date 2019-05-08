@@ -1,5 +1,9 @@
 from pyspark import SparkContext
 from itertools import combinations
+from collections import defaultdict
+import urllib.request
+import urllib.parse
+import json
 
 sc = SparkContext("spark://spark-master:7077", "PopularItems")
 
@@ -26,8 +30,19 @@ sum_pairs = list_coview_pairs.mapValues(lambda users: len(users))
 filtered_pairs = sum_pairs.filter(lambda x : x[1] >= 3)
 
 output = filtered_pairs.collect()
+recommendations = defaultdict(set)
 with open("/tmp/data/spark_output.log-example", "w+") as file:
     for coview, count in output:
-        file.write ("%s\t%s" % (str(coview), str(count)))
+        recommendations[coview[0]].add(coview[1])
+        recommendations[coview[1]].add(coview[0])
+        file.write ("%s\t%s\n" % (str(coview), str(count)))
+recommendations = {x: ",".join(str(y) for y in recommendations[x]) for x in recommendations}
+print(str(recommendations))
+
+# Send request
+data = urllib.parse.urlencode({"recommendations": json.dumps(recommendations)}).encode('utf-8')
+req = urllib.request.Request("http://models:8000/api/v1/recommendations/create", data=data)
+resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+print(resp_json)
 
 sc.stop()

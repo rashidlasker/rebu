@@ -14,7 +14,7 @@ while(True):
         for message in meals_consumer:
             new_listing = json.loads((message.value).decode('utf-8'))
             with open("/tmp/data/access.log-example", "a+") as file:
-                file.write ("\n%d\t%d" % (new_listing["user_id"], new_listing["meal_id"]))
+                file.write ("%d\t%d\n" % (new_listing["user_id"], new_listing["meal_id"]))
 
             print('Success!')
             print(new_listing)

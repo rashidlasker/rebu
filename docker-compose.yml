@@ -110,6 +110,8 @@ spark-master:
   volumes:
     - ./app/spark:/tmp/spark
     - ./data:/tmp/data
+  links:
+    -  models:models
 
 spark-worker:
   image: gettyimages/spark
