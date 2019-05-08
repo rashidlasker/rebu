@@ -11,32 +11,6 @@ models:
     - "8011:8000"
   command: bash start-microservices.sh
 
-modelss:
-  image: tp33/django
-  container_name: modelss
-  links:
-    - es:es
-  external_links:
-    - mysql:db
-  volumes:
-    - ./app/microservices:/app
-  ports:
-    - "8012:8000"
-  command: bash start-microservices.sh
-
-modelsss:
-  image: tp33/django
-  container_name: modelsss
-  links:
-    - es:es
-  external_links:
-    - mysql:db
-  volumes:
-    - ./app/microservices:/app
-  ports:
-    - "8013:8000"
-  command: bash start-microservices.sh
-
 exp:
   image: tp33/django
   container_name: exp
@@ -48,32 +22,6 @@ exp:
     - ./app/exp:/app
   ports:
     - "8021:8000"
-  command: bash start-exp.sh
-
-expp:
-  image: tp33/django
-  container_name: expp
-  links:
-    - models:models-api
-    - kafka:kafka
-    - es:es
-  volumes:
-    - ./app/exp:/app
-  ports:
-    - "8022:8000"
-  command: bash start-exp.sh
-
-expp:
-  image: tp33/django
-  container_name: exppp
-  links:
-    - models:models-api
-    - kafka:kafka
-    - es:es
-  volumes:
-    - ./app/exp:/app
-  ports:
-    - "8023:8000"
   command: bash start-exp.sh
 
 web:
@@ -143,5 +91,7 @@ balancer:
       -  "1937:1937"
    links:
       -  web:web
+      -  webb:webb
+      -  webbb:webbb
       -  exp:exp
       -  models:models
