@@ -8,7 +8,7 @@ models:
   volumes:
     - ./app/microservices:/app
   ports:
-    - "8011:8000"
+    - "8004:8000"
   command: bash start-microservices.sh
 
 exp:
@@ -21,7 +21,7 @@ exp:
   volumes:
     - ./app/exp:/app
   ports:
-    - "8021:8000"
+    - "8003:8000"
   command: bash start-exp.sh
 
 web:
@@ -32,23 +32,12 @@ web:
   volumes:
     - ./app/web:/app
   ports:
-    - "8000:8000"
+    - "8001:8000"
   command: bash start-web.sh
 
 webb:
   image: tp33/django
   container_name: webb
-  links:
-    - exp:exp-api
-  volumes:
-    - ./app/web:/app
-  ports:
-    - "8001:8000"
-  command: bash start-web.sh
-
-webbb:
-  image: tp33/django
-  container_name: webbb
   links:
     - exp:exp-api
   volumes:
@@ -77,7 +66,7 @@ batch:
    volumes:
      - ./app/batch:/app
    ports:
-     - 8003:8000
+     - 8005:8000
    links:
       - kafka:kafka
       - es:es
@@ -87,11 +76,10 @@ balancer:
    build: ./app/balancer
    container_name: balancer
    ports:
-      -  "8004:8000"
-      -  "1937:1937"
+      -  "8000:8000"
+      -  "1936:1936"
    links:
       -  web:web
       -  webb:webb
-      -  webbb:webbb
       -  exp:exp
       -  models:models
