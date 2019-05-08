@@ -8,7 +8,7 @@ from django.conf import settings
 from django import forms
 from django.forms.models import model_to_dict
 from django.contrib.auth.hashers import make_password, check_password
-from rebu.models import user, meal, cook, eater, plate, eater_rating, review, authenticator
+from rebu.models import user, meal, cook, eater, plate, eater_rating, review, authenticator, recommendation
 from .forms import userForm, mealForm, cookForm, eaterForm, plateForm, eaterRatingForm, reviewForm, authenticatorForm
 
 # Create your views here.
@@ -541,3 +541,52 @@ def authenticate(request):
             return JsonResponse({"ok":False, "message":"Bad request method"})
     except Exception as e:
         return JsonResponse({"ok":False, "error":str(e)})
+
+def recommendations(request, id=None):
+    if request.method == 'GET':
+        try:
+            obj = recommendation.objects.get(pk=id)
+            response = {
+                "ok":True,
+                "result": model_to_dict(obj)
+            }
+            return JsonResponse(response)
+        except Exception as e:
+            return JsonResponse({"ok":False, "message":str(e)})
+    elif request.method == 'POST':
+        try:
+            obj = recommendation.objects.get(pk=id)
+            form = userForm(data=request.POST)
+            for i in form.data:
+                obj.__setattr__(i, form.data[i])
+            obj.save()
+            return JsonResponse({"ok":True})
+        except Exception as e:
+            return JsonResponse({"ok":False, "message":str(e)})
+    elif request.method == 'DELETE':
+        try:
+            obj = recommendation.objects.get(pk=id)
+            obj.delete()
+            return JsonResponse({"ok":True})
+        except Exception as e:
+            return JsonResponse({"ok":False, "message":str(e)})
+    else:
+        return JsonResponse({"ok":False, "message":"Bad request method"})
+
+def create_recommendation(request):
+    if request.method == 'POST':
+        try:
+            obj = recommendation()
+            form = recommendationForm(request.POST)
+            if form.is_valid():
+                obj.meal = form.cleaned_data['meal']
+                obj.recommended_meals = form.cleaned_data['recommended_meals']
+                obj.save()
+            else:
+                return JsonResponse({"ok":False, "message": str(request.POST)})
+
+            return JsonResponse({"ok":True, "id":obj.pk})
+        except Exception as e:
+            return JsonResponse({"ok":False, "message":str(e)})
+    else:
+        return JsonResponse({"ok":False, "message":"Bad request method"})
