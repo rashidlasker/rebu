@@ -88,7 +88,7 @@ locust:
    image: christianbladescb/locustio
    container_name: locust
    volumes:
-     - ./:/locust
+     - ./locust:/locust
    ports:
      - 8089:8089
    links:
