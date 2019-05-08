@@ -2,6 +2,7 @@ import datetime
 import pytz
 import os
 import hmac
+import json
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.conf import settings
@@ -576,24 +577,6 @@ def recommendations(request, id=None):
 def create_recommendation(request):
     if request.method == 'POST':
         try:
-            obj = recommendation()
-            form = recommendationForm(request.POST)
-            if form.is_valid():
-                obj.meal = form.cleaned_data['meal']
-                obj.recommended_meals = form.cleaned_data['recommended_meals']
-                obj.save()
-            else:
-                return JsonResponse({"ok":False, "message": str(request.POST)})
-
-            return JsonResponse({"ok":True, "id":obj.pk})
-        except Exception as e:
-            return JsonResponse({"ok":False, "message":str(e)})
-    else:
-        return JsonResponse({"ok":False, "message":"Bad request method"})
-
-def create_recommendation(request):
-    if request.method == 'POST':
-        try:
             recommendations = json.loads(request.POST.get("recommendations", "\{\}"))
             if(len(recommendations) == 0):
                 return JsonResponse({"ok":True})
@@ -605,8 +588,7 @@ def create_recommendation(request):
                     obj.meal = form.cleaned_data['meal']
                     obj.recommended_meals = form.cleaned_data['recommended_meals']
                     obj.save()
-            else:
-                return JsonResponse({"ok":False, "message": str(request.POST)})
+            return JsonResponse({"ok":True})
         except Exception as e:
                 return JsonResponse({"ok":False, "message":str(e)})
     else:
