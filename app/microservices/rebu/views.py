@@ -590,3 +590,24 @@ def create_recommendation(request):
             return JsonResponse({"ok":False, "message":str(e)})
     else:
         return JsonResponse({"ok":False, "message":"Bad request method"})
+
+def create_recommendation(request):
+    if request.method == 'POST':
+        try:
+            recommendations = json.loads(request.POST.get("recommendations", "\{\}"))
+            if(len(recommendations) == 0):
+                return JsonResponse({"ok":True})
+            #clear table
+            for meal, recs in recommendations.iteritems():
+                obj = recommendation()
+                form = recommendationForm({"meal": meal, "recommended_meals": recs})
+                if form.is_valid():
+                    obj.meal = form.cleaned_data['meal']
+                    obj.recommended_meals = form.cleaned_data['recommended_meals']
+                    obj.save()
+            else:
+                return JsonResponse({"ok":False, "message": str(request.POST)})
+        except Exception as e:
+                return JsonResponse({"ok":False, "message":str(e)})
+    else:
+        return JsonResponse({"ok":False, "message":"Bad request method"})
