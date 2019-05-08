@@ -1,6 +1,5 @@
 #!/bin/bash
 
-docker-compose build
 docker-compose down
+docker-compose build
 ./start.sh
-
