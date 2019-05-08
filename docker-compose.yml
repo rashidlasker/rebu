@@ -107,7 +107,8 @@ spark-master:
     - 7077:7077
     - 8080:8080
   volumes:
-    - ./app/spark:/tmp/data
+    - ./app/spark:/tmp/spark
+    - ./data:/tmp/data
 
 spark-worker:
   image: gettyimages/spark
@@ -132,7 +133,8 @@ spark-worker:
   ports:
     - 8081:8081
   volumes:
-    - ./app/spark:/tmp/data
+    - ./app/spark:/tmp/spark
+    - ./data:/tmp/data
 
 locust:
    image: christianbladescb/locustio

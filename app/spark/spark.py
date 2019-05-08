@@ -26,8 +26,8 @@ sum_pairs = list_coview_pairs.mapValues(lambda users: len(users))
 filtered_pairs = sum_pairs.filter(lambda x : x[1] >= 3)
 
 output = filtered_pairs.collect()
-for coview, count in output:
-    print ("coview %s count %s" % (str(coview), str(count)))
-print ("Popular items done")
+with open("/tmp/data/spark_output.log-example", "w+") as file:
+    for coview, count in output:
+        file.write ("%s\t%s" % (str(coview), str(count)))
 
 sc.stop()
