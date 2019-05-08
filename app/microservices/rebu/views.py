@@ -10,7 +10,7 @@ from django import forms
 from django.forms.models import model_to_dict
 from django.contrib.auth.hashers import make_password, check_password
 from rebu.models import user, meal, cook, eater, plate, eater_rating, review, authenticator, recommendation
-from .forms import userForm, mealForm, cookForm, eaterForm, plateForm, eaterRatingForm, reviewForm, authenticatorForm
+from .forms import userForm, mealForm, cookForm, eaterForm, plateForm, eaterRatingForm, reviewForm, authenticatorForm, recommendationForm
 
 # Create your views here.
 def users(request, id=None):
@@ -581,7 +581,7 @@ def create_recommendation(request):
             if(len(recommendations) == 0):
                 return JsonResponse({"ok":True})
             #clear table
-            for meal, recs in recommendations.iteritems():
+            for meal, recs in recommendations.items():
                 obj = recommendation()
                 form = recommendationForm({"meal": meal, "recommended_meals": recs})
                 if form.is_valid():
