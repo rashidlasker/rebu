@@ -83,3 +83,14 @@ balancer:
       -  webb:webb
       -  exp:exp
       -  models:models
+
+locust:
+   image: christianbladescb/locustio
+   container_name: locust
+   volumes:
+     - ./locust:/locust
+   ports:
+     - 8089:8089
+   links:
+      - balancer:balancer
+   command: "--host http://balancer:8000"
