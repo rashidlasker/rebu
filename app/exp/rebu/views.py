@@ -48,6 +48,8 @@ def homepage_info(request):
 def meal_info(request, meal_id):
     authenticator = request.POST.get('authenticator', "")
     context = get_response('http://models-api:8000/api/v1/meals/' + str(meal_id))
+    for i in range(len(context['recommendations'])):
+        context['recommendations'][i]['tags'] = context['recommendations'][i]['tags'].split(" ")
     context['logged_in'] = check_if_logged_in(authenticator)
     if context['logged_in']:
         producer = KafkaProducer(bootstrap_servers='kafka:9092')
