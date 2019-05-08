@@ -204,9 +204,19 @@ def meals(request, id=None):
     if request.method == 'GET':
         try:
             obj = meal.objects.get(pk=id)
+            try:
+                raw_recs = recommendation.objects.get(pk=obj.id)
+                rec_ids = raw_recs.recommended_meals.split(",")
+                if len(rec_ids) > 3:
+                    rec_ids = rec_ids[0:3]
+                raw_results = list(meal.objects.filter(id__in=rec_ids))
+                rec = [model_to_dict(meal) for meal in raw_results]
+            except recommendation.DoesNotExist:
+                rec = []
             response = {
                 "ok":True,
-                "result": model_to_dict(obj)
+                "result": model_to_dict(obj),
+                "recommendations": rec
             }
             return JsonResponse(response)
         except Exception as e:
