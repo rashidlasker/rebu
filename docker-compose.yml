@@ -107,7 +107,7 @@ spark-master:
     - 7077:7077
     - 8080:8080
   volumes:
-    - ./data:/tmp/data
+    - ./spark:/tmp/data
 
 spark-worker:
   image: gettyimages/spark
