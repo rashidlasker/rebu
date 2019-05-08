@@ -40,8 +40,8 @@ recommendations = {x: ",".join(str(y) for y in recommendations[x]) for x in reco
 print(str(recommendations))
 
 # Send request
-data = urllib.parse.urlencode({"recommendations": json.dumps(recommendations)}).encode('utf-8')
-req = urllib.request.Request("http://models:8000/api/v1/recommendations/create", data=data)
+data = urllib.parse.urlencode({"recommendations": json.dumps(recommendations) }).encode('utf-8')
+req = urllib.request.Request("http://models:8000/api/v1/recommendations/create/", data=data)
 resp_json = urllib.request.urlopen(req).read().decode('utf-8')
 print(resp_json)
 
