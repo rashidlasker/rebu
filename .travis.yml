@@ -13,7 +13,6 @@ install:
 
 before_script:
   # Startup the app
-  - docker-compose build
   - docker-compose up -d
   - sleep 30
   - docker ps -a
