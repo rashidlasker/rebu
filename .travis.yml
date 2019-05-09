@@ -22,7 +22,8 @@ script:
   - curl localhost:8000/ -f
   # Unit testing
   - docker exec -it models bash -c "python manage.py test"
-  # Integration testing (TODO)
+  # Integration testing
+  - docker exec -it selenium-test bash -c "pip install selenium; python selenium-webdriver.py"
 
 after_script:
   - docker-compose down

@@ -64,7 +64,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="{% url 'logout' %}" class="nav-link" role="button">
+              <a href="{% url 'logout' %}" class="nav-link" role="button" id="HPLogOutButton">
                 <i class="ni ni-single-02 d-lg-none"></i>
                 <span class="nav-link-inner--text">Log out</span>
               </a>
@@ -77,9 +77,9 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="{% url 'login' %}" class="nav-link" role="button">
+              <a href="{% url 'login' %}" class="nav-link" role="button"id="HPLogInButton">
                 <i class="ni ni-single-02 d-lg-none"></i>
-                <span class="nav-link-inner--text">Log in</span>
+                <span class="nav-link-inner--text" >Log in</span>
               </a>
             </li>
             {% endif %}

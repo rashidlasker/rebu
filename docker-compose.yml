@@ -72,6 +72,24 @@ batch:
       - es:es
    command: bash start-batch.sh
 
+selenium-chrome:
+  image: selenium/standalone-chrome
+  container_name: selenium-chrome
+  links:
+    - balancer:balancer
+  ports:
+    - "4444:4444"
+
+selenium-test:
+  image: tp33/django
+  container_name: selenium-test
+  links:
+    - selenium-chrome:selenium-chrome
+    - balancer:balancer
+  volumes:
+    - ./app/selenium:/app
+  command: tail -F anything
+
 balancer:
    build: ./app/balancer
    container_name: balancer
