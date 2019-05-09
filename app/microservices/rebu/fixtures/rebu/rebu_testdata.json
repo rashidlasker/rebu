@@ -271,14 +271,6 @@
             "meal": 2,
             "recommended_meals": "3,1"
         }
-    },
-    {
-        "model": "rebu.recommendation",
-        "pk": 3,
-        "fields": {
-            "meal": 3,
-            "recommended_meals": "1,2"
-        }
     }
     ]
     
