@@ -205,7 +205,7 @@ def meals(request, id=None):
         try:
             obj = meal.objects.get(pk=id)
             try:
-                raw_recs = recommendation.objects.get(pk=obj.id)
+                raw_recs = recommendation.objects.get(meal_id=obj.id)
                 rec_ids = raw_recs.recommended_meals.split(",")
                 if len(rec_ids) > 3:
                     rec_ids = rec_ids[0:3]
@@ -556,7 +556,7 @@ def authenticate(request):
 def recommendations(request, id=None):
     if request.method == 'GET':
         try:
-            obj = recommendation.objects.get(pk=id)
+            obj = recommendation.objects.get(meal_id=id)
             response = {
                 "ok":True,
                 "result": model_to_dict(obj)
@@ -566,7 +566,7 @@ def recommendations(request, id=None):
             return JsonResponse({"ok":False, "message":str(e)})
     elif request.method == 'POST':
         try:
-            obj = recommendation.objects.get(pk=id)
+            obj = recommendation.objects.get(meal_id=id)
             form = userForm(data=request.POST)
             for i in form.data:
                 obj.__setattr__(i, form.data[i])
@@ -576,7 +576,7 @@ def recommendations(request, id=None):
             return JsonResponse({"ok":False, "message":str(e)})
     elif request.method == 'DELETE':
         try:
-            obj = recommendation.objects.get(pk=id)
+            obj = recommendation.objects.get(meal_id=id)
             obj.delete()
             return JsonResponse({"ok":True})
         except Exception as e:
@@ -590,7 +590,7 @@ def create_recommendation(request):
             recommendations = json.loads(request.POST.get("recommendations", "\{\}"))
             if(len(recommendations) == 0):
                 return JsonResponse({"ok":True})
-            #clear table
+            recommendation.objects.all().delete()
             for meal, recs in recommendations.items():
                 obj = recommendation()
                 form = recommendationForm({"meal": meal, "recommended_meals": recs})
