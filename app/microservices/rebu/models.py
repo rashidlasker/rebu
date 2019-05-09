@@ -56,3 +56,7 @@ class review(models.Model):
     eater = models.ForeignKey(eater, on_delete=models.CASCADE)
     cook = models.ForeignKey(cook, on_delete=models.CASCADE)
     meal = models.ForeignKey(meal, on_delete=models.CASCADE)
+
+class recommendation(models.Model):
+    meal = models.ForeignKey(meal, on_delete=models.CASCADE)
+    recommended_meals = models.CharField(max_length=100)

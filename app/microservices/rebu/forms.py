@@ -1,5 +1,5 @@
 from django import forms
-from rebu.models import user, meal, cook, eater, plate, eater_rating, review, authenticator
+from rebu.models import user, meal, cook, eater, plate, eater_rating, review, authenticator, recommendation
 
 class authenticatorForm(forms.ModelForm):
     user_id = forms.CharField(label='User_ID')
@@ -82,3 +82,11 @@ class reviewForm(forms.ModelForm):
     class Meta:
         model = eater_rating
         fields = ['rating','description','eater','cook','meal']
+
+class recommendationForm(forms.ModelForm):
+    meal = forms.ModelChoiceField(label='mealid', queryset=meal.objects.all())
+    recommended_meals = forms.CharField(label='recommended_meals', max_length=100)
+
+    class Meta:
+        model = recommendation
+        fields = ['meal', 'recommended_meals']

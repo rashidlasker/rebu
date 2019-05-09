@@ -2,14 +2,15 @@ import datetime
 import pytz
 import os
 import hmac
+import json
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.conf import settings
 from django import forms
 from django.forms.models import model_to_dict
 from django.contrib.auth.hashers import make_password, check_password
-from rebu.models import user, meal, cook, eater, plate, eater_rating, review, authenticator
-from .forms import userForm, mealForm, cookForm, eaterForm, plateForm, eaterRatingForm, reviewForm, authenticatorForm
+from rebu.models import user, meal, cook, eater, plate, eater_rating, review, authenticator, recommendation
+from .forms import userForm, mealForm, cookForm, eaterForm, plateForm, eaterRatingForm, reviewForm, authenticatorForm, recommendationForm
 
 # Create your views here.
 def users(request, id=None):
@@ -203,9 +204,19 @@ def meals(request, id=None):
     if request.method == 'GET':
         try:
             obj = meal.objects.get(pk=id)
+            try:
+                raw_recs = recommendation.objects.get(meal_id=obj.id)
+                rec_ids = raw_recs.recommended_meals.split(",")
+                if len(rec_ids) > 3:
+                    rec_ids = rec_ids[0:3]
+                raw_results = list(meal.objects.filter(id__in=rec_ids))
+                rec = [model_to_dict(meal) for meal in raw_results]
+            except recommendation.DoesNotExist:
+                rec = []
             response = {
                 "ok":True,
-                "result": model_to_dict(obj)
+                "result": model_to_dict(obj),
+                "recommendations": rec
             }
             return JsonResponse(response)
         except Exception as e:
@@ -541,3 +552,54 @@ def authenticate(request):
             return JsonResponse({"ok":False, "message":"Bad request method"})
     except Exception as e:
         return JsonResponse({"ok":False, "error":str(e)})
+
+def recommendations(request, id=None):
+    if request.method == 'GET':
+        try:
+            obj = recommendation.objects.get(meal_id=id)
+            response = {
+                "ok":True,
+                "result": model_to_dict(obj)
+            }
+            return JsonResponse(response)
+        except Exception as e:
+            return JsonResponse({"ok":False, "message":str(e)})
+    elif request.method == 'POST':
+        try:
+            obj = recommendation.objects.get(meal_id=id)
+            form = userForm(data=request.POST)
+            for i in form.data:
+                obj.__setattr__(i, form.data[i])
+            obj.save()
+            return JsonResponse({"ok":True})
+        except Exception as e:
+            return JsonResponse({"ok":False, "message":str(e)})
+    elif request.method == 'DELETE':
+        try:
+            obj = recommendation.objects.get(meal_id=id)
+            obj.delete()
+            return JsonResponse({"ok":True})
+        except Exception as e:
+            return JsonResponse({"ok":False, "message":str(e)})
+    else:
+        return JsonResponse({"ok":False, "message":"Bad request method"})
+
+def create_recommendation(request):
+    if request.method == 'POST':
+        try:
+            recommendations = json.loads(request.POST.get("recommendations", "\{\}"))
+            if(len(recommendations) == 0):
+                return JsonResponse({"ok":True})
+            recommendation.objects.all().delete()
+            for meal, recs in recommendations.items():
+                obj = recommendation()
+                form = recommendationForm({"meal": meal, "recommended_meals": recs})
+                if form.is_valid():
+                    obj.meal = form.cleaned_data['meal']
+                    obj.recommended_meals = form.cleaned_data['recommended_meals']
+                    obj.save()
+            return JsonResponse({"ok":True})
+        except Exception as e:
+                return JsonResponse({"ok":False, "message":str(e)})
+    else:
+        return JsonResponse({"ok":False, "message":"Bad request method"})
