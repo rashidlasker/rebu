@@ -17,7 +17,7 @@ class test_recommendation(TestCase):
         self.assertContains(response, 'true')
         self.assertContains(response, '1')
 
-    def test_new_meal(self):
+    def test_recommendation_meal(self):
         data = {
                 "meal": 1,
                 "recommended_meals": "2,3"
@@ -31,7 +31,7 @@ class test_recommendation(TestCase):
         self.assertContains(response, '2,3')
         # currently failing don't know why, testing with assertEqual response.content
 
-    def test_update_meal(self):
+    def test_update_recommendation(self):
         data = {"recommended_meals": "2,3"}
         response_post = self.client.post('/api/v1/recommendations/1/', data)
         response = self.client.get('/api/v1/recommendations/1/')
@@ -39,7 +39,7 @@ class test_recommendation(TestCase):
         self.assertContains(response, 'true')
         self.assertContains(response, '2,3')
 
-    def test_delete_meal(self):
+    def test_delete_recommendation(self):
         response = self.client.delete('/api/v1/recommendations/3/')
         self.assertContains(response, 'true')
         response_false = self.client.get('/api/v1/recommendations/3/')
