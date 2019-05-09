@@ -2,6 +2,5 @@
 
 docker start mysql
 docker-compose build
-docker-compose up
-sleep 20
+docker-compose up &
 ./start_spark.sh
