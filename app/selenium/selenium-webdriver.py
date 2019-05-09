@@ -21,7 +21,7 @@ class Rrr(unittest.TestCase):
 	def test_login(self):
 		driver = self.driver
 		time.sleep(5)
-		driver.get("http://web:8000/")
+		driver.get("http://balancer:8000/")
 		assert "Rebu" in driver.title
 		driver.find_element_by_id("HPLogInButton").click()
 		driver.find_element_by_id("id_username").click()

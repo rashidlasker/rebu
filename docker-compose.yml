@@ -8,7 +8,7 @@ models:
   volumes:
     - ./app/microservices:/app
   ports:
-    - "8001:8000"
+    - "8004:8000"
   command: bash start-microservices.sh
 
 exp:
@@ -21,7 +21,7 @@ exp:
   volumes:
     - ./app/exp:/app
   ports:
-    - "8002:8000"
+    - "8003:8000"
   command: bash start-exp.sh
 
 web:
@@ -32,7 +32,18 @@ web:
   volumes:
     - ./app/web:/app
   ports:
-    - "8000:8000"
+    - "8001:8000"
+  command: bash start-web.sh
+
+webb:
+  image: tp33/django
+  container_name: webb
+  links:
+    - exp:exp-api
+  volumes:
+    - ./app/web:/app
+  ports:
+    - "8002:8000"
   command: bash start-web.sh
 
 kafka:
@@ -55,7 +66,7 @@ batch:
    volumes:
      - ./app/batch:/app
    ports:
-     - 8003:8000
+     - 8005:8000
    links:
       - kafka:kafka
       - es:es
@@ -65,7 +76,7 @@ selenium-chrome:
   image: selenium/standalone-chrome
   container_name: selenium-chrome
   links:
-    - web:web
+    - balancer:balancer
   ports:
     - "4444:4444"
 
@@ -74,7 +85,30 @@ selenium-test:
   container_name: selenium-test
   links:
     - selenium-chrome:selenium-chrome
-    - web:web
+    - balancer:balancer
   volumes:
     - ./app/selenium:/app
   command: tail -F anything
+
+balancer:
+   build: ./app/balancer
+   container_name: balancer
+   ports:
+      -  "8000:8000"
+      -  "1936:1936"
+   links:
+      -  web:web
+      -  webb:webb
+      -  exp:exp
+      -  models:models
+
+locust:
+   image: christianbladescb/locustio
+   container_name: locust
+   volumes:
+     - ./app/locust:/locust
+   ports:
+     - 8089:8089
+   links:
+      - balancer:balancer
+   command: "--host http://balancer:8000"
