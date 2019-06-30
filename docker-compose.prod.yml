@@ -49,8 +49,6 @@ services:
       - main_network
     depends_on:
       - "exp"
-    ports:
-      - "8001:8000"
 
   webb:
     build:
@@ -62,8 +60,6 @@ services:
       - main_network
     depends_on:
       - "exp"
-    ports:
-      - "8002:8000"
 
   kafka:
     image: spotify/kafka

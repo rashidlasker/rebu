@@ -1,6 +1,1 @@
-fix haproxy
-  yikes
-  not working with docker-compose v3 
-    maybe add expose for balancer or networks
-    https://docs.docker.com/compose/compose-file/compose-versioning/#compatibility-matrix
-  remove ports from web and webb when haproxy works
+do environment file
