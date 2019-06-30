@@ -8,6 +8,8 @@ check landing page
 database is not connected in production
   or in my branch
   sad yeet
-  or in master
-  super sad yeet
+  due to docker compose version and links
+
+update docker compose to v3
+  fix lots of probs
 
