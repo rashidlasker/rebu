@@ -47,26 +47,26 @@ services:
     command: bash start-web.sh
 
   kafka:
-     image: spotify/kafka
-     container_name: kafka
-     environment:
-        ADVERTISED_HOST: kafka
-        ADVERTISED_PORT: 9092
-     hostname: kafka
+    image: spotify/kafka
+    container_name: kafka
+    environment:
+      ADVERTISED_HOST: kafka
+      ADVERTISED_PORT: 9092
+    hostname: kafka
 
   es:
-     image: elasticsearch:2.0
-     container_name: es
+    image: elasticsearch:2.0
+    container_name: es
 
   batch:
-     build:
-       context: .
-       dockerfile: ./app/batch/Dockerfile.batch
-     container_name: batch
-     links:
-        - kafka:kafka
-        - es:es
-     command: bash start-batch.sh
+    build:
+      context: .
+      dockerfile: ./app/batch/Dockerfile.batch
+    container_name: batch
+    links:
+      - kafka:kafka
+      - es:es
+    command: bash start-batch.sh
 
   selenium-chrome:
     image: selenium/standalone-chrome
@@ -85,18 +85,18 @@ services:
     command: tail -F anything
 
   balancer:
-     build:
-       context: ./app/balancer
-       dockerfile: Dockerfile.balancer
-     container_name: balancer
-     ports:
-        -  "8000:8000"
-        -  "1936:1936"
-     links:
-        -  web:web
-        -  webb:webb
-        -  exp:exp
-        -  models:models
+    build:
+      context: ./app/balancer
+      dockerfile: Dockerfile.balancer
+    container_name: balancer
+    ports:
+      -  "8000:8000"
+      -  "1936:1936"
+    links:
+      -  web:web
+      -  webb:webb
+      -  exp:exp
+      -  models:models
 
   spark-master:
     build:
@@ -152,10 +152,10 @@ services:
       - ./data:/tmp/data
 
   locust:
-     build:
-       context: ./app/locust
-       dockerfile: Dockerfile.locust
-     container_name: locust
-     links:
-        - balancer:balancer
-     command: "--host http://balancer:8000"
+    build:
+      context: ./app/locust
+      dockerfile: Dockerfile.locust
+    container_name: locust
+    links:
+      - balancer:balancer
+    command: "--host http://balancer:8000"

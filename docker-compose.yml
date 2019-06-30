@@ -49,31 +49,31 @@ services:
     command: bash start-web.sh
 
   kafka:
-     image: spotify/kafka
-     container_name: kafka
-     environment:
-        ADVERTISED_HOST: kafka
-        ADVERTISED_PORT: 9092
-     hostname: kafka
+    image: spotify/kafka
+    container_name: kafka
+    environment:
+      ADVERTISED_HOST: kafka
+      ADVERTISED_PORT: 9092
+    hostname: kafka
 
   es:
-     image: elasticsearch:2.0
-     container_name: es
-     ports:
-        - "9200:9200"
+    image: elasticsearch:2.0
+    container_name: es
+    ports:
+      - "9200:9200"
 
   batch:
-     image: tp33/django
-     container_name: batch
-     volumes:
-       - ./app/batch:/app
-       - ./data:/tmp/data
-     ports:
-       - 8005:8000
-     links:
-        - kafka:kafka
-        - es:es
-     command: bash start-batch.sh
+    image: tp33/django
+    container_name: batch
+    volumes:
+      - ./app/batch:/app
+      - ./data:/tmp/data
+    ports:
+      - 8005:8000
+    links:
+      - kafka:kafka
+      - es:es
+    command: bash start-batch.sh
 
   selenium-chrome:
     image: selenium/standalone-chrome
@@ -94,18 +94,18 @@ services:
     command: tail -F anything
 
   balancer:
-     build:
-       context: ./app/balancer
-       dockerfile: Dockerfile.balancer
-     container_name: balancer
-     ports:
-        -  "8000:8000"
-        -  "1936:1936"
-     links:
-        -  web:web
-        -  webb:webb
-        -  exp:exp
-        -  models:models
+    build:
+      context: .
+      dockerfile: ./app/balancer/Dockerfile.balancer
+    container_name: balancer
+    ports:
+      -  "8000:8000"
+      -  "1936:1936"
+    links:
+      -  web:web
+      -  webb:webb
+      -  exp:exp
+      -  models:models
 
   spark-master:
     image: gettyimages/spark
@@ -162,12 +162,12 @@ services:
       - ./data:/tmp/data
 
   locust:
-     image: christianbladescb/locustio
-     container_name: locust
-     volumes:
-       - ./app/locust:/locust
-     ports:
-       - 8089:8089
-     links:
-        - balancer:balancer
-     command: "--host http://balancer:8000"
+    image: christianbladescb/locustio
+    container_name: locust
+    volumes:
+      - ./app/locust:/locust
+    ports:
+      - 8089:8089
+    links:
+      - balancer:balancer
+    command: "--host http://balancer:8000"
