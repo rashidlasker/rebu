@@ -1,7 +1,9 @@
 fix haproxy
   yikes
-  works on current master
-    doesnt work on current extra, dev or prod
+  not working with docker-compose v3 
 check landing page
   doesnt work anywhere
+database is not connected in production
+  or in my branch
+  sad yeet
 

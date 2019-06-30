@@ -25,7 +25,7 @@ case $i in
   start-prod)
   echo "starting application"
   docker start mysql
-  docker-compose -f docker-compose.prod.yml build
+  sudo docker-compose -f docker-compose.prod.yml build
   docker-compose -f docker-compose.prod.yml up &
   ./start_spark.sh
   ;;
