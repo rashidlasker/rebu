@@ -4,9 +4,5 @@ fix haproxy
     maybe add expose for balancer or networks
     https://docs.docker.com/compose/compose-file/compose-versioning/#compatibility-matrix
 
-check landing page
-  doesnt work anywhere
-
-frontend is not connected to backend
 update production for ports and volumes and stuff
-
+  turn off all debug = True

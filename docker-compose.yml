@@ -4,8 +4,15 @@ services:
     image: tp33/django
     container_name: models
     networks:
-      - db_network
-      - main_network
+      db_network:
+        aliases:
+          - models
+      main_network:
+        aliases:
+          - models-api
+      mod_exp_network:
+        aliases:
+          - models-api
     depends_on:
       - "es"
     volumes:
@@ -18,7 +25,12 @@ services:
     image: tp33/django
     container_name: exp
     networks:
-      - main_network
+      mod_exp_network:
+        aliases:
+          - exp-api
+      main_network:
+        aliases:
+          - exp-api
     depends_on:
       - "models"
       - "kafka"
@@ -59,7 +71,8 @@ services:
     image: spotify/kafka
     container_name: kafka
     networks:
-      - main_network
+      - batch_network
+      - mod_exp_network
     environment:
       ADVERTISED_HOST: kafka
       ADVERTISED_PORT: 9092
@@ -69,7 +82,8 @@ services:
     image: elasticsearch:2.0
     container_name: es
     networks:
-      - main_network
+      - batch_network
+      - mod_exp_network
     ports:
       - "9200:9200"
 
@@ -82,7 +96,7 @@ services:
     ports:
       - 8005:8000
     networks:
-      - main_network
+      - batch_network
     depends_on:
       - "kafka"
       - "es"
@@ -92,7 +106,7 @@ services:
     image: selenium/standalone-chrome
     container_name: selenium-chrome
     networks:
-      - main_network
+      - balancer_network
     depends_on:
       - "balancer"
     ports:
@@ -102,7 +116,7 @@ services:
     image: tp33/django
     container_name: selenium-test
     networks:
-      - main_network
+      - balancer_network
     depends_on:
       - "selenium-chrome"
       - "balancer"
@@ -119,6 +133,7 @@ services:
       -  "8000:8000"
       -  "1936:1936"
     networks:
+      - balancer_network
       - main_network
     depends_on:
       - "web"
@@ -152,7 +167,7 @@ services:
       - ./app/spark:/tmp/spark
       - ./data:/tmp/data
     networks:
-      - main_network
+      - mod_exp_network
     depends_on:
       - "models"
 
@@ -168,7 +183,7 @@ services:
       SPARK_WORKER_PORT: 8881
       SPARK_WORKER_WEBUI_PORT: 8081
     networks:
-      - main_network
+      - mod_exp_network
     depends_on:
       - "spark-master"
     expose:
@@ -192,7 +207,7 @@ services:
     ports:
       - 8089:8089
     networks:
-      - main_network
+      - balancer_network
     depends_on:
       - "balancer"
     command: "--host http://balancer:8000"
@@ -201,5 +216,11 @@ networks:
   db_network:
     external:
       name: db_network
+  balancer_network:
+    driver: bridge
+  batch_network:
+    driver: bridge
   main_network:
+    driver: bridge
+  mod_exp_network:
     driver: bridge
