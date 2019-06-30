@@ -1,5 +1,7 @@
 fix haproxy
   yikes
-  not working at all on either
+  works on current master
+    doesnt work on current extra, dev or prod
 check landing page
+  doesnt work anywhere
 
