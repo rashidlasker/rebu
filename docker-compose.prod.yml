@@ -1,147 +1,161 @@
-models:
-  build: ./app/microservices
-  container_name: models
-  links:
-    - es:es
-  external_links:
-    - mysql:db
-  command: bash start-microservices.sh
+version: '2'
+services:
+  models:
+    build:
+      context: ./app/microservices
+      dockerfile: Dockerfile.microservices
+    container_name: models
+    links:
+      - es:es
+    external_links:
+      - mysql:db
+    command: bash start-microservices.sh
 
-exp:
-  build: ./app/exp
-  container_name: exp
-  links:
-    - models:models-api
-    - kafka:kafka
-    - es:es
-  command: bash start-exp.sh
-
-web:
-  build: ./app/web
-  container_name: web
-  links:
-    - exp:exp-api
-  ports:
-    - "8001:8000"
-  command: bash start-web.sh
-
-webb:
-  image: tp33/django
-  container_name: webb
-  links:
-    - exp:exp-api
-  volumes:
-    - ./app/web:/app
-  ports:
-    - "8002:8000"
-  command: bash start-web.sh
-
-kafka:
-   image: spotify/kafka
-   container_name: kafka
-   environment:
-      ADVERTISED_HOST: kafka
-      ADVERTISED_PORT: 9092
-   hostname: kafka
-
-es:
-   image: elasticsearch:2.0
-   container_name: es
-
-batch:
-   build: ./app/batch
-   container_name: batch
-   links:
+  exp:
+    build:
+      context: ./app/exp
+      dockerfile: Dockerfile.exp
+    container_name: exp
+    links:
+      - models:models-api
       - kafka:kafka
       - es:es
-   command: bash start-batch.sh
+    command: bash start-exp.sh
 
-selenium-chrome:
-  image: selenium/standalone-chrome
-  container_name: selenium-chrome
-  links:
-    - balancer:balancer
+  web:
+    build:
+      context: ./app/web
+      dockerfile: Dockerfile.web
+    container_name: web
+    links:
+      - exp:exp-api
+    ports:
+      - "8001:8000"
+    command: bash start-web.sh
 
-selenium-test:
-  build: ./app/selenium
-  container_name: selenium-test
-  links:
-    - selenium-chrome:selenium-chrome
-    - balancer:balancer
-  command: tail -F anything
+  webb:
+    build:
+      context: ./app/web
+      dockerfile: Dockerfile.web
+    container_name: webb
+    links:
+      - exp:exp-api
+    volumes:
+      - ./app/web:/app
+    ports:
+      - "8002:8000"
+    command: bash start-web.sh
 
-balancer:
-   build: ./app/balancer
-   container_name: balancer
-   ports:
-      -  "8000:8000"
-      -  "1936:1936"
-   links:
-      -  web:web
-      -  webb:webb
-      -  exp:exp
+  kafka:
+     image: spotify/kafka
+     container_name: kafka
+     environment:
+        ADVERTISED_HOST: kafka
+        ADVERTISED_PORT: 9092
+     hostname: kafka
+
+  es:
+     image: elasticsearch:2.0
+     container_name: es
+
+  batch:
+     build:
+       context: ./app/batch
+       dockerfile: Dockerfile.batch
+     container_name: batch
+     links:
+        - kafka:kafka
+        - es:es
+     command: bash start-batch.sh
+
+  selenium-chrome:
+    image: selenium/standalone-chrome
+    container_name: selenium-chrome
+    links:
+      - balancer:balancer
+
+  selenium-test:
+    build:
+      context: ./app/selenium
+      dockerfile: Dockerfile.selenium
+    container_name: selenium-test
+    links:
+      - selenium-chrome:selenium-chrome
+      - balancer:balancer
+    command: tail -F anything
+
+  balancer:
+     build:
+       context: ./app/balancer
+       dockerfile: Dockerfile.balancer
+     container_name: balancer
+     ports:
+        -  "8000:8000"
+        -  "1936:1936"
+     links:
+        -  web:web
+        -  webb:webb
+        -  exp:exp
+        -  models:models
+
+  spark-master:
+    build:
+      context: ./app/spark
+      dockerfile: Dockerfile.sparkMaster
+    container_name: spark-master
+    hostname: spark-master
+    environment:
+      MASTER: spark://spark-master:7077
+      SPARK_CONF_DIR: /conf
+    expose:
+      - 7001
+      - 7002
+      - 7003
+      - 7004
+      - 7005
+      - 7006
+      - 7077
+      - 6066
+    ports:
+      - 4040:4040
+      - 6066:6066
+      - 7077:7077
+      - 8080:8080
+    links:
       -  models:models
 
-spark-master:
-  build:
-    context: ./app/spark
-    dockerfile: Dockerfile.sparkMaster
-  # command: bin/spark-class org.apache.spark.deploy.master.Master -h spark-master
-  container_name: spark-master
-  hostname: spark-master
-  environment:
-    MASTER: spark://spark-master:7077
-    SPARK_CONF_DIR: /conf
-  expose:
-    - 7001
-    - 7002
-    - 7003
-    - 7004
-    - 7005
-    - 7006
-    - 7077
-    - 6066
-  ports:
-    - 4040:4040
-    - 6066:6066
-    - 7077:7077
-    - 8080:8080
-  links:
-    -  models:models
+  spark-worker:
+    build:
+      context: ./app/spark
+      dockerfile: Dockerfile.sparkWorker
+    container_name: spark-worker
+    hostname: spark-worker
+    environment:
+      SPARK_CONF_DIR: /conf
+      SPARK_WORKER_CORES: 2
+      SPARK_WORKER_MEMORY: 512m
+      SPARK_WORKER_PORT: 8881
+      SPARK_WORKER_WEBUI_PORT: 8081
+    links:
+      - spark-master
+    expose:
+      - 7012
+      - 7013
+      - 7014
+      - 7015
+      - 7016
+      - 8881
+    ports:
+      - 8081:8081
+    volumes:
+      - ./app/spark:/tmp/spark
+      - ./data:/tmp/data
 
-spark-worker:
-  build:
-    context: ./app/spark
-    dockerfile: Dockerfile.sparkWorker
-  #command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
-  container_name: spark-worker
-  hostname: spark-worker
-  environment:
-    SPARK_CONF_DIR: /conf
-    SPARK_WORKER_CORES: 2
-    SPARK_WORKER_MEMORY: 512m
-    SPARK_WORKER_PORT: 8881
-    SPARK_WORKER_WEBUI_PORT: 8081
-  links:
-    - spark-master
-  expose:
-    - 7012
-    - 7013
-    - 7014
-    - 7015
-    - 7016
-    - 8881
-  ports:
-    - 8081:8081
-  volumes:
-    - ./app/spark:/tmp/spark
-    - ./data:/tmp/data
-
-locust:
-   build: ./app/locust
-   container_name: locust
-   #ports:
-   #- 8089:8089
-   links:
-      - balancer:balancer
-   command: "--host http://balancer:8000"
+  locust:
+     build:
+       context: ./app/locust
+       dockerfile: Dockerfile.locust
+     container_name: locust
+     links:
+        - balancer:balancer
+     command: "--host http://balancer:8000"
