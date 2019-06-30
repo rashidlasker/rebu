@@ -1,0 +1,7 @@
+FROM tp33/django
+
+COPY ./app/batch /app
+COPY ./data /tmp/data
+
+ENTRYPOINT ["bash", "start-batch.sh"]
+

@@ -1,0 +1,4 @@
+FROM christianbladescb/locustio
+
+COPY . /locust
+

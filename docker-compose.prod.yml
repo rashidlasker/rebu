@@ -1,8 +1,11 @@
 version: '3'
 services:
   models:
-    image: tp33/django
+    build:
+      context: ./app/microservices
+      dockerfile: Dockerfile.microservices
     container_name: models
+    restart: always
     networks:
       db_network:
         aliases:
@@ -17,15 +20,13 @@ services:
           - models
     depends_on:
       - "es"
-    volumes:
-      - ./app/microservices:/app
-    ports:
-      - "8004:8000"
-    command: bash start-microservices.sh
 
   exp:
-    image: tp33/django
+    build:
+      context: ./app/exp
+      dockerfile: Dockerfile.exp
     container_name: exp
+    restart: always
     networks:
       mod_exp_network:
         aliases:
@@ -37,41 +38,33 @@ services:
       - "models"
       - "kafka"
       - "es"
-    volumes:
-      - ./app/exp:/app
-    ports:
-      - "8003:8000"
-    command: bash start-exp.sh
 
   web:
-    image: tp33/django
+    build:
+      context: ./app/web
+      dockerfile: Dockerfile.web
     container_name: web
+    restart: always
     networks:
       - main_network
     depends_on:
       - "exp"
-    volumes:
-      - ./app/web:/app
-    ports:
-      - "8001:8000"
-    command: bash start-web.sh
 
   webb:
-    image: tp33/django
+    build:
+      context: ./app/web
+      dockerfile: Dockerfile.web
     container_name: webb
+    restart: always
     networks:
       - main_network
     depends_on:
       - "exp"
-    volumes:
-      - ./app/web:/app
-    ports:
-      - "8002:8000"
-    command: bash start-web.sh
 
   kafka:
     image: spotify/kafka
     container_name: kafka
+    restart: always
     networks:
       - batch_network
       - mod_exp_network
@@ -86,51 +79,48 @@ services:
     networks:
       - batch_network
       - mod_exp_network
-    ports:
-      - "9200:9200"
 
   batch:
-    image: tp33/django
+    build:
+      context: .
+      dockerfile: ./app/batch/Dockerfile.batch
     container_name: batch
+    restart: always
     volumes:
-      - ./app/batch:/app
       - ./data:/tmp/data
-    ports:
-      - 8005:8000
     networks:
       - batch_network
     depends_on:
       - "kafka"
       - "es"
-    command: bash start-batch.sh
 
   selenium-chrome:
     image: selenium/standalone-chrome
     container_name: selenium-chrome
+    restart: always
     networks:
       - balancer_network
     depends_on:
       - "balancer"
-    ports:
-      - "4444:4444"
 
   selenium-test:
-    image: tp33/django
+    build:
+      context: ./app/selenium
+      dockerfile: Dockerfile.selenium
     container_name: selenium-test
+    restart: always
     networks:
       - balancer_network
     depends_on:
       - "selenium-chrome"
       - "balancer"
-    volumes:
-      - ./app/selenium:/app
-    command: tail -F anything
 
   balancer:
     build:
       context: ./app/balancer
       dockerfile: Dockerfile.balancer
     container_name: balancer
+    restart: always
     ports:
       -  "8000:8000"
       -  "1936:1936"
@@ -144,9 +134,11 @@ services:
       - "models"
 
   spark-master:
-    image: gettyimages/spark
-    command: bin/spark-class org.apache.spark.deploy.master.Master -h spark-master
+    build:
+      context: .
+      dockerfile: ./app/spark/Dockerfile.sparkMaster
     container_name: spark-master
+    restart: always
     hostname: spark-master
     environment:
       MASTER: spark://spark-master:7077
@@ -160,13 +152,7 @@ services:
       - 7006
       - 7077
       - 6066
-    ports:
-      - 4040:4040
-      - 6066:6066
-      - 7077:7077
-      - 8080:8080
     volumes:
-      - ./app/spark:/tmp/spark
       - ./data:/tmp/data
     networks:
       - mod_exp_network
@@ -174,9 +160,11 @@ services:
       - "models"
 
   spark-worker:
-    image: gettyimages/spark
-    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+    build:
+      context: .
+      dockerfile: ./app/spark/Dockerfile.sparkWorker
     container_name: spark-worker
+    restart: always
     hostname: spark-worker
     environment:
       SPARK_CONF_DIR: /conf
@@ -195,24 +183,19 @@ services:
       - 7015
       - 7016
       - 8881
-    ports:
-      - 8081:8081
     volumes:
-      - ./app/spark:/tmp/spark
       - ./data:/tmp/data
 
   locust:
-    image: christianbladescb/locustio
+    build:
+      context: ./app/locust
+      dockerfile: Dockerfile.locust
     container_name: locust
-    volumes:
-      - ./app/locust:/locust
-    ports:
-      - 8089:8089
+    restart: always
     networks:
       - balancer_network
     depends_on:
       - "balancer"
-    command: "--host http://balancer:8000"
 
 networks:
   db_network:
@@ -226,4 +209,3 @@ networks:
     driver: bridge
   mod_exp_network:
     driver: bridge
-
