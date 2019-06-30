@@ -1,14 +1,20 @@
-version: '3'
+version: '3.7'
 services:
   models:
     build:
       context: ./app/microservices
       dockerfile: Dockerfile.microservices
     container_name: models
-    links:
-      - es:es
-    external_links:
-      - mysql:db
+    networks:
+      - main_network
+      - mod_exp_network
+      - db_network
+    depends_on:
+      - "es"
+    volumes:
+      - ./app/microservices:/app
+    ports:
+      - "8004:8000"
     command: bash start-microservices.sh
 
   exp:
@@ -16,10 +22,17 @@ services:
       context: ./app/exp
       dockerfile: Dockerfile.exp
     container_name: exp
-    links:
-      - models:models-api
-      - kafka:kafka
-      - es:es
+    networks:
+      - mod_exp_network
+      - main_network
+    depends_on:
+      - "models"
+      - "kafka"
+      - "es"
+    volumes:
+      - ./app/exp:/app
+    ports:
+      - "8003:8000"
     command: bash start-exp.sh
 
   web:
@@ -27,8 +40,12 @@ services:
       context: ./app/web
       dockerfile: Dockerfile.web
     container_name: web
-    links:
-      - exp:exp-api
+    networks:
+      - main_network
+    depends_on:
+      - "exp"
+    volumes:
+      - ./app/web:/app
     ports:
       - "8001:8000"
     command: bash start-web.sh
@@ -38,8 +55,10 @@ services:
       context: ./app/web
       dockerfile: Dockerfile.web
     container_name: webb
-    links:
-      - exp:exp-api
+    networks:
+      - main_network
+    depends_on:
+      - "exp"
     volumes:
       - ./app/web:/app
     ports:
@@ -49,6 +68,9 @@ services:
   kafka:
     image: spotify/kafka
     container_name: kafka
+    networks:
+      - batch_network
+      - mod_exp_network
     environment:
       ADVERTISED_HOST: kafka
       ADVERTISED_PORT: 9092
@@ -57,31 +79,51 @@ services:
   es:
     image: elasticsearch:2.0
     container_name: es
+    networks:
+      - batch_network
+      - mod_exp_network
+    ports:
+      - "9200:9200"
 
   batch:
     build:
       context: .
       dockerfile: ./app/batch/Dockerfile.batch
     container_name: batch
-    links:
-      - kafka:kafka
-      - es:es
+    volumes:
+      - ./app/batch:/app
+      - ./data:/tmp/data
+    ports:
+      - 8005:8000
+    networks:
+      - batch_network
+    depends_on:
+      - "kafka"
+      - "es"
     command: bash start-batch.sh
 
   selenium-chrome:
     image: selenium/standalone-chrome
     container_name: selenium-chrome
-    links:
-      - balancer:balancer
+    networks:
+      - balancer_network
+    depends_on:
+      - "balancer"
+    ports:
+      - "4444:4444"
 
   selenium-test:
     build:
       context: ./app/selenium
       dockerfile: Dockerfile.selenium
     container_name: selenium-test
-    links:
-      - selenium-chrome:selenium-chrome
-      - balancer:balancer
+    networks:
+      - balancer_network
+    depends_on:
+      - "selenium-chrome"
+      - "balancer"
+    volumes:
+      - ./app/selenium:/app
     command: tail -F anything
 
   balancer:
@@ -92,11 +134,14 @@ services:
     ports:
       -  "8000:8000"
       -  "1936:1936"
-    links:
-      -  web:web
-      -  webb:webb
-      -  exp:exp
-      -  models:models
+    networks:
+      - balancer_network
+      - main_network
+    depends_on:
+      - "web"
+      - "webb"
+      - "exp"
+      - "models"
 
   spark-master:
     build:
@@ -121,8 +166,13 @@ services:
       - 6066:6066
       - 7077:7077
       - 8080:8080
-    links:
-      -  models:models
+    volumes:
+      - ./app/spark:/tmp/spark
+      - ./data:/tmp/data
+    networks:
+      - mod_exp_network
+    depends_on:
+      - "models"
 
   spark-worker:
     build:
@@ -136,8 +186,10 @@ services:
       SPARK_WORKER_MEMORY: 512m
       SPARK_WORKER_PORT: 8881
       SPARK_WORKER_WEBUI_PORT: 8081
-    links:
-      - spark-master
+    networks:
+      - mod_exp_network
+    depends_on:
+      - "spark-master"
     expose:
       - 7012
       - 7013
@@ -156,6 +208,25 @@ services:
       context: ./app/locust
       dockerfile: Dockerfile.locust
     container_name: locust
-    links:
-      - balancer:balancer
+    volumes:
+      - ./app/locust:/locust
+    ports:
+      - 8089:8089
+    networks:
+      - balancer_network
+    depends_on:
+      - "balancer"
     command: "--host http://balancer:8000"
+
+networks:
+  db_network:
+    external:
+      name: db_network
+  balancer_network:
+    driver: bridge
+  batch_network:
+    driver: bridge
+  main_network:
+    driver: bridge
+  mod_exp_network:
+    driver: bridge

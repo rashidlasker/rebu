@@ -25,3 +25,7 @@ Dump database cleanly:
 
 When editing Sass files:
 `gulp` and then `docker-compose up`
+
+## Notes
+docker-compose.v1.yml does not work unless you take mysql off the network
+

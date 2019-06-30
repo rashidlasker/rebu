@@ -5,7 +5,9 @@ do
 case $i in
   start)
   echo "starting application"
+  docker network create db_network
   docker start mysql
+  docker network connect db_network mysql
   sudo docker-compose build
   docker-compose up &
   ./start_spark.sh
@@ -25,7 +27,9 @@ case $i in
   ;;
   start-prod)
   echo "starting application"
+  docker network create db_network
   docker start mysql
+  docker network connect db_network mysql
   sudo docker-compose -f docker-compose.prod.yml build
   docker-compose -f docker-compose.prod.yml up &
   ./start_spark.sh
