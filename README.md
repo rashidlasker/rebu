@@ -6,7 +6,9 @@ Our app, Rebu, is a marketplace where people can buy/sell homemade meals.
 
 ## Run Instructions
 Rebu can be run by using the run script provided.
-Commands inclue `./run start`, `./run restart`, `./run stop`, and `./run help`
+Commands for the dev environment inclue `./run start`, `./run restart`, and `./run stop`
+Commands for the production environment inlude `./run start-prod`, `./run restart-prod`, and `./run stop-prod`
+Other commands include `./run help` and `./run mysql` to access the help menu and create the database respectively
 
 ## Contributing
 
