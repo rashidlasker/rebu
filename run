@@ -32,11 +32,11 @@ case $i in
   restart-prod)
   echo "restarting application"
   docker-compose -f docker-compose.prod.yml down
-  docker-compose -f docker-compose.prod.yml build
+  sudo docker-compose -f docker-compose.prod.yml build
   docker-compose -f docker-compose.prod.yml up &
   ./start_spark.sh
   ;;
-  stop)
+  stop-prod)
   echo "stopping application"
   docker-compose -f docker-compose.prod.yml down
   docker stop mysql
@@ -48,7 +48,7 @@ case $i in
   echo "valid commands are start, restart, and stop for development and start-prod, restart-prod, and stop-prod for production, as well as mysql to set up the database"
   ;;
   *)
-  echo "That is not an option, try ./script.sh help for help"
+  echo "That is not an option, try ./run help for help"
   ;;
 esac
 done

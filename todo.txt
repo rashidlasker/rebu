@@ -1,7 +1,5 @@
 fix haproxy
   yikes
   not working at all on either
-test all builds
-check ports
 check landing page
 
