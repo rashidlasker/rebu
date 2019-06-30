@@ -13,3 +13,6 @@ database is not connected in production
 update docker compose to v3
   fix lots of probs
 
+figure out how to connect db
+  not quite working yet
+

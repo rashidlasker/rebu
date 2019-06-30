@@ -1,10 +1,14 @@
-version: '3'
+version: '3.7'
 services:
   models:
     image: tp33/django
     container_name: models
-    links:
-      - es:es
+    networks:
+      - spark_network
+      - exp_network
+      - db_network
+    depends_on:
+      - "es"
     external_links:
       - mysql:db
     volumes:
@@ -16,10 +20,14 @@ services:
   exp:
     image: tp33/django
     container_name: exp
-    links:
-      - models:models-api
-      - kafka:kafka
-      - es:es
+    networks:
+      - exp_network
+      - balancer_network
+      - batch_network
+    depends_on:
+      - "models"
+      - "kafka"
+      - "es"
     volumes:
       - ./app/exp:/app
     ports:
@@ -29,8 +37,10 @@ services:
   web:
     image: tp33/django
     container_name: web
-    links:
-      - exp:exp-api
+    networks:
+      - exp_network
+    depends_on:
+      - "exp"
     volumes:
       - ./app/web:/app
     ports:
@@ -40,8 +50,10 @@ services:
   webb:
     image: tp33/django
     container_name: webb
-    links:
-      - exp:exp-api
+    networks:
+      - exp_network
+    depends_on:
+      - "exp"
     volumes:
       - ./app/web:/app
     ports:
@@ -51,6 +63,8 @@ services:
   kafka:
     image: spotify/kafka
     container_name: kafka
+    networks:
+      - batch_network
     environment:
       ADVERTISED_HOST: kafka
       ADVERTISED_PORT: 9092
@@ -59,6 +73,8 @@ services:
   es:
     image: elasticsearch:2.0
     container_name: es
+    networks:
+      - batch_network
     ports:
       - "9200:9200"
 
@@ -70,42 +86,52 @@ services:
       - ./data:/tmp/data
     ports:
       - 8005:8000
-    links:
-      - kafka:kafka
-      - es:es
+    networks:
+      - batch_network
+    depends_on:
+      - "kafka"
+      - "es"
     command: bash start-batch.sh
 
   selenium-chrome:
     image: selenium/standalone-chrome
     container_name: selenium-chrome
-    links:
-      - balancer:balancer
+    networks:
+      - selenium_network
+    depends_on:
+      - "balancer"
     ports:
       - "4444:4444"
 
   selenium-test:
     image: tp33/django
     container_name: selenium-test
-    links:
-      - selenium-chrome:selenium-chrome
-      - balancer:balancer
+    networks:
+      - selenium_network
+    depends_on:
+      - "selenium-chrome"
+      - "balancer"
     volumes:
       - ./app/selenium:/app
     command: tail -F anything
 
   balancer:
     build:
-      context: .
-      dockerfile: ./app/balancer/Dockerfile.balancer
+      context: ./app/balancer
+      dockerfile: Dockerfile.balancer
     container_name: balancer
     ports:
       -  "8000:8000"
       -  "1936:1936"
-    links:
-      -  web:web
-      -  webb:webb
-      -  exp:exp
-      -  models:models
+    networks:
+      - balancer_network
+      - selenium_network
+      - locust_network
+    depends_on:
+      - "web"
+      - "webb"
+      - "exp"
+      - "models"
 
   spark-master:
     image: gettyimages/spark
@@ -132,8 +158,10 @@ services:
     volumes:
       - ./app/spark:/tmp/spark
       - ./data:/tmp/data
-    links:
-      -  models:models
+    networks:
+      - spark_network
+    depends_on:
+      - "models"
 
   spark-worker:
     image: gettyimages/spark
@@ -146,8 +174,10 @@ services:
       SPARK_WORKER_MEMORY: 512m
       SPARK_WORKER_PORT: 8881
       SPARK_WORKER_WEBUI_PORT: 8081
-    links:
-      - spark-master
+    networks:
+      - spark_network
+    depends_on:
+      - "spark-master"
     expose:
       - 7012
       - 7013
@@ -168,6 +198,26 @@ services:
       - ./app/locust:/locust
     ports:
       - 8089:8089
-    links:
-      - balancer:balancer
+    networks:
+      - locust_network
+    depends_on:
+      - "balancer"
     command: "--host http://balancer:8000"
+
+networks:
+  db_network:
+    external:
+      name: db_network
+  exp_network:
+    driver: bridge
+  balancer_network:
+    driver: bridge
+  selenium_network:
+    driver: bridge
+  locust_network:
+    driver: bridge
+  spark_network:
+    driver: bridge
+  batch_network:
+    driver: bridge
+
