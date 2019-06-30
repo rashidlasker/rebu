@@ -42,7 +42,13 @@ case $i in
   docker stop mysql
   ;;
   mysql)
-  docker run --name mysql -d -e MYSQL_ROOT_PASSWORD='$3cureUS' -v ~/build/rashidlasker/rebu/db:/var/lib/mysql mysql:5.7.23
+  docker stop mysql
+  docker stop mysql-cmdline
+  docker rm mysql
+  docker rm mysql-cmdline
+  sudo rm -rf db
+  mkdir db
+  docker run --name mysql -d -e MYSQL_ROOT_PASSWORD='$3cureUS' -v `pwd`/db:/var/lib/mysql mysql:5.7.23
   sleep 10
   docker run -it --name mysql-cmdline --link mysql:db mysql:5.7.23 mysql -uroot -p'$3cureUS' -h db -e "CREATE USER 'www'@'%' IDENTIFIED BY '\$3cureUS'; CREATE DATABASE cs4501 CHARACTER SET utf8; GRANT ALL PRIVILEGES ON *.* TO 'www'@'%';"
   ;;
