@@ -60,8 +60,8 @@ services:
 
   batch:
      build:
-       context: ./app/batch
-       dockerfile: Dockerfile.batch
+       context: .
+       dockerfile: ./app/batch/Dockerfile.batch
      container_name: batch
      links:
         - kafka:kafka
@@ -100,8 +100,8 @@ services:
 
   spark-master:
     build:
-      context: ./app/spark
-      dockerfile: Dockerfile.sparkMaster
+      context: .
+      dockerfile: ./app/spark/Dockerfile.sparkMaster
     container_name: spark-master
     hostname: spark-master
     environment:
@@ -126,8 +126,8 @@ services:
 
   spark-worker:
     build:
-      context: ./app/spark
-      dockerfile: Dockerfile.sparkWorker
+      context: .
+      dockerfile: ./app/spark/Dockerfile.sparkWorker
     container_name: spark-worker
     hostname: spark-worker
     environment:

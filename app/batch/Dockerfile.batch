@@ -1,7 +1,7 @@
 FROM tp33/django
 
-COPY . /app
-COPY ../../data /tmp/data
+COPY ./app/spark /app
+COPY ./data /tmp/data
 
 ENTRYPOINT ["bash", "start-batch.sh"]
 
