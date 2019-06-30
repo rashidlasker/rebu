@@ -1,0 +1,37 @@
+#!/bin/bash
+
+start="start"
+restart="restart"
+stop="stop"
+
+for i in "$@"
+do
+case $i in
+  start)
+  echo "starting application"
+  docker start mysql
+  docker-compose build
+  docker-compose up &
+  ./start_spark.sh
+  ;;
+  restart)
+  echo "restarting application"
+  docker-compose down
+  docker-compose build
+  docker-compose up &
+  ./start_spark.sh
+  ;;
+  stop)
+  echo "stopping application"
+  docker-compose down
+  docker stop mysql
+  ;;
+  help)
+  echo "valid commands are start, restart, and stop"
+  ;;
+  *)
+  echo "That is not an option, try ./script.sh help for help"
+  ;;
+esac
+done
+

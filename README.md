@@ -4,6 +4,10 @@ Rashid L, Andrew W, Alex H
 ## App Description
 Our app, Rebu, is a marketplace where people can buy/sell homemade meals. 
 
+## Run Instructions
+Rebu can be run by using the run script provided.
+Commands inclue `./run start`, `./run restart`, `./run stop`, and `./run help`
+
 ## Contributing
 
  1. Create a new **Branch** on your own machine in the following format: `your-name/what-you-added`
