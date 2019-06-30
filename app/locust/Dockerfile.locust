@@ -1,6 +1,6 @@
 FROM christianbladescb/locustio
 
-COPY ./app/locust:/locust
+COPY ./app/locust /locust
 
 ENTRYPOINT ["--host", "http://balancer:800"]
 

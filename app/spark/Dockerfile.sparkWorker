@@ -1,7 +1,7 @@
 FROM gettyimages/spark
 
-COPY ./app/spark:/tmp/spark
-COPY ./data:/tmp/data
+COPY ./app/spark /tmp/spark
+COPY ./data /tmp/data
 
 ENTRYPOINT ["bin/spark-class", "org.apache.spark.deploy.worker.Worker", "spark://spark-master:7077"]
 

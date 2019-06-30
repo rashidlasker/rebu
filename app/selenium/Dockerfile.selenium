@@ -1,6 +1,6 @@
 FROM tp33/django
 
-COPY ./app/selenium:/app
+COPY ./app/selenium /app
 
 ENTRYPOINT ["tail", "-F", "anything"]
 

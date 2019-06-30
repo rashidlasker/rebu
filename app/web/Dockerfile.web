@@ -1,6 +1,6 @@
 FROM tp33/django
 
-COPY ./app/web:/app
+COPY ./app/web /app
 
 ENTRYPOINT ["bash", "start-web.sh"]
 
