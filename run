@@ -21,7 +21,6 @@ case $i in
   echo "stopping application"
   docker-compose down
   docker stop mysql
-  docker network rm db_network
   ;;
   start-prod)
   echo "starting application"
