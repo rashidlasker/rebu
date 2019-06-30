@@ -1,6 +1,6 @@
 FROM tp33/django
 
-COPY ./app/exp /app
+COPY . /app
 
 ENTRYPOINT ["bash", "start-exp.sh"]
 

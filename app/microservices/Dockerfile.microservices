@@ -1,6 +1,6 @@
 FROM tp33/django
 
-COPY ./app/microservices /app
+COPY . /app
 
 ENTRYPOINT ["bash", "start-microservices.sh"]
 
