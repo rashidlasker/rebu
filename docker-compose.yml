@@ -10,9 +10,11 @@ services:
       main_network:
         aliases:
           - models-api
+          - models
       mod_exp_network:
         aliases:
           - models-api
+          - models
     depends_on:
       - "es"
     volumes:

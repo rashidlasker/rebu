@@ -5,7 +5,6 @@ do
 case $i in
   start)
   echo "starting application"
-  docker network create db_network
   docker start mysql
   sudo docker-compose build
   docker-compose up &
@@ -26,7 +25,7 @@ case $i in
   ;;
   start-prod)
   echo "starting application"
-  docker network create db_network
+
   docker start mysql
   sudo docker-compose -f docker-compose.prod.yml build
   docker-compose -f docker-compose.prod.yml up &
@@ -43,7 +42,6 @@ case $i in
   echo "stopping application"
   docker-compose -f docker-compose.prod.yml down
   docker stop mysql
-  docker network rm db_network
   ;;
   mysql)
   docker stop mysql

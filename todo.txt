@@ -6,3 +6,5 @@ fix haproxy
 
 update production for ports and volumes and stuff
   turn off all debug = True
+
+finish separating networks
