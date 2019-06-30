@@ -6,4 +6,6 @@ check landing page
 database is not connected in production
   or in my branch
   sad yeet
+  or in master
+  super sad yeet
 
