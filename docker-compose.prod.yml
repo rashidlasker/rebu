@@ -6,9 +6,17 @@ services:
       dockerfile: Dockerfile.microservices
     container_name: models
     networks:
-      - main_network
-      - mod_exp_network
-      - db_network
+      db_network:
+        aliases:
+          - models
+      main_network:
+        aliases:
+          - models-api
+          - models
+      mod_exp_network:
+        aliases:
+          - models-api
+          - models
     depends_on:
       - "es"
     volumes:
@@ -23,8 +31,12 @@ services:
       dockerfile: Dockerfile.exp
     container_name: exp
     networks:
-      - mod_exp_network
-      - main_network
+      mod_exp_network:
+        aliases:
+          - exp-api
+      main_network:
+        aliases:
+          - exp-api
     depends_on:
       - "models"
       - "kafka"
@@ -49,6 +61,7 @@ services:
     ports:
       - "8001:8000"
     command: bash start-web.sh
+
 
   webb:
     build:
