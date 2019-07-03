@@ -94,27 +94,6 @@ services:
       - "kafka"
       - "es"
 
-  selenium-chrome:
-    image: selenium/standalone-chrome
-    container_name: selenium-chrome
-    restart: always
-    networks:
-      - balancer_network
-    depends_on:
-      - "balancer"
-
-  selenium-test:
-    build:
-      context: ./app/selenium
-      dockerfile: Dockerfile.selenium
-    container_name: selenium-test
-    restart: always
-    networks:
-      - balancer_network
-    depends_on:
-      - "selenium-chrome"
-      - "balancer"
-
   balancer:
     build:
       context: ./app/balancer
@@ -125,7 +104,6 @@ services:
       -  "8000:8000"
       -  "1936:1936"
     networks:
-      - balancer_network
       - main_network
     depends_on:
       - "web"
@@ -186,23 +164,10 @@ services:
     volumes:
       - ./data:/tmp/data
 
-  locust:
-    build:
-      context: ./app/locust
-      dockerfile: Dockerfile.locust
-    container_name: locust
-    restart: always
-    networks:
-      - balancer_network
-    depends_on:
-      - "balancer"
-
 networks:
   db_network:
     external:
       name: db_network
-  balancer_network:
-    driver: bridge
   batch_network:
     driver: bridge
   main_network:
