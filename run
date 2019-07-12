@@ -48,17 +48,14 @@ case $i in
     docker rm mysql-cmdline
     docker network rm db_network
     docker network create db_network
-    rm -rf db
+    sudo rm -rf db
     mkdir db
     docker run --network=db_network --network-alias db --name mysql -d -e MYSQL_ROOT_PASSWORD='$3cureUS' -v `pwd`/db:/var/lib/mysql mysql:5.7.23
     sleep 10
     docker run --network=db_network -it --name mysql-cmdline --link mysql:db mysql:5.7.23 mysql -uroot -p'$3cureUS' -h db -e "CREATE USER 'www'@'%' IDENTIFIED BY '\$3cureUS'; CREATE DATABASE cs4501 CHARACTER SET utf8; GRANT ALL PRIVILEGES ON *.* TO 'www'@'%';"
     ;;
-  owner)
-    sudo chown -R $(id -u):$(id -g) db
-    ;;
   help)
-    echo "valid commands are start, restart, and stop for development and start-prod, restart-prod, and stop-prod for production, as well as mysql to set up the database and owner to fix ownership problems with the db"
+    echo "valid commands are start, restart, and stop for development and start-prod, restart-prod, and stop-prod for production, as well as mysql to set up the database"
     ;;
   *)
     echo "That is not an option, try ./run help for help"
