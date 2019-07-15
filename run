@@ -21,6 +21,9 @@ case $i in
     echo "stopping application"
     docker-compose down
     docker stop mysql
+    docker rm mysql
+    docker rm mysql-cmdline
+    docker network rm db_network
     ;;
   start-prod)
     echo "starting application"
@@ -40,6 +43,9 @@ case $i in
     echo "stopping application"
     docker-compose -f docker-compose.prod.yml down
     docker stop mysql
+    docker rm mysql
+    docker rm mysql-cmdline
+    docker network rm db_network
     ;;
   mysql)
     docker stop mysql
