@@ -13,13 +13,12 @@ case $i in
   restart)
     echo "restarting application"
     docker-compose down
-    docker-compose build
     docker-compose up &
     ./start_spark.sh
     ;;
   stop)
     echo "stopping application"
-    docker-compose down
+    docker-compose down --volumes
     docker stop mysql
     docker rm mysql
     docker rm mysql-cmdline
@@ -41,7 +40,7 @@ case $i in
     ;;
   stop-prod)
     echo "stopping application"
-    docker-compose -f docker-compose.prod.yml down
+    docker-compose -f docker-compose.prod.yml down --volumes
     docker stop mysql
     docker rm mysql
     docker rm mysql-cmdline

@@ -10,15 +10,13 @@ services:
       main_network:
         aliases:
           - models-api
-          - models
       mod_exp_network:
         aliases:
           - models-api
-          - models
     depends_on:
       - "es"
     volumes:
-      - ./app/microservices:/app
+      - micro_vol:/app
     ports:
       - "8004:8000"
     command: bash start-microservices.sh
@@ -38,7 +36,7 @@ services:
       - "kafka"
       - "es"
     volumes:
-      - ./app/exp:/app
+      - exp_vol:/app
     ports:
       - "8003:8000"
     command: bash start-exp.sh
@@ -51,7 +49,7 @@ services:
     depends_on:
       - "exp"
     volumes:
-      - ./app/web:/app
+      - web_vol:/app
     ports:
       - "8001:8000"
     command: bash start-web.sh
@@ -64,7 +62,7 @@ services:
     depends_on:
       - "exp"
     volumes:
-      - ./app/web:/app
+      - web_vol:/app
     ports:
       - "8002:8000"
     command: bash start-web.sh
@@ -93,8 +91,8 @@ services:
     image: tp33/django
     container_name: batch
     volumes:
-      - ./app/batch:/app
-      - ./data:/tmp/data
+      - batch_vol:/app
+      - data_vol:/tmp/data
     ports:
       - 8005:8000
     networks:
@@ -123,7 +121,7 @@ services:
       - "selenium-chrome"
       - "balancer"
     volumes:
-      - ./app/selenium:/app
+      - sel_vol:/app
     command: tail -F anything
 
   balancer:
@@ -134,6 +132,8 @@ services:
     ports:
       -  "8000:8000"
       -  "1936:1936"
+    expose:
+      - 8000
     networks:
       - balancer_network
       - main_network
@@ -166,8 +166,8 @@ services:
       - 7077:7077
       - 8080:8080
     volumes:
-      - ./app/spark:/tmp/spark
-      - ./data:/tmp/data
+      - spark_vol:/tmp/spark
+      - data_vol:/tmp/data
     networks:
       - mod_exp_network
     depends_on:
@@ -198,14 +198,14 @@ services:
     ports:
       - 8081:8081
     volumes:
-      - ./app/spark:/tmp/spark
-      - ./data:/tmp/data
+      - spark_vol:/tmp/spark
+      - data_vol:/tmp/data
 
   locust:
     image: christianbladescb/locustio
     container_name: locust
     volumes:
-      - ./app/locust:/locust
+      - locust_vol:/locust
     ports:
       - 8089:8089
     networks:
@@ -226,4 +226,54 @@ networks:
     driver: bridge
   mod_exp_network:
     driver: bridge
+
+volumes:
+  micro_vol:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/app/microservices
+      o: bind
+  exp_vol:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/app/exp
+      o: bind
+  web_vol:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/app/web
+      o: bind
+  batch_vol:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/app/batch
+      o: bind
+  data_vol:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/data
+      o: bind
+  sel_vol:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/app/selenium
+      o: bind
+  spark_vol:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/app/spark
+      o: bind
+  locust_vol:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/app/locust
+      o: bind
 
