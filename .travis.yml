@@ -36,4 +36,4 @@ script:
   - docker exec -it selenium-test bash -c "pip install selenium; python selenium-webdriver.py"
 
 after_script:
-  - docker-compose down
+  - docker-compose down --volumes

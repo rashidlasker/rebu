@@ -104,7 +104,7 @@ services:
       -  "8000:8000"
       -  "1936:1936"
     expose:
-      - "8000"
+      - 8000
     networks:
       - main_network
     depends_on:
