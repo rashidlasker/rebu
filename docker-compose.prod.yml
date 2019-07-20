@@ -1,6 +1,7 @@
 version: '3.7'
 services:
   models:
+    image: awh4kc/rebu-microservices
     build:
       context: ./app/microservices
       dockerfile: Dockerfile.microservices
@@ -22,6 +23,7 @@ services:
       - "es"
 
   exp:
+    image: awh4kc/rebu-exp
     build:
       context: ./app/exp
       dockerfile: Dockerfile.exp
@@ -40,6 +42,7 @@ services:
       - "es"
 
   web:
+    image: awh4kc/rebu-web
     build:
       context: ./app/web
       dockerfile: Dockerfile.web
@@ -51,6 +54,7 @@ services:
       - "exp"
 
   webb:
+    image: awh4kc/rebu-webb
     build:
       context: ./app/web
       dockerfile: Dockerfile.web
@@ -81,9 +85,10 @@ services:
       - mod_exp_network
 
   batch:
+    image: awh4kc/rebu-batch
     build:
-      context: .
-      dockerfile: ./app/batch/Dockerfile.batch
+      context: ./app/batch
+      dockerfile: ./Dockerfile.batch
     container_name: batch
     restart: always
     volumes:
@@ -95,6 +100,7 @@ services:
       - "es"
 
   balancer:
+    image: awh4kc/rebu-balancer
     build:
       context: ./app/balancer
       dockerfile: Dockerfile.balancer
@@ -114,9 +120,10 @@ services:
       - "models"
 
   spark-master:
+    image: awh4kc/rebu-spark-master
     build:
-      context: .
-      dockerfile: ./app/spark/Dockerfile.sparkMaster
+      context: ./app/spark
+      dockerfile: ./Dockerfile.sparkMaster
     container_name: spark-master
     restart: always
     hostname: spark-master
@@ -140,9 +147,10 @@ services:
       - "models"
 
   spark-worker:
+    image: awh4kc/rebu-spark-worker
     build:
-      context: .
-      dockerfile: ./app/spark/Dockerfile.sparkWorker
+      context: ./app/spark
+      dockerfile: ./Dockerfile.sparkWorker
     container_name: spark-worker
     restart: always
     hostname: spark-worker
@@ -179,9 +187,4 @@ networks:
 
 volumes:
   data_vol:
-    driver: local
-    driver_opts:
-      type: none
-      device: $PWD/data
-      o: bind
 
