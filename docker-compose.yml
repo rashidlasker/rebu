@@ -127,7 +127,7 @@ services:
   balancer:
     build:
       context: ./app/balancer
-      dockerfile: Dockerfile.balancer
+      dockerfile: Dockerfile
     container_name: balancer
     ports:
       -  "8000:8000"
