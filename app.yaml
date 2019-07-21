@@ -1,0 +1,291 @@
+version: '3.7'
+services:
+  db:
+    image: mysql:5.7.23
+    container_name: db
+    networks:
+      db_network:
+        aliases:
+          - mysql
+    volumes:
+      - $PWD/db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD='3cureUS'
+    command: mysql -uroot -p'3cureUS' -h db -e "CREATE USER 'www'@'%' IDENTIFIED BY '\3cureUS'; CREATE DATABASE cs4501 CHARACTER SET utf8; GRANT ALL PRIVILEGES ON *.* TO 'www'@'%';"
+  models:
+    image: tp33/django
+    container_name: models
+    networks:
+      db_network:
+        aliases:
+          - models
+      main_network:
+        aliases:
+          - models-api
+      mod_exp_network:
+        aliases:
+          - models-api
+    depends_on:
+      - "es"
+      - "db"
+    volumes:
+      - micro_vol:/app
+    ports:
+      - "8004:8000"
+    command: bash start-microservices.sh
+
+  exp:
+    image: tp33/django
+    container_name: exp
+    networks:
+      mod_exp_network:
+        aliases:
+          - exp-api
+      main_network:
+        aliases:
+          - exp-api
+    depends_on:
+      - "models"
+      - "kafka"
+      - "es"
+    volumes:
+      - exp_vol:/app
+    ports:
+      - "8003:8000"
+    command: bash start-exp.sh
+
+  web:
+    image: tp33/django
+    container_name: web
+    networks:
+      - main_network
+    depends_on:
+      - "exp"
+    volumes:
+      - web_vol:/app
+    ports:
+      - "8001:8000"
+    command: bash start-web.sh
+
+  webb:
+    image: tp33/django
+    container_name: webb
+    networks:
+      - main_network
+    depends_on:
+      - "exp"
+    volumes:
+      - web_vol:/app
+    ports:
+      - "8002:8000"
+    command: bash start-web.sh
+
+  kafka:
+    image: spotify/kafka
+    container_name: kafka
+    networks:
+      - batch_network
+      - mod_exp_network
+    environment:
+      ADVERTISED_HOST: kafka
+      ADVERTISED_PORT: 9092
+    hostname: kafka
+
+  es:
+    image: elasticsearch:2.0
+    container_name: es
+    networks:
+      - batch_network
+      - mod_exp_network
+    ports:
+      - "9200:9200"
+
+  batch:
+    image: tp33/django
+    container_name: batch
+    volumes:
+      - batch_vol:/app
+      - data_vol:/tmp/data
+    ports:
+      - 8005:8000
+    networks:
+      - batch_network
+    depends_on:
+      - "kafka"
+      - "es"
+    command: bash start-batch.sh
+
+  selenium-chrome:
+    image: selenium/standalone-chrome
+    container_name: selenium-chrome
+    networks:
+      - balancer_network
+    depends_on:
+      - "balancer"
+    ports:
+      - "4444:4444"
+
+  selenium-test:
+    image: tp33/django
+    container_name: selenium-test
+    networks:
+      - balancer_network
+    depends_on:
+      - "selenium-chrome"
+      - "balancer"
+    volumes:
+      - sel_vol:/app
+    command: tail -F anything
+
+  balancer:
+    build:
+      context: ./app/balancer
+      dockerfile: Dockerfile
+    container_name: balancer
+    ports:
+      -  "8000:8000"
+      -  "1936:1936"
+    expose:
+      - 8000
+    networks:
+      - balancer_network
+      - main_network
+    depends_on:
+      - "web"
+      - "webb"
+      - "exp"
+      - "models"
+
+  spark-master:
+    image: gettyimages/spark
+    command: bin/spark-class org.apache.spark.deploy.master.Master -h spark-master
+    container_name: spark-master
+    hostname: spark-master
+    environment:
+      MASTER: spark://spark-master:7077
+      SPARK_CONF_DIR: /conf
+    expose:
+      - 7001
+      - 7002
+      - 7003
+      - 7004
+      - 7005
+      - 7006
+      - 7077
+      - 6066
+    ports:
+      - 4040:4040
+      - 6066:6066
+      - 7077:7077
+      - 8080:8080
+    volumes:
+      - spark_vol:/tmp/spark
+      - data_vol:/tmp/data
+    networks:
+      - mod_exp_network
+    depends_on:
+      - "models"
+
+  spark-worker:
+    image: gettyimages/spark
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+    container_name: spark-worker
+    hostname: spark-worker
+    environment:
+      SPARK_CONF_DIR: /conf
+      SPARK_WORKER_CORES: 2
+      SPARK_WORKER_MEMORY: 512m
+      SPARK_WORKER_PORT: 8881
+      SPARK_WORKER_WEBUI_PORT: 8081
+    networks:
+      - mod_exp_network
+    depends_on:
+      - "spark-master"
+    expose:
+      - 7012
+      - 7013
+      - 7014
+      - 7015
+      - 7016
+      - 8881
+    ports:
+      - 8081:8081
+    volumes:
+      - spark_vol:/tmp/spark
+      - data_vol:/tmp/data
+
+  locust:
+    image: christianbladescb/locustio
+    container_name: locust
+    volumes:
+      - locust_vol:/locust
+    ports:
+      - 8089:8089
+    networks:
+      - balancer_network
+    depends_on:
+      - "balancer"
+    command: "--host http://balancer:8000"
+
+networks:
+  db_network:
+    driver: bridge
+  balancer_network:
+    driver: bridge
+  batch_network:
+    driver: bridge
+  main_network:
+    driver: bridge
+  mod_exp_network:
+    driver: bridge
+
+volumes:
+  micro_vol:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/app/microservices
+      o: bind
+  exp_vol:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/app/exp
+      o: bind
+  web_vol:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/app/web
+      o: bind
+  batch_vol:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/app/batch
+      o: bind
+  data_vol:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/data
+      o: bind
+  sel_vol:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/app/selenium
+      o: bind
+  spark_vol:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/app/spark
+      o: bind
+  locust_vol:
+    driver: local
+    driver_opts:
+      type: none
+      device: $PWD/app/locust
+      o: bind
+
