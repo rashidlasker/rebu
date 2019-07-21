@@ -12,6 +12,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD='3cureUS'
     command: mysql -uroot -p'3cureUS' -h db -e "CREATE USER 'www'@'%' IDENTIFIED BY '\3cureUS'; CREATE DATABASE cs4501 CHARACTER SET utf8; GRANT ALL PRIVILEGES ON *.* TO 'www'@'%';"
+
   models:
     image: tp33/django
     container_name: models
