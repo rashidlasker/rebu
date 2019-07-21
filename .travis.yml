@@ -4,9 +4,6 @@ services:
 env:
 - DOCKER_COMPOSE_VERSION=1.22.0
 before_install:
-- openssl aes-256-cbc -K $encrypted_801b8460457e_key -iv $encrypted_801b8460457e_iv
-  -in My\ First\ Project-4693afed915d.json.enc -out My\ First\ Project-4693afed915d.json
-  -d
 - sudo rm /usr/local/bin/docker-compose
 - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname
   -s`-`uname -m` > docker-compose
@@ -32,7 +29,3 @@ script:
 - docker exec -it selenium-test bash -c "pip install selenium; python selenium-webdriver.py"
 after_script:
 - docker-compose down --volumes
-deploy:
-  provider: gae
-  keyfile: My\ First\ Project-4693afed915d.json
-  project: glassy-azimuth-245000
