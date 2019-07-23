@@ -55,10 +55,9 @@ case $i in
     docker rm mysql-cmdline
     docker network rm db_network
     docker network create db_network
-    sudo rm -rf db
-    docker login
+    rm -rf db
     mkdir db
-    docker run --network=db_network --network-alias db --name mysql -d -e MYSQL_ROOT_PASSWORD='$3cureUS' -v `pwd`/db:/var/lib/mysql mysql:5.7.23
+    docker run --network=db_network -u $(id -u):$(id -g) --network-alias db --name mysql -d -e MYSQL_ROOT_PASSWORD='$3cureUS' -v `pwd`/db:/var/lib/mysql mysql:5.7.23
     sleep 10
     docker run --network=db_network -it --name mysql-cmdline --link mysql:db mysql:5.7.23 mysql -uroot -p'$3cureUS' -h db -e "CREATE USER 'www'@'%' IDENTIFIED BY '\$3cureUS'; CREATE DATABASE cs4501 CHARACTER SET utf8; GRANT ALL PRIVILEGES ON *.* TO 'www'@'%';"
     ;;
