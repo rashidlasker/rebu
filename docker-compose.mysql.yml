@@ -1,17 +1,30 @@
 version: '3.7'
 services:
-  db:
+  mysql:
     image: mysql:5.7.23
-    container_name: db
+    container_name: mysql
     networks:
       db_network:
         aliases:
-          - mysql
+          - db
     volumes:
-      - $PWD/db:/var/lib/mysql
+      - db:/var/lib/mysql
+    user: '1000:1001'
     environment:
-      - MYSQL_ROOT_PASSWORD='3cureUS'
-    command: mysql -uroot -p'3cureUS' -h db -e "CREATE USER 'www'@'%' IDENTIFIED BY '\3cureUS'; CREATE DATABASE cs4501 CHARACTER SET utf8; GRANT ALL PRIVILEGES ON *.* TO 'www'@'%';"
+      - MYSQL_ROOT_PASSWORD=$$3cureUS
+      - MYSQL_DATABASE=db
+
+# make into dockerfile bc fuck this
+
+  mysql-cmdline:
+    image: mysql:5.7.23
+    container_name: mysql-cmdline
+    networks:
+      db_network:
+    depends_on:
+      - "mysql"
+
+    command: sh -c 'sleep 10 && mysql -p'$$3cureUS' -uroot -h db -e "CREATE USER 'www'@'%' IDENTIFIED BY '\$$3cureUS'; CREATE DATABASE cs4501 CHARACTER SET utf8; GRANT ALL PRIVILEGES ON *.* TO 'www'@'%';"'
 
   models:
     image: tp33/django
@@ -28,7 +41,7 @@ services:
           - models-api
     depends_on:
       - "es"
-      - "db"
+      - "mysql"
     volumes:
       - micro_vol:/app
     ports:
@@ -241,6 +254,11 @@ networks:
     driver: bridge
 
 volumes:
+  db:
+    driver: local
+    driver_opts:
+      device: $PWD/db
+      o: bind
   micro_vol:
     driver: local
     driver_opts:
