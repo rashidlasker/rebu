@@ -107,6 +107,9 @@ venv.bak/
 # vscode
 .vscode
 
+# idea
+.idea
+
 # rebu
 app/web/static
 app/microservices/static
