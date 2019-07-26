@@ -1,0 +1,4 @@
+make data and db volumes - everything else should be mounted
+make frontend and backend networks only if possible
+turn script into makefile
+
