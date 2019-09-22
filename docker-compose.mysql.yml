@@ -8,23 +8,12 @@ services:
         aliases:
           - db
     volumes:
+      - ./init.sql:/data/application/init.sql
       - db:/var/lib/mysql
-    user: '1000:1001'
+    command: --init-file /data/application/init.sql
     environment:
       - MYSQL_ROOT_PASSWORD=$$3cureUS
       - MYSQL_DATABASE=db
-
-# make into dockerfile bc fuck this
-
-  mysql-cmdline:
-    image: mysql:5.7.23
-    container_name: mysql-cmdline
-    networks:
-      db_network:
-    depends_on:
-      - "mysql"
-
-    command: sh -c 'sleep 10 && mysql -p'$$3cureUS' -uroot -h db -e "CREATE USER 'www'@'%' IDENTIFIED BY '\$$3cureUS'; CREATE DATABASE cs4501 CHARACTER SET utf8; GRANT ALL PRIVILEGES ON *.* TO 'www'@'%';"'
 
   models:
     image: tp33/django
@@ -257,6 +246,7 @@ volumes:
   db:
     driver: local
     driver_opts:
+      type: none
       device: $PWD/db
       o: bind
   micro_vol:
