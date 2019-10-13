@@ -16,8 +16,8 @@ before_script:
 - sleep 30
 - docker ps -a
 script:
-- curl localhost:8000/ -f
+# - curl localhost:8000/ -f
 - docker exec -it models bash -c "python manage.py test"
-- docker exec -it selenium-test bash -c "pip install selenium; python selenium-webdriver.py"
+# - docker exec -it selenium-test bash -c "pip install selenium; python selenium-webdriver.py"
 after_script:
 - docker-compose down --volumes
