@@ -10,7 +10,6 @@ before_install:
 - chmod +x docker-compose
 - sudo mv docker-compose /usr/local/bin
 install:
-- docker pull mysql
 - mkdir ~/build/rashidlasker/rebu/db
 before_script:
 - docker-compose -f docker-compose.mysql.yml up -d
