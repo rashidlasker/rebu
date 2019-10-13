@@ -13,7 +13,7 @@ install:
 - docker pull mysql
 - mkdir ~/build/rashidlasker/rebu/db
 before_script:
-- docker-compose up -f docker-compose.mysql.yml
+- docker-compose -f docker-compose.mysql.yml up -d
 - sleep 30
 - docker ps -a
 script:
