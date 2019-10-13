@@ -11,7 +11,6 @@ class test_user(TestCase):
     def test_verify_user_exists(self):
         response = self.client.get(reverse('user', args = [1]))
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(False, True)
 
     def test_existing_user(self):
         response = self.client.get(reverse('user', args = [2]))
