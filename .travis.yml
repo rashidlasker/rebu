@@ -10,17 +10,10 @@ before_install:
 - chmod +x docker-compose
 - sudo mv docker-compose /usr/local/bin
 install:
-- docker pull mysql:5.7.23
+- docker pull mysql
 - mkdir ~/build/rashidlasker/rebu/db
-- docker network create db_network
-- docker run --network=db_network --network-alias db --name mysql -d -e MYSQL_ROOT_PASSWORD='$3cureUS'
-  -v ~/build/rashidlasker/rebu/db:/var/lib/mysql mysql:5.7.23
-- sleep 10
-- docker run --network=db_network -it --name mysql-cmdline --link mysql:db mysql:5.7.23
-  mysql -uroot -p'$3cureUS' -h db -e "CREATE USER 'www'@'%' IDENTIFIED BY '\$3cureUS';
-  CREATE DATABASE cs4501 CHARACTER SET utf8; GRANT ALL PRIVILEGES ON *.* TO 'www'@'%';"
 before_script:
-- docker-compose up -d
+- docker-compose up -f docker-compose.mysql.yml
 - sleep 30
 - docker ps -a
 script:
