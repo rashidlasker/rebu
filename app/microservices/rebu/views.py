@@ -15,15 +15,16 @@ from .forms import userForm, mealForm, cookForm, eaterForm, plateForm, eaterRati
 # Create your views here.
 def users(request, id=None):
     if request.method == 'GET':
-        try:
-            obj = user.objects.get(pk=id)
-            response = {
-                "ok":True,
-                "result": model_to_dict(obj)
-            }
-            return JsonResponse(response)
-        except Exception as e:
-            return JsonResponse({"ok":False, "message":str(e)})
+        return JsonResponse({"ok":False, "message":"lol yolo"})
+        # try:
+        #     obj = user.objects.get(pk=id)
+        #     response = {
+        #         "ok":True,
+        #         "result": model_to_dict(obj)
+        #     }
+        #     return JsonResponse(response)
+        # except Exception as e:
+        #     return JsonResponse({"ok":False, "message":str(e)})
     elif request.method == 'POST':
         try:
             obj = user.objects.get(pk=id)
